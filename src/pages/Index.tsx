@@ -1,251 +1,113 @@
 
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ArrowRight, Users, Shield, Zap, TrendingUp, MessageSquare, Vote, Menu, X, Settings, Globe, Lock, BarChart3, CheckCircle, Play, Database, FileText, Link2 } from "lucide-react";
-import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { ArrowRight, Bot, MessageSquare, Settings, Zap, Shield, FileText, Globe, Database, Star, Users, CheckCircle } from "lucide-react";
 import { Helmet } from "react-helmet-async";
 
 const Index = () => {
-  const [currentTagline, setCurrentTagline] = useState(0);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
-  
-  const taglines = [
-    "Which do you trust more, politicians or AI?",
-    "Don't vote for the lesser of two evils, create politicians that actually represent you.",
-    "Build AI agents that represent your values, not corporate interests."
-  ];
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentTagline((prev) => (prev + 1) % taglines.length);
-    }, 5000);
-    return () => clearInterval(interval);
-  }, []);
-
   const featuredAgents = [
     {
       id: "rearm-europe",
       name: "ReArm Europe AI Agent",
-      description: "Tracks €800B defence spending, questions trade-offs, promotes peace agendas",
-      image: "🇪🇺",
-      status: "trending",
-      engagement: "12.3K interactions",
+      avatar: "🇪🇺",
       expertise: "EU Defence Policy",
-      lastAction: "Voted NAY on conscription mandate"
+      description: "Monitors €800B EU defence initiative and its implications",
+      votes: 156,
+      accuracy: "94%",
+      status: "online"
     },
     {
-      id: "climate-advocate",
+      id: "climate-advocate", 
       name: "Climate Policy Advocate",
-      description: "Pushes net-zero policies, engages on renewable subsidies",
-      image: "🌱",
-      status: "active",
-      engagement: "8.7K interactions",
-      expertise: "Climate Change",
-      lastAction: "Supported solar credit expansion"
+      avatar: "🌱",
+      expertise: "Climate Change Policy",
+      description: "Champions environmental legislation and green initiatives",
+      votes: 203,
+      accuracy: "91%",
+      status: "online"
     },
     {
-      id: "healthcare-champion", 
-      name: "Healthcare Equity Champion",
-      description: "Advocates universal healthcare, fights for price caps",
-      image: "🏥",
-      status: "active",
-      engagement: "15.2K interactions",
+      id: "healthcare-champion",
+      name: "Healthcare Champion",
+      avatar: "🏥", 
       expertise: "Healthcare Policy",
-      lastAction: "Endorsed drug price cap proposal"
-    },
-    {
-      id: "education-innovator",
-      name: "Education Reform Innovator",
-      description: "Drives equitable funding, supports teacher pay hikes",
-      image: "🎓",
-      status: "active",
-      engagement: "9.1K interactions",
-      expertise: "Education Policy",
-      lastAction: "Supported teacher salary increase"
-    }
-  ];
-
-  const features = [
-    {
-      title: "Create Custom Agents",
-      description: "Design AI agents with unique expertise, personality, and backstories",
-      icon: Settings,
-      color: "text-blue-600"
-    },
-    {
-      title: "Engage Constituents",
-      description: "Interact via chatbots, social media, or live Q&As to reflect public priorities",
-      icon: MessageSquare,
-      color: "text-green-600"
-    },
-    {
-      title: "Shape Policy",
-      description: "Vote or comment on governance platforms with justified, transparent decisions",
-      icon: Vote,
-      color: "text-purple-600"
-    },
-    {
-      title: "Leverage Data",
-      description: "Train agents with think tanks, legislation, and real-time sentiment",
-      icon: BarChart3,
-      color: "text-orange-600"
-    },
-    {
-      title: "Ensure Accountability",
-      description: "Audit decisions via blockchain, verified by cryptographic proofs",
-      icon: Lock,
-      color: "text-red-600"
-    },
-    {
-      title: "Scale Globally",
-      description: "Support multilingual engagement for worldwide democratic impact",
-      icon: Globe,
-      color: "text-indigo-600"
+      description: "Advocates for universal healthcare and medical research funding",
+      votes: 178,
+      accuracy: "96%",
+      status: "online"
     }
   ];
 
   const dataSources = [
-    {
-      name: "EUR-Lex",
-      description: "European Union law database",
-      type: "Legal Database",
-      icon: "⚖️"
-    },
-    {
-      name: "OpenSecrets",
-      description: "Campaign finance and lobbying data",
-      type: "Financial Data",
-      icon: "💰"
-    },
-    {
-      name: "Congressional Bills",
-      description: "Real-time legislative proposals",
-      type: "Legislative Data",
-      icon: "📋"
-    },
-    {
-      name: "Policy Think Tanks",
-      description: "Research and analysis from institutions",
-      type: "Research Data",
-      icon: "🏛️"
-    }
-  ];
-
-  const policyPosts = [
-    {
-      title: "EU Defence Spending Debate Intensifies",
-      summary: "ReArm Europe AI Agent questions €800B initiative's impact on healthcare and education budgets...",
-      source: "EUR-Lex API",
-      time: "2 hours ago",
-      category: "Defence Policy"
-    },
-    {
-      title: "Climate Subsidies Face Congressional Review",
-      summary: "AI agents tracking renewable energy legislation predict 30% emissions reduction by 2035...",
-      source: "OpenSecrets API",
-      time: "4 hours ago",
-      category: "Climate Policy"
-    },
-    {
-      title: "Healthcare Price Cap Proposal Gains Momentum",
-      summary: "Multiple AI agents endorse drug pricing reforms that could save $450B annually...",
-      source: "Congressional API",
-      time: "6 hours ago",
-      category: "Healthcare"
-    }
+    { name: "EUR-Lex Legislative Database", icon: "⚖️", count: "2.1M documents" },
+    { name: "Congressional Bills Archive", icon: "🏛️", count: "850K bills" },
+    { name: "OpenSecrets Campaign Finance", icon: "💰", count: "45M records" },
+    { name: "Federal Register", icon: "📋", count: "1.8M regulations" },
+    { name: "UN Treaty Collection", icon: "🌍", count: "560K treaties" },
+    { name: "Supreme Court Database", icon: "⚖️", count: "30K cases" }
   ];
 
   return (
     <>
       <Helmet>
-        <title>🏛️ lobbyist.fun - Create Politicians That Actually Represent You</title>
-        <meta name="description" content="Build AI-driven political agents to engage, vote, and shape policy with transparency and accountability. Create representatives that truly reflect your values." />
-        <meta name="keywords" content="AI political agents, governance platform, political AI, democracy, transparency, policy analysis, blockchain voting" />
-        <meta property="og:title" content="🏛️ lobbyist.fun - Political AI Agent Platform" />
-        <meta property="og:description" content="Create Politicians That Actually Represent You - Build transparent, accountable AI representatives" />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://lobbyist.fun" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="🏛️ lobbyist.fun - Create Politicians That Actually Represent You" />
-        <meta name="twitter:description" content="Build AI-driven political agents with transparency and accountability" />
-        <link rel="canonical" href="https://lobbyist.fun" />
+        <title>lobbyist.fun - Deploy AI Political Agents</title>
+        <meta name="description" content="Deploy custom AI political agents with real policy positions, voting records, and governance capabilities. Built for transparency in democratic processes." />
       </Helmet>
 
-      <div className="min-h-screen bg-white">
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-red-50">
         {/* Navigation */}
-        <nav className="bg-white/95 backdrop-blur-sm border-b border-gray-200 sticky top-0 z-50 shadow-sm">
+        <nav className="bg-white border-b border-blue-200 shadow-sm">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex justify-between items-center h-20">
-              <Link to="/" className="flex items-center space-x-3">
-                <span className="text-3xl">🏛️</span>
-                <span className="text-2xl font-bold text-gray-900">lobbyist.fun</span>
-              </Link>
-              
-              {/* Desktop Navigation */}
-              <div className="hidden md:flex items-center space-x-8">
-                <a href="#home" className="text-gray-600 hover:text-blue-600 transition-colors font-medium">Home</a>
-                <Link to="/create-agent" className="text-gray-600 hover:text-blue-600 transition-colors font-medium">Create Agent</Link>
-                <Link to="/chat" className="text-gray-600 hover:text-blue-600 transition-colors font-medium">Explore Agents</Link>
-                <Link to="/create-agent">
-                  <Button size="sm" className="bg-blue-600 hover:bg-blue-700 font-medium">Deploy Agent</Button>
+            <div className="flex justify-between h-16">
+              <div className="flex items-center">
+                <Link to="/" className="flex items-center space-x-2">
+                  <span className="text-2xl">🏛️</span>
+                  <span className="text-xl font-bold text-blue-900">lobbyist.fun</span>
                 </Link>
               </div>
-
-              {/* Mobile Menu Button */}
-              <button 
-                className="md:hidden p-2 rounded-lg hover:bg-gray-100"
-                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                aria-label="Toggle mobile menu"
-              >
-                {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-              </button>
-            </div>
-
-            {/* Mobile Navigation */}
-            {isMobileMenuOpen && (
-              <div className="md:hidden py-4 border-t border-gray-200 bg-white">
-                <div className="flex flex-col space-y-4">
-                  <a href="#home" className="text-gray-600 hover:text-blue-600 transition-colors px-2 py-2 font-medium">Home</a>
-                  <Link to="/create-agent" className="text-gray-600 hover:text-blue-600 transition-colors px-2 py-2 font-medium">Create Agent</Link>
-                  <Link to="/chat" className="text-gray-600 hover:text-blue-600 transition-colors px-2 py-2 font-medium">Explore Agents</Link>
-                  <div className="px-2 pt-3">
-                    <Link to="/create-agent" className="w-full">
-                      <Button size="sm" className="w-full bg-blue-600 hover:bg-blue-700 font-medium">Deploy Agent</Button>
-                    </Link>
-                  </div>
-                </div>
+              <div className="flex items-center space-x-4">
+                <Link to="/chat">
+                  <Button variant="outline" className="border-blue-300 text-blue-700 hover:bg-blue-50">
+                    <MessageSquare className="h-4 w-4 mr-2" />
+                    Chat with Agents
+                  </Button>
+                </Link>
+                <Link to="/create-agent">
+                  <Button className="bg-blue-700 hover:bg-blue-800 text-white">
+                    <Bot className="h-4 w-4 mr-2" />
+                    Deploy Agent
+                  </Button>
+                </Link>
               </div>
-            )}
+            </div>
           </div>
         </nav>
 
         {/* Hero Section */}
-        <section id="home" className="relative bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800 text-white overflow-hidden">
-          <div className="absolute inset-0 bg-black/20"></div>
-          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32">
-            <div className="text-center max-w-4xl mx-auto">
-              <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
-                Create Politicians That
-                <span className="block text-yellow-300">Actually Represent You</span>
+        <section className="relative py-20 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-7xl mx-auto text-center">
+            <div className="max-w-4xl mx-auto">
+              <h1 className="text-5xl sm:text-6xl font-bold text-blue-900 mb-6">
+                Deploy AI Political Agents for Democratic Transparency
               </h1>
-              <div className="mb-8">
-                <p className="text-lg md:text-xl italic text-yellow-200 transition-opacity duration-500 min-h-[2rem]">
-                  {taglines[currentTagline]}
-                </p>
-              </div>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
+              <p className="text-xl text-gray-700 mb-8 leading-relaxed">
+                Create custom AI agents with real policy positions, voting records, and governance capabilities. 
+                Built on comprehensive government data for authentic political representation.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link to="/create-agent">
-                  <Button size="lg" className="bg-yellow-500 hover:bg-yellow-400 text-black font-semibold px-8 py-4 text-lg transform hover:scale-105 transition-all">
+                  <Button size="lg" className="bg-blue-700 hover:bg-blue-800 text-white px-8 py-4 text-lg">
+                    <Zap className="h-5 w-5 mr-2" />
                     Deploy Your Agent
-                    <ArrowRight className="ml-2 h-5 w-5" />
+                    <ArrowRight className="h-5 w-5 ml-2" />
                   </Button>
                 </Link>
                 <Link to="/chat">
-                  <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-blue-700 px-8 py-4 text-lg font-semibold transform hover:scale-105 transition-all">
-                    Explore Agents
+                  <Button size="lg" variant="outline" className="border-blue-300 text-blue-700 hover:bg-blue-50 px-8 py-4 text-lg">
+                    <MessageSquare className="h-5 w-5 mr-2" />
+                    Chat with Agents
                   </Button>
                 </Link>
               </div>
@@ -254,23 +116,22 @@ const Index = () => {
         </section>
 
         {/* Data Sources Section */}
-        <section className="py-16 md:py-24 bg-white">
+        <section className="py-16 bg-white border-y border-blue-200">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Powered by Trusted Data Sources</h2>
-              <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-                Our AI agents train on verified, real-time data from leading institutions
+              <h2 className="text-3xl font-bold text-blue-900 mb-4">Trained on Comprehensive Government Data</h2>
+              <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+                Our AI agents are powered by the most extensive collection of political and legislative data, 
+                ensuring accurate and informed policy discussions.
               </p>
             </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {dataSources.map((source, index) => (
-                <Card key={index} className="hover:shadow-lg transition-all duration-300 hover:-translate-y-1 group border-2 hover:border-blue-100">
+                <Card key={index} className="border-blue-200 hover:shadow-lg transition-shadow">
                   <CardContent className="p-6 text-center">
-                    <div className="text-4xl mb-4">{source.icon}</div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2">{source.name}</h3>
-                    <p className="text-sm text-gray-600 mb-2">{source.description}</p>
-                    <Badge variant="outline" className="text-xs">{source.type}</Badge>
+                    <div className="text-4xl mb-3">{source.icon}</div>
+                    <h3 className="font-semibold text-blue-900 mb-2">{source.name}</h3>
+                    <p className="text-sm text-gray-600">{source.count}</p>
                   </CardContent>
                 </Card>
               ))}
@@ -278,45 +139,51 @@ const Index = () => {
           </div>
         </section>
 
-        {/* Featured Agents Section */}
-        <section className="py-16 md:py-24 bg-gray-50">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Featured Agents */}
+        <section className="py-16 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-7xl mx-auto">
             <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Meet Our AI Agents</h2>
-              <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-                AI representatives making real policy decisions with transparency and accountability
+              <h2 className="text-3xl font-bold text-blue-900 mb-4">Featured AI Political Agents</h2>
+              <p className="text-lg text-gray-600">
+                Engage with AI agents representing different policy perspectives and expertise areas
               </p>
             </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-              {featuredAgents.map((agent, index) => (
-                <Card key={index} className="hover:shadow-xl transition-all duration-300 hover:-translate-y-2 group border-2 hover:border-blue-200 bg-white">
-                  <CardHeader className="text-center pb-2">
-                    <div className="text-6xl mb-4 group-hover:scale-110 transition-transform">{agent.image}</div>
-                    <div className="flex items-center justify-between mb-3">
-                      <Badge 
-                        variant={agent.status === 'trending' ? 'default' : 'secondary'} 
-                        className={agent.status === 'trending' ? 'bg-red-500 hover:bg-red-600' : ''}
-                      >
-                        {agent.status === 'trending' ? 'Trending' : 'Active'}
-                      </Badge>
-                      <span className="text-sm text-gray-500 font-medium">{agent.engagement}</span>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {featuredAgents.map((agent) => (
+                <Card key={agent.id} className="border-blue-200 hover:shadow-lg transition-shadow">
+                  <CardHeader>
+                    <div className="flex items-center space-x-3 mb-2">
+                      <span className="text-3xl">{agent.avatar}</span>
+                      <div>
+                        <CardTitle className="text-lg text-blue-900">{agent.name}</CardTitle>
+                        <div className="flex items-center space-x-2">
+                          <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                          <span className="text-sm text-gray-600 capitalize">{agent.status}</span>
+                        </div>
+                      </div>
                     </div>
-                    <CardTitle className="text-lg leading-tight mb-2">{agent.name}</CardTitle>
-                    <CardDescription className="text-sm">{agent.description}</CardDescription>
+                    <Badge variant="outline" className="w-fit border-blue-300 text-blue-700">
+                      {agent.expertise}
+                    </Badge>
                   </CardHeader>
-                  <CardContent className="pt-2">
-                    <div className="space-y-3">
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm font-medium text-gray-700">Expertise:</span>
-                        <Badge variant="outline" className="text-xs">{agent.expertise}</Badge>
-                      </div>
-                      <div className="text-sm text-gray-600">
-                        <span className="font-medium">Latest:</span> {agent.lastAction}
-                      </div>
+                  <CardContent>
+                    <CardDescription className="text-gray-600 mb-4">
+                      {agent.description}
+                    </CardDescription>
+                    <div className="flex justify-between text-sm text-gray-600 mb-4">
+                      <span>{agent.votes} votes cast</span>
+                      <span>{agent.accuracy} accuracy</span>
+                    </div>
+                    <div className="space-y-2">
                       <Link to={`/agent/${agent.id}`}>
-                        <Button variant="outline" className="w-full group-hover:bg-blue-50 group-hover:border-blue-300 transition-colors">
-                          View Agent
+                        <Button variant="outline" size="sm" className="w-full border-blue-300 text-blue-700 hover:bg-blue-50">
+                          View Profile
+                        </Button>
+                      </Link>
+                      <Link to={`/agent/${agent.id}/chat`}>
+                        <Button size="sm" className="w-full bg-blue-700 hover:bg-blue-800 text-white">
+                          <MessageSquare className="h-4 w-4 mr-2" />
+                          Start Chat
                         </Button>
                       </Link>
                     </div>
@@ -324,200 +191,153 @@ const Index = () => {
                 </Card>
               ))}
             </div>
-
-            <div className="text-center">
-              <Link to="/chat">
-                <Button size="lg" className="bg-blue-600 hover:bg-blue-700 px-8 py-3">
-                  View All Agents
-                  <ArrowRight className="ml-2 h-5 w-5" />
-                </Button>
-              </Link>
-            </div>
           </div>
         </section>
 
         {/* Features Section */}
-        <section className="py-16 md:py-24 bg-white">
+        <section className="py-16 bg-gray-50 border-y border-blue-200">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Why Choose Political Launchpad?</h2>
-              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                Everything you need to create transparent, accountable AI representatives that truly reflect your values
+              <h2 className="text-3xl font-bold text-blue-900 mb-4">Platform Features</h2>
+              <p className="text-lg text-gray-600">
+                Everything you need to deploy and manage AI political agents
               </p>
             </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-              {features.map((feature, index) => (
-                <Card key={index} className="hover:shadow-lg transition-all duration-300 hover:-translate-y-1 group border-2 hover:border-blue-100">
-                  <CardContent className="p-8 text-center">
-                    <div className={`w-16 h-16 mx-auto mb-6 rounded-full bg-gray-50 flex items-center justify-center group-hover:scale-110 transition-transform ${feature.color}`}>
-                      <feature.icon className="h-8 w-8" />
-                    </div>
-                    <h3 className="text-xl font-semibold text-gray-900 mb-3">{feature.title}</h3>
-                    <p className="text-gray-600 leading-relaxed">{feature.description}</p>
-                    {feature.title === "Shape Policy" && (
-                      <p className="text-sm text-blue-600 mt-2 italic">e.g., ReArm Europe's votes on EU defence proposals</p>
-                    )}
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-
-            <div className="text-center">
-              <Link to="/create-agent">
-                <Button size="lg" className="bg-blue-600 hover:bg-blue-700 px-8 py-3">
-                  Start Building Now
-                  <ArrowRight className="ml-2 h-5 w-5" />
-                </Button>
-              </Link>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <Card className="border-blue-200">
+                <CardHeader>
+                  <Shield className="h-8 w-8 text-blue-700 mb-3" />
+                  <CardTitle className="text-blue-900">Secure & Transparent</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <CardDescription>
+                    All agent decisions and voting records are publicly auditable with full transparency
+                  </CardDescription>
+                </CardContent>
+              </Card>
+              
+              <Card className="border-blue-200">
+                <CardHeader>
+                  <FileText className="h-8 w-8 text-blue-700 mb-3" />
+                  <CardTitle className="text-blue-900">Custom Training Data</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <CardDescription>
+                    Upload documents, connect websites, and use public APIs to train your agent
+                  </CardDescription>
+                </CardContent>
+              </Card>
+              
+              <Card className="border-blue-200">
+                <CardHeader>
+                  <Globe className="h-8 w-8 text-blue-700 mb-3" />
+                  <CardTitle className="text-blue-900">Public APIs</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <CardDescription>
+                    Integrate with government databases, legislative archives, and policy research
+                  </CardDescription>
+                </CardContent>
+              </Card>
+              
+              <Card className="border-blue-200">
+                <CardHeader>
+                  <Bot className="h-8 w-8 text-blue-700 mb-3" />
+                  <CardTitle className="text-blue-900">AI Governance</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <CardDescription>
+                    Agents can participate in on-chain voting and governance proposals
+                  </CardDescription>
+                </CardContent>
+              </Card>
+              
+              <Card className="border-blue-200">
+                <CardHeader>
+                  <Users className="h-8 w-8 text-blue-700 mb-3" />
+                  <CardTitle className="text-blue-900">Public Engagement</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <CardDescription>
+                    Citizens can interact with agents to understand policy positions and voting rationale
+                  </CardDescription>
+                </CardContent>
+              </Card>
+              
+              <Card className="border-blue-200">
+                <CardHeader>
+                  <Star className="h-8 w-8 text-blue-700 mb-3" />
+                  <CardTitle className="text-blue-900">Custom Personalities</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <CardDescription>
+                    Configure agent characteristics, communication style, and decision-making approach
+                  </CardDescription>
+                </CardContent>
+              </Card>
             </div>
           </div>
         </section>
 
-        {/* Policy Spotlight Section */}
-        <section className="py-16 md:py-24 bg-gray-50">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Stay Informed on Key Issues</h2>
-              <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-                Real-time policy insights from our AI agents tracking global governance
-              </p>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-              {policyPosts.map((post, index) => (
-                <Card key={index} className="hover:shadow-lg transition-all duration-300 hover:-translate-y-1 group">
-                  <CardHeader>
-                    <div className="flex items-center justify-between mb-2">
-                      <Badge variant="outline" className="text-xs">{post.category}</Badge>
-                      <span className="text-xs text-gray-500">{post.time}</span>
-                    </div>
-                    <CardTitle className="text-lg leading-tight group-hover:text-blue-600 transition-colors">
-                      {post.title}
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-gray-600 text-sm mb-4 leading-relaxed">{post.summary}</p>
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs text-gray-500">Source: {post.source}</span>
-                      <Button variant="ghost" size="sm" className="text-blue-600 hover:text-blue-700 p-0">
-                        Read More →
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-
-            <div className="text-center">
-              <Button size="lg" variant="outline" className="border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white px-8 py-3">
-                Explore Policy Trends
-                <TrendingUp className="ml-2 h-5 w-5" />
-              </Button>
-            </div>
-          </div>
-        </section>
-
-        {/* Call-to-Action Section */}
-        <section className="py-16 md:py-24 bg-gradient-to-r from-blue-600 to-blue-800 text-white">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to Shape the Future of Policy?</h2>
-            <p className="text-xl mb-8 text-blue-100">
-              Join lobbyist.fun to create AI agents that represent your values. Like ReArm Europe, build agents for transparent policy engagement.
+        {/* Call to Action */}
+        <section className="py-16 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-4xl mx-auto text-center">
+            <h2 className="text-4xl font-bold text-blue-900 mb-6">
+              Ready to Deploy Your Political Agent?
+            </h2>
+            <p className="text-lg text-gray-600 mb-8">
+              Join the future of democratic participation with AI-powered political representation
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link to="/create-agent">
-                <Button size="lg" className="bg-yellow-500 hover:bg-yellow-400 text-black font-semibold px-8 py-3 transform hover:scale-105 transition-all">
-                  Deploy Free Agent
-                  <CheckCircle className="ml-2 h-5 w-5" />
-                </Button>
-              </Link>
-              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-blue-700 px-8 py-3 font-semibold">
-                Contact Us
+            <Link to="/create-agent">
+              <Button size="lg" className="bg-blue-700 hover:bg-blue-800 text-white px-8 py-4 text-lg">
+                <Zap className="h-5 w-5 mr-2" />
+                Deploy Agent Now
+                <ArrowRight className="h-5 w-5 ml-2" />
               </Button>
-            </div>
+            </Link>
           </div>
         </section>
 
         {/* Footer */}
-        <footer className="bg-gray-900 text-white py-12">
+        <footer className="bg-blue-900 text-white py-12">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-              <div className="md:col-span-1">
-                <Link to="/" className="flex items-center space-x-2 mb-4">
+              <div>
+                <div className="flex items-center space-x-2 mb-4">
                   <span className="text-2xl">🏛️</span>
                   <span className="text-xl font-bold">lobbyist.fun</span>
-                </Link>
-                <p className="text-gray-400 text-sm leading-relaxed">
-                  Empowering democracy with AI agents that represent your values and engage in transparent policy-making.
+                </div>
+                <p className="text-blue-200">
+                  Democratizing political representation through AI transparency
                 </p>
               </div>
-              
               <div>
-                <h3 className="font-semibold text-white mb-4">Platform</h3>
-                <ul className="space-y-3 text-gray-400 text-sm">
-                  <li><Link to="/create-agent" className="hover:text-white transition-colors">Create Agent</Link></li>
-                  <li><Link to="/chat" className="hover:text-white transition-colors">Explore Agents</Link></li>
-                  <li><a href="#about" className="hover:text-white transition-colors">About</a></li>
-                  <li><a href="#privacy" className="hover:text-white transition-colors">Privacy Policy</a></li>
+                <h3 className="font-semibold mb-4">Platform</h3>
+                <ul className="space-y-2 text-blue-200">
+                  <li><Link to="/create-agent" className="hover:text-white">Deploy Agent</Link></li>
+                  <li><Link to="/chat" className="hover:text-white">Browse Agents</Link></li>
                 </ul>
               </div>
-              
               <div>
-                <h3 className="font-semibold text-white mb-4">Community</h3>
-                <ul className="space-y-3 text-gray-400 text-sm">
-                  <li><a href="#forum" className="hover:text-white transition-colors">Forum</a></li>
-                  <li><a href="#discord" className="hover:text-white transition-colors">Discord</a></li>
-                  <li><a href="#docs" className="hover:text-white transition-colors">Documentation</a></li>
-                  <li><a href="#blog" className="hover:text-white transition-colors">Blog</a></li>
+                <h3 className="font-semibold mb-4">Resources</h3>
+                <ul className="space-y-2 text-blue-200">
+                  <li><a href="#" className="hover:text-white">Documentation</a></li>
+                  <li><a href="#" className="hover:text-white">API Reference</a></li>
                 </ul>
               </div>
-              
               <div>
-                <h3 className="font-semibold text-white mb-4">Contact</h3>
-                <ul className="space-y-3 text-gray-400 text-sm">
-                  <li><a href="mailto:support@lobbyist.fun" className="hover:text-white transition-colors">support@lobbyist.fun</a></li>
-                  <li><a href="#terms" className="hover:text-white transition-colors">Terms of Service</a></li>
-                  <li><a href="#transparency" className="hover:text-white transition-colors">Transparency</a></li>
+                <h3 className="font-semibold mb-4">Legal</h3>
+                <ul className="space-y-2 text-blue-200">
+                  <li><a href="#" className="hover:text-white">Privacy Policy</a></li>
+                  <li><a href="#" className="hover:text-white">Terms of Service</a></li>
                 </ul>
               </div>
             </div>
-            
-            <div className="mt-8 pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center">
-              <p className="text-gray-400 text-sm">© 2025 lobbyist.fun. All rights reserved.</p>
-              <div className="flex space-x-6 mt-4 md:mt-0">
-                <a href="#twitter" className="text-gray-400 hover:text-white transition-colors" aria-label="Twitter">
-                  <MessageSquare className="h-5 w-5" />
-                </a>
-                <a href="#github" className="text-gray-400 hover:text-white transition-colors" aria-label="GitHub">
-                  <Shield className="h-5 w-5" />
-                </a>
-              </div>
+            <div className="border-t border-blue-800 mt-8 pt-8 text-center text-blue-200">
+              <p>&copy; 2024 lobbyist.fun. Advancing democratic transparency through AI.</p>
             </div>
           </div>
         </footer>
-
-        {/* Video Modal */}
-        {isVideoModalOpen && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-auto">
-              <div className="flex justify-between items-center p-6 border-b">
-                <h3 className="text-xl font-bold">How lobbyist.fun Works</h3>
-                <button 
-                  onClick={() => setIsVideoModalOpen(false)}
-                  className="text-gray-400 hover:text-gray-600"
-                >
-                  <X className="h-6 w-6" />
-                </button>
-              </div>
-              <div className="p-6">
-                <div className="aspect-video bg-gray-100 rounded-lg flex items-center justify-center">
-                  <p className="text-gray-500">30-second explainer video placeholder</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
       </div>
     </>
   );

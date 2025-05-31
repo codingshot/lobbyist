@@ -10,7 +10,7 @@ import { Slider } from "@/components/ui/slider";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ArrowLeft, ArrowRight, User, Brain, FileText, Database, Settings, Eye, Upload, Link as LinkIcon, Globe, AlertCircle } from "lucide-react";
+import { ArrowLeft, ArrowRight, User, Brain, FileText, Database, Settings, Eye, Upload, Globe, AlertCircle } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 
@@ -68,6 +68,44 @@ const AgentCreationDashboard = () => {
     { name: "YouTube API", icon: "📺", supported: false }
   ];
 
+  const templates = [
+    {
+      name: "ReArm Europe Template",
+      icon: "🛡️",
+      expertise: "Defence Policy",
+      backstory: "A dedicated advocate for European defense independence, monitoring the €800B EU defense initiative and its implications for social spending.",
+      stance: "Supports strategic defense investments while ensuring transparency in budget allocation and protecting social programs.",
+      personality: { analytical: 80, empathetic: 60, assertive: 70, collaborative: 50 }
+    },
+    {
+      name: "Climate Advocate Template", 
+      icon: "🌱",
+      expertise: "Climate Change Policy",
+      backstory: "A passionate environmentalist focused on accelerating the transition to renewable energy and implementing comprehensive climate legislation.",
+      stance: "Champions aggressive climate action, carbon pricing, and green new deal policies while supporting affected workers.",
+      personality: { analytical: 70, empathetic: 80, assertive: 90, collaborative: 70 }
+    },
+    {
+      name: "Healthcare Champion Template",
+      icon: "🏥", 
+      expertise: "Healthcare Policy",
+      backstory: "A healthcare policy expert advocating for universal coverage, drug pricing reform, and increased medical research funding.",
+      stance: "Supports Medicare for All, prescription drug price controls, and substantial increases in NIH funding.",
+      personality: { analytical: 75, empathetic: 90, assertive: 60, collaborative: 80 }
+    }
+  ];
+
+  const applyTemplate = (template: typeof templates[0]) => {
+    setAgentData({
+      ...agentData,
+      name: template.name.replace(" Template", " AI Agent"),
+      expertise: template.expertise,
+      backstory: template.backstory,
+      stance: template.stance,
+      personality: template.personality
+    });
+  };
+
   const handleNext = () => {
     if (currentStep < steps.length - 1) {
       setCurrentStep(currentStep + 1);
@@ -89,23 +127,23 @@ const AgentCreationDashboard = () => {
         <meta name="description" content="Deploy your own AI political agent with custom expertise, personality, and policy positions." />
       </Helmet>
 
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-red-50">
         {/* Header */}
-        <div className="bg-white border-b border-slate-200">
+        <div className="bg-white border-b border-blue-200 shadow-sm">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-4">
                 <Link to="/" className="flex items-center space-x-2">
                   <span className="text-2xl">🏛️</span>
-                  <span className="text-xl font-bold text-slate-900">lobbyist.fun</span>
+                  <span className="text-xl font-bold text-blue-900">lobbyist.fun</span>
                 </Link>
-                <div className="hidden sm:block text-slate-400">|</div>
-                <h1 className="hidden sm:block text-lg font-semibold text-slate-900">Deploy Agent</h1>
+                <div className="hidden sm:block text-blue-300">|</div>
+                <h1 className="hidden sm:block text-lg font-semibold text-blue-900">Deploy Agent</h1>
               </div>
               <div className="flex items-center space-x-2">
-                <Button variant="outline" size="sm">Save Draft</Button>
+                <Button variant="outline" size="sm" className="border-blue-300 text-blue-700 hover:bg-blue-50">Save Draft</Button>
                 <Link to="/">
-                  <Button variant="outline" size="sm">
+                  <Button variant="outline" size="sm" className="border-blue-300 text-blue-700 hover:bg-blue-50">
                     <ArrowLeft className="h-4 w-4 mr-2" />
                     <span className="hidden sm:inline">Back</span>
                   </Button>
@@ -116,11 +154,11 @@ const AgentCreationDashboard = () => {
         </div>
 
         {/* Progress Bar */}
-        <div className="bg-white border-b border-slate-200">
+        <div className="bg-white border-b border-blue-200">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
             <div className="flex items-center justify-between mb-4">
-              <span className="text-sm text-slate-600">Step {currentStep + 1} of {steps.length}</span>
-              <span className="text-sm text-slate-600">{Math.round(progress)}% Complete</span>
+              <span className="text-sm text-gray-600">Step {currentStep + 1} of {steps.length}</span>
+              <span className="text-sm text-gray-600">{Math.round(progress)}% Complete</span>
             </div>
             <Progress value={progress} className="mb-4" />
             
@@ -149,9 +187,9 @@ const AgentCreationDashboard = () => {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Form Section */}
             <div className="lg:col-span-2">
-              <Card>
+              <Card className="border-blue-200">
                 <CardHeader>
-                  <CardTitle className="flex items-center space-x-2">
+                  <CardTitle className="flex items-center space-x-2 text-blue-900">
                     {React.createElement(steps[currentStep].icon, { className: "h-6 w-6" })}
                     <span>{steps[currentStep].title}</span>
                   </CardTitle>
@@ -167,12 +205,13 @@ const AgentCreationDashboard = () => {
                           placeholder="e.g., ReArm Europe AI Agent"
                           value={agentData.name}
                           onChange={(e) => setAgentData({...agentData, name: e.target.value})}
+                          className="border-blue-300 focus:border-blue-500"
                         />
                       </div>
                       <div>
                         <Label htmlFor="expertise">Expertise Area</Label>
                         <Select value={agentData.expertise} onValueChange={(value) => setAgentData({...agentData, expertise: value})}>
-                          <SelectTrigger>
+                          <SelectTrigger className="border-blue-300">
                             <SelectValue placeholder="Select expertise area" />
                           </SelectTrigger>
                           <SelectContent>
@@ -188,6 +227,7 @@ const AgentCreationDashboard = () => {
                           <Input 
                             id="custom-expertise"
                             placeholder="Describe your custom expertise area"
+                            className="border-blue-300 focus:border-blue-500"
                           />
                         </div>
                       )}
@@ -443,8 +483,8 @@ const AgentCreationDashboard = () => {
                   {/* Deploy Step */}
                   {currentStep === 5 && (
                     <div className="space-y-4">
-                      <div className="bg-slate-50 rounded-lg p-6">
-                        <h3 className="text-lg font-semibold mb-4">Agent Preview</h3>
+                      <div className="bg-blue-50 rounded-lg p-6 border border-blue-200">
+                        <h3 className="text-lg font-semibold mb-4 text-blue-900">Agent Preview</h3>
                         <div className="space-y-3">
                           <div><strong>Name:</strong> {agentData.name || "Not set"}</div>
                           <div><strong>Expertise:</strong> {agentData.expertise || "Not set"}</div>
@@ -465,9 +505,9 @@ const AgentCreationDashboard = () => {
                         </div>
                       </div>
                       
-                      <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                        <h4 className="font-semibold text-blue-900 mb-2">Ready to Deploy!</h4>
-                        <p className="text-sm text-blue-700">Your agent will be accessible at: <code className="bg-blue-100 px-1 rounded">/agent/{agentData.name.toLowerCase().replace(/\s+/g, '-')}</code></p>
+                      <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+                        <h4 className="font-semibold text-green-900 mb-2">Ready to Deploy!</h4>
+                        <p className="text-sm text-green-700">Your agent will be accessible at: <code className="bg-green-100 px-1 rounded">/agent/{agentData.name.toLowerCase().replace(/\s+/g, '-')}</code></p>
                       </div>
                     </div>
                   )}
@@ -477,36 +517,36 @@ const AgentCreationDashboard = () => {
 
             {/* Preview Sidebar */}
             <div className="space-y-4">
-              <Card>
+              <Card className="border-blue-200">
                 <CardHeader>
-                  <CardTitle className="text-lg">Chat Preview</CardTitle>
+                  <CardTitle className="text-lg text-blue-900">Chat Preview</CardTitle>
                   <CardDescription>Test your agent's responses</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="bg-slate-50 rounded-lg p-4 min-h-[200px] flex items-center justify-center text-slate-500">
+                  <div className="bg-blue-50 rounded-lg p-4 min-h-[200px] flex items-center justify-center text-blue-600 border border-blue-200">
                     {agentData.name ? `${agentData.name} will appear here` : "Configure your agent to see preview"}
                   </div>
-                  <Input placeholder="Ask your agent a question..." className="mt-4" />
+                  <Input placeholder="Ask your agent a question..." className="mt-4 border-blue-300" />
                 </CardContent>
               </Card>
 
-              <Card>
+              <Card className="border-blue-200">
                 <CardHeader>
-                  <CardTitle className="text-lg">Templates</CardTitle>
+                  <CardTitle className="text-lg text-blue-900">Templates</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-2">
-                  <Button variant="outline" size="sm" className="w-full justify-start">
-                    <span className="mr-2">🛡️</span>
-                    ReArm Europe Template
-                  </Button>
-                  <Button variant="outline" size="sm" className="w-full justify-start">
-                    <span className="mr-2">🌱</span>
-                    Climate Advocate Template
-                  </Button>
-                  <Button variant="outline" size="sm" className="w-full justify-start">
-                    <span className="mr-2">🏥</span>
-                    Healthcare Champion Template
-                  </Button>
+                  {templates.map((template, index) => (
+                    <Button 
+                      key={index}
+                      variant="outline" 
+                      size="sm" 
+                      className="w-full justify-start border-blue-300 text-blue-700 hover:bg-blue-50"
+                      onClick={() => applyTemplate(template)}
+                    >
+                      <span className="mr-2">{template.icon}</span>
+                      {template.name}
+                    </Button>
+                  ))}
                 </CardContent>
               </Card>
             </div>
@@ -518,13 +558,14 @@ const AgentCreationDashboard = () => {
               variant="outline" 
               onClick={handlePrev}
               disabled={currentStep === 0}
+              className="border-blue-300 text-blue-700 hover:bg-blue-50"
             >
               <ArrowLeft className="h-4 w-4 mr-2" />
               Previous
             </Button>
             
             {currentStep === steps.length - 1 ? (
-              <Button className="bg-blue-600 hover:bg-blue-700">
+              <Button className="bg-blue-700 hover:bg-blue-800 text-white">
                 Deploy Agent
                 <ArrowRight className="h-4 w-4 ml-2" />
               </Button>
@@ -532,6 +573,7 @@ const AgentCreationDashboard = () => {
               <Button 
                 onClick={handleNext}
                 disabled={currentStep === steps.length - 1}
+                className="bg-blue-700 hover:bg-blue-800 text-white"
               >
                 Next
                 <ArrowRight className="h-4 w-4 ml-2" />
