@@ -101,7 +101,7 @@
 }
 
 .government-card {
-  @apply bg-white border-blue-200 shadow-lg;
+  @apply bg-white border-blue-200 shadow-lg text-slate-800;
 }
 
 .government-button {
@@ -109,7 +109,7 @@
 }
 
 .government-button-outline {
-  @apply border-blue-300 text-blue-700 hover:bg-blue-50;
+  @apply border-blue-700 text-blue-700 hover:bg-blue-50 bg-white;
 }
 
 /* Fix white text on white backgrounds */
@@ -128,4 +128,26 @@
 
 .platform-features p {
   @apply text-slate-700;
+}
+
+/* Ensure proper contrast on all buttons */
+button {
+  @apply text-slate-800;
+}
+
+button.government-button {
+  @apply text-white;
+}
+
+button.government-button-outline {
+  @apply text-blue-700;
+}
+
+/* Fix any remaining white text issues */
+.bg-white * {
+  @apply text-slate-800;
+}
+
+.bg-white button.government-button {
+  @apply text-white;
 }

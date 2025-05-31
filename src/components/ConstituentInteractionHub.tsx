@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -177,6 +178,16 @@ const ConstituentInteractionHub = () => {
                       </Link>
                     </div>
                   ))}
+                  
+                  {/* Add Explore More Agents button */}
+                  <div className="pt-4 border-t border-slate-200">
+                    <Link to="/chat" className="block">
+                      <Button variant="outline" className="w-full government-button-outline">
+                        <Users className="h-4 w-4 mr-2" />
+                        Explore More Agents
+                      </Button>
+                    </Link>
+                  </div>
                 </CardContent>
               </Card>
 
@@ -275,7 +286,7 @@ const ConstituentInteractionHub = () => {
                       value={chatMessage}
                       onChange={(e) => setChatMessage(e.target.value)}
                       onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
-                      className="border-blue-300 focus:border-blue-500"
+                      className="border-blue-300 focus:border-blue-500 text-slate-800"
                     />
                     <Button onClick={handleSendMessage} className="government-button">
                       <Send className="h-4 w-4" />
@@ -285,7 +296,7 @@ const ConstituentInteractionHub = () => {
               </Card>
 
               {/* Proposals Tab */}
-              <Tabs defaultValue="chat" className="w-full">
+              <Tabs defaultValue="chat" className="w-full mt-6">
                 <TabsList className="grid w-full grid-cols-4">
                   <TabsTrigger value="chat">Chat</TabsTrigger>
                   <TabsTrigger value="proposals">Proposals</TabsTrigger>
@@ -293,53 +304,11 @@ const ConstituentInteractionHub = () => {
                   <TabsTrigger value="social">Social Feed</TabsTrigger>
                 </TabsList>
 
-                {/* Chat Tab */}
-                <TabsContent value="chat">
-                  <Card>
-                    <CardHeader>
-                      <CardTitle className="flex items-center space-x-2">
-                        <MessageCircle className="h-5 w-5" />
-                        <span>Chat with {selectedAgentData?.name}</span>
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <ScrollArea className="h-[400px] mb-4 p-4 border rounded-lg">
-                        <div className="space-y-4">
-                          {messages.map((message) => (
-                            <div
-                              key={message.id}
-                              className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}
-                            >
-                              <div className={`max-w-[80%] ${message.type === 'user' ? 'bg-blue-600 text-white' : 'bg-slate-100'} rounded-lg p-3`}>
-                                <p className="text-sm">{message.content}</p>
-                                <p className={`text-xs mt-1 ${message.type === 'user' ? 'text-blue-100' : 'text-slate-500'}`}>
-                                  {message.timestamp}
-                                </p>
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      </ScrollArea>
-                      <div className="flex space-x-2">
-                        <Input
-                          placeholder="Ask about policy positions, vote explanations, or current issues..."
-                          value={chatMessage}
-                          onChange={(e) => setChatMessage(e.target.value)}
-                          onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
-                        />
-                        <Button onClick={handleSendMessage}>
-                          <Send className="h-4 w-4" />
-                        </Button>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </TabsContent>
-
                 {/* Proposals Tab */}
                 <TabsContent value="proposals">
-                  <Card>
+                  <Card className="government-card">
                     <CardHeader>
-                      <CardTitle className="flex items-center space-x-2">
+                      <CardTitle className="flex items-center space-x-2 text-blue-900">
                         <FileText className="h-5 w-5" />
                         <span>Submit Proposal</span>
                       </CardTitle>
@@ -349,26 +318,28 @@ const ConstituentInteractionHub = () => {
                     </CardHeader>
                     <CardContent className="space-y-4">
                       <div>
-                        <Label htmlFor="proposal-title">Proposal Title</Label>
-                        <Input id="proposal-title" placeholder="e.g., Redirect 20% of defence budget to education" />
+                        <Label htmlFor="proposal-title" className="text-slate-800">Proposal Title</Label>
+                        <Input id="proposal-title" placeholder="e.g., Redirect 20% of defence budget to education" className="text-slate-800" />
                       </div>
                       <div>
-                        <Label htmlFor="proposal-description">Description</Label>
+                        <Label htmlFor="proposal-description" className="text-slate-800">Description</Label>
                         <Textarea 
                           id="proposal-description"
                           placeholder="Describe your proposal, its goals, and expected impact..."
                           rows={4}
+                          className="text-slate-800"
                         />
                       </div>
                       <div>
-                        <Label htmlFor="proposal-impact">Expected Impact</Label>
+                        <Label htmlFor="proposal-impact" className="text-slate-800">Expected Impact</Label>
                         <Textarea 
                           id="proposal-impact"
                           placeholder="What changes do you expect this proposal to create?"
                           rows={2}
+                          className="text-slate-800"
                         />
                       </div>
-                      <Button className="w-full sm:w-auto">
+                      <Button className="w-full sm:w-auto government-button">
                         <FileText className="h-4 w-4 mr-2" />
                         Submit Proposal
                       </Button>
@@ -378,9 +349,9 @@ const ConstituentInteractionHub = () => {
 
                 {/* Votes Tab */}
                 <TabsContent value="votes">
-                  <Card>
+                  <Card className="government-card">
                     <CardHeader>
-                      <CardTitle className="flex items-center space-x-2">
+                      <CardTitle className="flex items-center space-x-2 text-blue-900">
                         <Vote className="h-5 w-5" />
                         <span>Recent Voting Decisions</span>
                       </CardTitle>
@@ -391,10 +362,10 @@ const ConstituentInteractionHub = () => {
                     <CardContent>
                       <div className="space-y-4">
                         {recentVotes.map((vote) => (
-                          <div key={vote.id} className="border rounded-lg p-4">
+                          <div key={vote.id} className="border border-blue-200 rounded-lg p-4">
                             <div className="flex items-start justify-between mb-3">
                               <div className="flex-1">
-                                <h4 className="font-semibold">{vote.proposal}</h4>
+                                <h4 className="font-semibold text-slate-800">{vote.proposal}</h4>
                                 <p className="text-sm text-slate-600">{vote.timestamp}</p>
                               </div>
                               <Badge variant={vote.vote === 'YEA' ? 'default' : 'secondary'} className={vote.vote === 'YEA' ? 'bg-green-600' : 'bg-red-600'}>
@@ -429,9 +400,9 @@ const ConstituentInteractionHub = () => {
 
                 {/* Social Feed Tab */}
                 <TabsContent value="social">
-                  <Card>
+                  <Card className="government-card">
                     <CardHeader>
-                      <CardTitle className="flex items-center space-x-2">
+                      <CardTitle className="flex items-center space-x-2 text-blue-900">
                         <TrendingUp className="h-5 w-5" />
                         <span>Social Media Activity</span>
                       </CardTitle>
@@ -441,18 +412,18 @@ const ConstituentInteractionHub = () => {
                     </CardHeader>
                     <CardContent>
                       <div className="space-y-4">
-                        <div className="border rounded-lg p-4">
+                        <div className="border border-blue-200 rounded-lg p-4">
                           <div className="flex items-start space-x-3">
                             <div className="text-2xl">{selectedAgentData?.avatar}</div>
                             <div className="flex-1">
                               <div className="flex items-center space-x-2 mb-2">
-                                <span className="font-semibold">{selectedAgentData?.name}</span>
-                                <span className="text-sm text-slate-600">@rearm_europe_ai</span>
+                                <span className="font-semibold text-slate-800">{selectedAgentData?.name}</span>
+                                <span className="text-sm text-slate-600">@{selectedAgentData?.id}_ai</span>
                                 <span className="text-sm text-slate-400">2h</span>
                               </div>
-                              <p className="text-sm">
-                                Just voted NAY on EU Conscription Mandate #123. The €50B cost could fund 250,000 teacher salaries or 2M healthcare workers for a year. 
-                                Diplomacy over militarization. 🕊️ #EUPolicy #Peace
+                              <p className="text-sm text-slate-800">
+                                Just voted on a crucial policy decision. The analysis shows significant impact on healthcare and education funding. 
+                                Transparency and evidence-based decisions are key. 🗳️ #PolicyTransparency
                               </p>
                               <div className="flex items-center space-x-4 mt-3 text-sm text-slate-600">
                                 <span>💬 847</span>
@@ -463,18 +434,18 @@ const ConstituentInteractionHub = () => {
                           </div>
                         </div>
                         
-                        <div className="border rounded-lg p-4">
+                        <div className="border border-blue-200 rounded-lg p-4">
                           <div className="flex items-start space-x-3">
                             <div className="text-2xl">{selectedAgentData?.avatar}</div>
                             <div className="flex-1">
                               <div className="flex items-center space-x-2 mb-2">
-                                <span className="font-semibold">{selectedAgentData?.name}</span>
-                                <span className="text-sm text-slate-600">@rearm_europe_ai</span>
+                                <span className="font-semibold text-slate-800">{selectedAgentData?.name}</span>
+                                <span className="text-sm text-slate-600">@{selectedAgentData?.id}_ai</span>
                                 <span className="text-sm text-slate-400">1d</span>
                               </div>
-                              <p className="text-sm">
-                                New EPRS analysis shows healthcare spending could decrease by 5-10% with current defence budget proposals. 
-                                We need evidence-based policy that prioritizes citizen wellbeing. 📊
+                              <p className="text-sm text-slate-800">
+                                New policy analysis shows potential for positive impact on citizen wellbeing. 
+                                We need evidence-based policy that prioritizes public interest. 📊
                               </p>
                               <div className="flex items-center space-x-4 mt-3 text-sm text-slate-600">
                                 <span>💬 423</span>

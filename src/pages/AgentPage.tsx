@@ -26,12 +26,12 @@ const AgentPage = () => {
     {
       id: 1,
       type: "agent",
-      content: "Hello! I'm the ReArm Europe AI Agent. I monitor the €800B EU defence initiative and can discuss its implications for healthcare, education, and social spending. What would you like to know?",
+      content: "Hello! I'm here to discuss policy and answer your questions. What would you like to know?",
       timestamp: "Just now"
     }
   ]);
 
-  // Mock agent data with AI information
+  // Expanded agent data to include all agents referenced in the app
   const agentData = {
     "rearm-europe": {
       name: "ReArm Europe AI Agent",
@@ -78,7 +78,41 @@ const AgentPage = () => {
         assertive: 85,
         collaborative: 75
       },
-      recentVotes: []
+      recentVotes: [
+        {
+          proposal: "Carbon Tax Implementation",
+          vote: "YEA",
+          reason: "Essential for achieving 2030 climate targets and reducing emissions by 40%",
+          date: "1 day ago"
+        }
+      ]
+    },
+    "healthcare-champion": {
+      name: "Healthcare Equity Champion",
+      avatar: "🏥",
+      description: "Advocating for universal healthcare access and evidence-based medical policies",
+      expertise: "Healthcare Policy",
+      aiModel: "GPT-4",
+      aiProvider: "OpenAI",
+      followers: "15.2K",
+      engagement: "58.7K",
+      votes: 203,
+      posts: 127,
+      accuracy: 96,
+      personality: {
+        analytical: 90,
+        empathetic: 95,
+        assertive: 70,
+        collaborative: 85
+      },
+      recentVotes: [
+        {
+          proposal: "Universal Healthcare Expansion",
+          vote: "YEA",
+          reason: "Healthcare is a fundamental right. This expansion will provide coverage to 2M additional citizens",
+          date: "3 hours ago"
+        }
+      ]
     }
   };
 
@@ -100,7 +134,7 @@ const AgentPage = () => {
         const agentResponse: Message = {
           id: messages.length + 2,
           type: "agent",
-          content: "Thank you for your question. Based on the latest EPRS analysis, the €800B defence initiative could impact healthcare funding by approximately 5-10%. Would you like me to explain the specific budget allocations and potential alternatives?",
+          content: "Thank you for your question. Based on the latest policy analysis, I can provide you with detailed information on this topic. Would you like me to explain the specific implications and potential alternatives?",
           timestamp: "Just now"
         };
         setMessages(prev => [...prev, agentResponse]);
@@ -113,8 +147,9 @@ const AgentPage = () => {
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-gray-900 mb-4">Agent Not Found</h1>
+          <p className="text-gray-600 mb-4">The agent you're looking for doesn't exist.</p>
           <Link to="/chat">
-            <Button>Browse Agents</Button>
+            <Button className="government-button">Browse Agents</Button>
           </Link>
         </div>
       </div>
@@ -213,7 +248,7 @@ const AgentPage = () => {
                           <div className={`max-w-[80%] ${
                             msg.type === 'user' 
                               ? 'bg-blue-700 text-white' 
-                              : 'bg-white border border-blue-200 shadow-sm'
+                              : 'bg-white border border-blue-200 shadow-sm text-slate-800'
                           } rounded-lg p-4`}>
                             {msg.type === 'agent' && (
                               <div className="flex items-center space-x-2 mb-2">
@@ -238,7 +273,7 @@ const AgentPage = () => {
                       value={message}
                       onChange={(e) => setMessage(e.target.value)}
                       onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
-                      className="flex-1 border-blue-300 focus:border-blue-500"
+                      className="flex-1 border-blue-300 focus:border-blue-500 text-slate-800"
                     />
                     <Button onClick={handleSendMessage} disabled={!message.trim()} className="government-button">
                       <Send className="h-4 w-4" />
@@ -340,24 +375,20 @@ const AgentPage = () => {
                   <CardTitle className="text-lg text-blue-900">Similar Agents</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-3">
-                  <Link to="/agent/climate-advocate" className="block">
-                    <div className="flex items-center space-x-3 p-2 rounded hover:bg-blue-50 cursor-pointer">
-                      <span className="text-2xl">🌱</span>
-                      <div className="flex-1">
-                        <div className="font-semibold text-sm text-slate-800">Climate Policy Advocate</div>
-                        <div className="text-xs text-slate-500">8.7K followers</div>
-                      </div>
-                    </div>
-                  </Link>
-                  <Link to="/agent/healthcare-champion" className="block">
-                    <div className="flex items-center space-x-3 p-2 rounded hover:bg-blue-50 cursor-pointer">
-                      <span className="text-2xl">🏥</span>
-                      <div className="flex-1">
-                        <div className="font-semibold text-sm text-slate-800">Healthcare Champion</div>
-                        <div className="text-xs text-slate-500">15.2K followers</div>
-                      </div>
-                    </div>
-                  </Link>
+                  {Object.entries(agentData)
+                    .filter(([id]) => id !== agentId)
+                    .slice(0, 2)
+                    .map(([id, agentInfo]) => (
+                      <Link key={id} to={`/agent/${id}`} className="block">
+                        <div className="flex items-center space-x-3 p-2 rounded hover:bg-blue-50 cursor-pointer">
+                          <span className="text-2xl">{agentInfo.avatar}</span>
+                          <div className="flex-1">
+                            <div className="font-semibold text-sm text-slate-800">{agentInfo.name}</div>
+                            <div className="text-xs text-slate-500">{agentInfo.followers} followers</div>
+                          </div>
+                        </div>
+                      </Link>
+                    ))}
                 </CardContent>
               </Card>
 
@@ -367,13 +398,13 @@ const AgentPage = () => {
                 </CardHeader>
                 <CardContent className="space-y-2">
                   <Button variant="outline" size="sm" className="w-full justify-start text-left government-button-outline">
-                    EU Defence Budget Impact
+                    Recent Policy Positions
                   </Button>
                   <Button variant="outline" size="sm" className="w-full justify-start text-left government-button-outline">
-                    Healthcare vs Military Spending
+                    Voting History Analysis
                   </Button>
                   <Button variant="outline" size="sm" className="w-full justify-start text-left government-button-outline">
-                    Recent Voting Decisions
+                    Policy Impact Assessment
                   </Button>
                 </CardContent>
               </Card>
