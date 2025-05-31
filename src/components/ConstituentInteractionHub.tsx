@@ -8,7 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { MessageCircle, Send, FileText, Vote, TrendingUp, ExternalLink, ThumbsUp, ThumbsDown, Users } from "lucide-react";
+import { MessageCircle, Send, FileText, Vote, TrendingUp, ExternalLink, ThumbsUp, ThumbsDown } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 
@@ -63,7 +63,7 @@ const ConstituentInteractionHub = () => {
       avatar: "🌱",
       status: "active",
       expertise: "Climate Change Policy",
-      engagement: "8.7K",
+      engagement: "18.7K",
       description: "Fighting for renewable energy transition"
     },
     {
@@ -72,8 +72,35 @@ const ConstituentInteractionHub = () => {
       avatar: "🏥", 
       status: "active",
       expertise: "Healthcare Policy",
-      engagement: "15.2K",
+      engagement: "9.2K",
       description: "Advocating for universal healthcare access"
+    },
+    {
+      id: "economic-advocate",
+      name: "Economic Freedom Advocate",
+      avatar: "💼",
+      status: "active",
+      expertise: "Economic Policy",
+      engagement: "7.8K",
+      description: "Promoting free market principles"
+    },
+    {
+      id: "constitutional-scholar",
+      name: "Constitutional Scholar",
+      avatar: "🏛️",
+      status: "active",
+      expertise: "Constitutional Law",
+      engagement: "11.5K",
+      description: "Defending constitutional principles"
+    },
+    {
+      id: "education-pioneer",
+      name: "Education Reform Pioneer",
+      avatar: "🎓",
+      status: "active",
+      expertise: "Education Policy",
+      engagement: "14.1K",
+      description: "Championing innovative education policies"
     }
   ];
 
@@ -146,48 +173,42 @@ const ConstituentInteractionHub = () => {
             <div className="lg:col-span-1">
               <Card className="government-card">
                 <CardHeader>
-                  <CardTitle className="text-lg text-blue-900">Active Agents</CardTitle>
+                  <CardTitle className="text-lg text-blue-900">All Agents</CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-3">
-                  {agents.map((agent) => (
-                    <div key={agent.id}>
-                      <div
-                        className={`p-3 rounded-lg cursor-pointer border transition-colors ${
-                          selectedAgent === agent.id 
-                            ? 'bg-blue-50 border-blue-200' 
-                            : 'hover:bg-slate-50 border-slate-200'
-                        }`}
-                        onClick={() => setSelectedAgent(agent.id)}
-                      >
-                        <div className="flex items-start space-x-3">
-                          <div className="text-2xl">{agent.avatar}</div>
-                          <div className="flex-1 min-w-0">
-                            <p className="font-semibold text-sm truncate text-slate-800">{agent.name}</p>
-                            <p className="text-xs text-slate-600">{agent.expertise}</p>
-                            <div className="flex items-center space-x-2 mt-1">
-                              <Badge variant="secondary" className="text-xs">{agent.engagement}</Badge>
-                              <div className={`w-2 h-2 rounded-full ${agent.status === 'active' ? 'bg-green-500' : 'bg-slate-400'}`} />
+                <CardContent>
+                  <ScrollArea className="h-[600px] pr-4">
+                    <div className="space-y-3">
+                      {agents.map((agent) => (
+                        <div key={agent.id}>
+                          <div
+                            className={`p-3 rounded-lg cursor-pointer border transition-colors ${
+                              selectedAgent === agent.id 
+                                ? 'bg-blue-50 border-blue-200' 
+                                : 'hover:bg-slate-50 border-slate-200'
+                            }`}
+                            onClick={() => setSelectedAgent(agent.id)}
+                          >
+                            <div className="flex items-start space-x-3">
+                              <div className="text-2xl">{agent.avatar}</div>
+                              <div className="flex-1 min-w-0">
+                                <p className="font-semibold text-sm truncate text-slate-800">{agent.name}</p>
+                                <p className="text-xs text-slate-600">{agent.expertise}</p>
+                                <div className="flex items-center space-x-2 mt-1">
+                                  <Badge variant="secondary" className="text-xs">{agent.engagement}</Badge>
+                                  <div className={`w-2 h-2 rounded-full ${agent.status === 'active' ? 'bg-green-500' : 'bg-slate-400'}`} />
+                                </div>
+                              </div>
                             </div>
                           </div>
+                          <Link to={`/agent/${agent.id}`} className="block mt-2">
+                            <Button variant="outline" size="sm" className="w-full government-button-outline">
+                              View Agent
+                            </Button>
+                          </Link>
                         </div>
-                      </div>
-                      <Link to={`/agent/${agent.id}`} className="block mt-2">
-                        <Button variant="outline" size="sm" className="w-full government-button-outline">
-                          View Profile
-                        </Button>
-                      </Link>
+                      ))}
                     </div>
-                  ))}
-                  
-                  {/* Add Explore More Agents button */}
-                  <div className="pt-4 border-t border-slate-200">
-                    <Link to="/chat" className="block">
-                      <Button variant="outline" className="w-full government-button-outline">
-                        <Users className="h-4 w-4 mr-2" />
-                        Explore More Agents
-                      </Button>
-                    </Link>
-                  </div>
+                  </ScrollArea>
                 </CardContent>
               </Card>
 
@@ -237,7 +258,7 @@ const ConstituentInteractionHub = () => {
                       </div>
                       <Link to={`/agent/${selectedAgentData.id}`}>
                         <Button className="government-button">
-                          View Full Profile
+                          View Agent
                         </Button>
                       </Link>
                     </div>
@@ -304,7 +325,6 @@ const ConstituentInteractionHub = () => {
                   <TabsTrigger value="social">Social Feed</TabsTrigger>
                 </TabsList>
 
-                {/* Proposals Tab */}
                 <TabsContent value="proposals">
                   <Card className="government-card">
                     <CardHeader>
@@ -347,7 +367,6 @@ const ConstituentInteractionHub = () => {
                   </Card>
                 </TabsContent>
 
-                {/* Votes Tab */}
                 <TabsContent value="votes">
                   <Card className="government-card">
                     <CardHeader>
@@ -398,7 +417,6 @@ const ConstituentInteractionHub = () => {
                   </Card>
                 </TabsContent>
 
-                {/* Social Feed Tab */}
                 <TabsContent value="social">
                   <Card className="government-card">
                     <CardHeader>

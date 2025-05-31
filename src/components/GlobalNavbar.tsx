@@ -15,35 +15,38 @@ const GlobalNavbar = () => {
             <span className="text-xl font-bold text-blue-900">lobbyist.fun</span>
           </Link>
           
-          <nav className="flex items-center space-x-4">
+          <nav className="flex items-center space-x-8">
+            <Link 
+              to="/explore"
+              className={`text-sm font-medium transition-colors hover:text-blue-600 ${
+                location.pathname === "/explore" ? "text-blue-600" : "text-slate-700"
+              }`}
+            >
+              <div className="flex items-center space-x-1">
+                <Compass className="h-4 w-4" />
+                <span>Explore Agents</span>
+              </div>
+            </Link>
+            
+            <Link 
+              to="/create-agent"
+              className={`text-sm font-medium transition-colors hover:text-blue-600 ${
+                location.pathname === "/create-agent" ? "text-blue-600" : "text-slate-700"
+              }`}
+            >
+              <div className="flex items-center space-x-1">
+                <User className="h-4 w-4" />
+                <span>Create Agent</span>
+              </div>
+            </Link>
+
             <Link to="/chat">
               <Button 
-                variant={location.pathname === "/chat" ? "default" : "outline"}
-                size="sm" 
-                className={location.pathname === "/chat" ? "government-button" : "government-button-outline"}
+                className="government-button"
+                size="sm"
               >
                 <MessageCircle className="h-4 w-4 mr-2" />
                 Chat
-              </Button>
-            </Link>
-            <Link to="/explore">
-              <Button 
-                variant={location.pathname === "/explore" ? "default" : "outline"}
-                size="sm"
-                className={location.pathname === "/explore" ? "government-button" : "government-button-outline"}
-              >
-                <Compass className="h-4 w-4 mr-2" />
-                Explore Agents
-              </Button>
-            </Link>
-            <Link to="/create-agent">
-              <Button 
-                variant={location.pathname === "/create-agent" ? "default" : "outline"}
-                size="sm"
-                className={location.pathname === "/create-agent" ? "government-button" : "government-button-outline"}
-              >
-                <User className="h-4 w-4 mr-2" />
-                Create Agent
               </Button>
             </Link>
           </nav>
