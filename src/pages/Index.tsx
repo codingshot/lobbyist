@@ -1,8 +1,7 @@
-
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ArrowRight, Users, Shield, Zap, TrendingUp, MessageSquare, Vote, Menu, X, Gear, Globe, Lock, BarChart3, CheckCircle, Play } from "lucide-react";
+import { ArrowRight, Users, Shield, Zap, TrendingUp, MessageSquare, Vote, Menu, X, gear, Globe, Lock, BarChart3, CheckCircle, Play } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
@@ -68,7 +67,7 @@ const Index = () => {
     {
       title: "Create Custom Agents",
       description: "Design AI agents with unique expertise, personality, and backstories",
-      icon: Gear,
+      icon: gear,
       color: "text-blue-600"
     },
     {
