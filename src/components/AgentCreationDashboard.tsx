@@ -210,8 +210,10 @@ const AgentCreationDashboard = () => {
                 <div className={`flex items-center justify-center w-12 h-12 rounded-full border-2 ${
                   'bg-blue-600 border-blue-600 text-white'
                 }`}>
-                  {/* The error was here. The following line fixes it. */}
-                  <steps[currentStep].icon className="h-6 w-6" />
+                  {(() => {
+                    const CurrentIcon = steps[currentStep].icon;
+                    return <CurrentIcon className="h-6 w-6" />;
+                  })()}
                 </div>
                 <div className="flex-1 mx-4">
                   <div className="text-lg font-medium text-blue-900">
