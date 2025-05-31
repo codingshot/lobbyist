@@ -95,6 +95,29 @@ const AgentCreationDashboard = () => {
     }
   ];
 
+  const personalityTraits = {
+    analytical: {
+      description: "How data-driven and logical the agent is in decision making",
+      low: "Intuitive and emotion-based",
+      high: "Data-driven and logical"
+    },
+    empathetic: {
+      description: "How much the agent considers emotional and human impact",
+      low: "Focuses on facts over feelings",
+      high: "Highly considers human impact"
+    },
+    assertive: {
+      description: "How strongly the agent advocates for its positions",
+      low: "Diplomatic and compromising",
+      high: "Strong and unwavering"
+    },
+    collaborative: {
+      description: "How willing the agent is to work with opposing views",
+      low: "Independent and firm",
+      high: "Seeks consensus and partnership"
+    }
+  };
+
   const applyTemplate = (template: typeof templates[0]) => {
     setAgentData({
       ...agentData,
@@ -141,9 +164,9 @@ const AgentCreationDashboard = () => {
                 <h1 className="hidden sm:block text-lg font-semibold text-blue-900">Deploy Agent</h1>
               </div>
               <div className="flex items-center space-x-2">
-                <Button variant="outline" size="sm" className="border-blue-300 text-blue-700 hover:bg-blue-50">Save Draft</Button>
+                <Button variant="outline" size="sm" className="government-button-outline">Save Draft</Button>
                 <Link to="/">
-                  <Button variant="outline" size="sm" className="border-blue-300 text-blue-700 hover:bg-blue-50">
+                  <Button variant="outline" size="sm" className="government-button-outline">
                     <ArrowLeft className="h-4 w-4 mr-2" />
                     <span className="hidden sm:inline">Back</span>
                   </Button>
@@ -187,7 +210,7 @@ const AgentCreationDashboard = () => {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Form Section */}
             <div className="lg:col-span-2">
-              <Card className="border-blue-200">
+              <Card className="government-card">
                 <CardHeader>
                   <CardTitle className="flex items-center space-x-2 text-blue-900">
                     {React.createElement(steps[currentStep].icon, { className: "h-6 w-6" })}
@@ -238,32 +261,42 @@ const AgentCreationDashboard = () => {
                   {currentStep === 1 && (
                     <div className="space-y-6">
                       <div>
-                        <h3 className="text-lg font-semibold mb-4">Personality Traits</h3>
+                        <h3 className="text-lg font-semibold mb-4 text-blue-900">Personality Traits</h3>
+                        <p className="text-sm text-blue-700 mb-6">Define how your agent thinks, communicates, and makes decisions. These traits will influence every interaction.</p>
                         {Object.entries(agentData.personality).map(([trait, value]) => (
-                          <div key={trait} className="space-y-2 mb-4">
-                            <div className="flex justify-between">
-                              <Label className="capitalize">{trait}</Label>
-                              <span className="text-sm text-slate-600">{value}%</span>
+                          <div key={trait} className="space-y-3 mb-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
+                            <div className="flex justify-between items-start">
+                              <div>
+                                <Label className="capitalize font-semibold text-blue-900">{trait}</Label>
+                                <p className="text-sm text-blue-700 mt-1">{personalityTraits[trait as keyof typeof personalityTraits].description}</p>
+                              </div>
+                              <span className="text-sm font-medium text-blue-900 bg-white px-2 py-1 rounded">{value}%</span>
                             </div>
-                            <Slider
-                              value={[value]}
-                              onValueChange={([newValue]) => 
-                                setAgentData({
-                                  ...agentData, 
-                                  personality: {...agentData.personality, [trait]: newValue}
-                                })
-                              }
-                              max={100}
-                              step={1}
-                              className="w-full"
-                            />
+                            <div className="space-y-2">
+                              <div className="flex justify-between text-xs text-blue-600">
+                                <span>{personalityTraits[trait as keyof typeof personalityTraits].low}</span>
+                                <span>{personalityTraits[trait as keyof typeof personalityTraits].high}</span>
+                              </div>
+                              <Slider
+                                value={[value]}
+                                onValueChange={([newValue]) => 
+                                  setAgentData({
+                                    ...agentData, 
+                                    personality: {...agentData.personality, [trait]: newValue}
+                                  })
+                                }
+                                max={100}
+                                step={1}
+                                className="w-full"
+                              />
+                            </div>
                           </div>
                         ))}
                       </div>
                       
                       <div>
-                        <h3 className="text-lg font-semibold mb-4">Agent Characteristics</h3>
-                        <div className="grid grid-cols-2 gap-4">
+                        <h3 className="text-lg font-semibold mb-4 text-blue-900">Communication Characteristics</h3>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                           <div>
                             <Label>Communication Style</Label>
                             <Select 
@@ -315,22 +348,26 @@ const AgentCreationDashboard = () => {
                     <div className="space-y-4">
                       <div>
                         <Label htmlFor="backstory">Agent Backstory</Label>
+                        <p className="text-sm text-blue-700 mb-2">Describe your agent's background, motivations, and core beliefs. This shapes how they approach political issues.</p>
                         <Textarea 
                           id="backstory"
-                          placeholder="Describe your agent's background, motivations, and perspective..."
+                          placeholder="e.g., A dedicated advocate for European defense independence, monitoring the €800B EU defense initiative and its implications for social spending..."
                           rows={6}
                           value={agentData.backstory}
                           onChange={(e) => setAgentData({...agentData, backstory: e.target.value})}
+                          className="border-blue-300 focus:border-blue-500"
                         />
                       </div>
                       <div>
                         <Label htmlFor="stance">Core Policy Stance</Label>
+                        <p className="text-sm text-blue-700 mb-2">What are your agent's fundamental political positions and policy preferences?</p>
                         <Textarea 
                           id="stance"
-                          placeholder="What are your agent's core beliefs and policy positions?"
+                          placeholder="e.g., Supports strategic defense investments while ensuring transparency in budget allocation and protecting social programs..."
                           rows={4}
                           value={agentData.stance}
                           onChange={(e) => setAgentData({...agentData, stance: e.target.value})}
+                          className="border-blue-300 focus:border-blue-500"
                         />
                       </div>
                     </div>
@@ -340,48 +377,48 @@ const AgentCreationDashboard = () => {
                   {currentStep === 3 && (
                     <div className="space-y-6">
                       <div>
-                        <h3 className="text-lg font-semibold mb-4">Upload Training Data</h3>
+                        <h3 className="text-lg font-semibold mb-4 text-blue-900">Upload Training Data</h3>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                          <div className="border-2 border-dashed border-slate-300 rounded-lg p-6 text-center hover:border-blue-400 transition-colors">
-                            <Upload className="h-8 w-8 text-slate-400 mx-auto mb-2" />
-                            <h4 className="font-semibold text-slate-900 mb-1">Documents</h4>
-                            <p className="text-sm text-slate-600 mb-3">Upload PDFs, docs, research papers</p>
-                            <Button size="sm" variant="outline">Choose Files</Button>
+                          <div className="border-2 border-dashed border-blue-300 rounded-lg p-6 text-center hover:border-blue-400 transition-colors">
+                            <Upload className="h-8 w-8 text-blue-400 mx-auto mb-2" />
+                            <h4 className="font-semibold text-blue-900 mb-1">Documents</h4>
+                            <p className="text-sm text-blue-600 mb-3">Upload PDFs, docs, research papers</p>
+                            <Button size="sm" variant="outline" className="government-button-outline">Choose Files</Button>
                           </div>
                           
-                          <div className="border-2 border-dashed border-slate-300 rounded-lg p-6 text-center hover:border-blue-400 transition-colors">
-                            <Globe className="h-8 w-8 text-slate-400 mx-auto mb-2" />
-                            <h4 className="font-semibold text-slate-900 mb-1">Websites</h4>
-                            <p className="text-sm text-slate-600 mb-3">Scrape content from URLs</p>
-                            <Input placeholder="Enter website URL" className="mb-2" />
-                            <Button size="sm" variant="outline">Add URL</Button>
+                          <div className="border-2 border-dashed border-blue-300 rounded-lg p-6 text-center hover:border-blue-400 transition-colors">
+                            <Globe className="h-8 w-8 text-blue-400 mx-auto mb-2" />
+                            <h4 className="font-semibold text-blue-900 mb-1">Websites</h4>
+                            <p className="text-sm text-blue-600 mb-3">Scrape content from URLs</p>
+                            <Input placeholder="Enter website URL" className="mb-2 border-blue-300" />
+                            <Button size="sm" variant="outline" className="government-button-outline">Add URL</Button>
                           </div>
                           
-                          <div className="border-2 border-dashed border-slate-300 rounded-lg p-6 text-center hover:border-blue-400 transition-colors">
-                            <Database className="h-8 w-8 text-slate-400 mx-auto mb-2" />
-                            <h4 className="font-semibold text-slate-900 mb-1">Knowledge Base</h4>
-                            <p className="text-sm text-slate-600 mb-3">Connect to existing databases</p>
-                            <Button size="sm" variant="outline">Connect</Button>
+                          <div className="border-2 border-dashed border-blue-300 rounded-lg p-6 text-center hover:border-blue-400 transition-colors">
+                            <Database className="h-8 w-8 text-blue-400 mx-auto mb-2" />
+                            <h4 className="font-semibold text-blue-900 mb-1">Knowledge Base</h4>
+                            <p className="text-sm text-blue-600 mb-3">Connect to existing databases</p>
+                            <Button size="sm" variant="outline" className="government-button-outline">Connect</Button>
                           </div>
                         </div>
                       </div>
 
                       <div>
-                        <h3 className="text-lg font-semibold mb-4">Public Training Links</h3>
+                        <h3 className="text-lg font-semibold mb-4 text-blue-900">Government Data Sources</h3>
                         <div className="space-y-2 mb-4">
-                          <Input placeholder="EUR-Lex Legislative Database" value="https://eur-lex.europa.eu" readOnly />
-                          <Input placeholder="OpenSecrets Campaign Finance" value="https://opensecrets.org" readOnly />
-                          <Input placeholder="Congressional Bills Database" value="https://congress.gov" readOnly />
+                          <Input placeholder="EUR-Lex Legislative Database" value="https://eur-lex.europa.eu" readOnly className="bg-green-50 border-green-300" />
+                          <Input placeholder="OpenSecrets Campaign Finance" value="https://opensecrets.org" readOnly className="bg-green-50 border-green-300" />
+                          <Input placeholder="Congressional Bills Database" value="https://congress.gov" readOnly className="bg-green-50 border-green-300" />
                         </div>
                       </div>
 
                       <div>
-                        <h3 className="text-lg font-semibold mb-4">Supported Data Sources</h3>
+                        <h3 className="text-lg font-semibold mb-4 text-blue-900">Supported Data Sources</h3>
                         <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                           {supportedDataSources.map((source, index) => (
                             <div key={index} className={`flex items-center space-x-2 p-3 rounded-lg border ${source.supported ? 'bg-green-50 border-green-200' : 'bg-gray-50 border-gray-200'}`}>
                               <span className="text-lg">{source.icon}</span>
-                              <span className="text-sm font-medium">{source.name}</span>
+                              <span className="text-sm font-medium text-blue-900">{source.name}</span>
                               {!source.supported && (
                                 <Badge variant="secondary" className="text-xs">Coming Soon</Badge>
                               )}
@@ -391,18 +428,19 @@ const AgentCreationDashboard = () => {
                       </div>
 
                       <div>
-                        <Label htmlFor="custom-url">Custom Data Source</Label>
+                        <Label htmlFor="custom-url">Request Data Source Support</Label>
                         <div className="flex space-x-2">
                           <Input 
                             id="custom-url"
-                            placeholder="Enter unsupported URL (we'll add support soon)"
+                            placeholder="Enter URL for data source you'd like us to support"
+                            className="border-blue-300 focus:border-blue-500"
                           />
-                          <Button variant="outline">
+                          <Button variant="outline" className="government-button-outline">
                             <AlertCircle className="h-4 w-4 mr-2" />
                             Request
                           </Button>
                         </div>
-                        <p className="text-xs text-slate-500 mt-1">We'll notify you when this data source is supported</p>
+                        <p className="text-xs text-blue-600 mt-1">We'll notify you when this data source is supported</p>
                       </div>
                     </div>
                   )}
@@ -417,42 +455,42 @@ const AgentCreationDashboard = () => {
                           <TabsTrigger value="advanced">Advanced</TabsTrigger>
                         </TabsList>
                         <TabsContent value="governance" className="space-y-4">
-                          <div className="flex items-center justify-between">
+                          <div className="flex items-center justify-between p-4 bg-blue-50 rounded-lg border border-blue-200">
                             <div>
-                              <Label>Enable On-Chain Voting</Label>
-                              <p className="text-sm text-slate-600">Allow agent to vote on governance proposals</p>
+                              <Label className="text-blue-900">Enable On-Chain Voting</Label>
+                              <p className="text-sm text-blue-700">Allow agent to vote on governance proposals</p>
                             </div>
-                            <Button variant="outline" size="sm">Connect NEAR Wallet</Button>
+                            <Button variant="outline" size="sm" className="government-button-outline">Connect NEAR Wallet</Button>
                           </div>
-                          <div className="flex items-center justify-between">
+                          <div className="flex items-center justify-between p-4 bg-blue-50 rounded-lg border border-blue-200">
                             <div>
-                              <Label>Auto-vote on Proposals</Label>
-                              <p className="text-sm text-slate-600">Automatically vote based on agent's stance</p>
+                              <Label className="text-blue-900">Auto-vote on Proposals</Label>
+                              <p className="text-sm text-blue-700">Automatically vote based on agent's stance</p>
                             </div>
-                            <Button variant="outline" size="sm">Configure</Button>
+                            <Button variant="outline" size="sm" className="government-button-outline">Configure</Button>
                           </div>
                         </TabsContent>
                         <TabsContent value="social" className="space-y-4">
-                          <div className="flex items-center justify-between">
+                          <div className="flex items-center justify-between p-4 bg-blue-50 rounded-lg border border-blue-200">
                             <div>
-                              <Label>Auto-post Updates</Label>
-                              <p className="text-sm text-slate-600">Share policy positions and votes on social media</p>
+                              <Label className="text-blue-900">Auto-post Updates</Label>
+                              <p className="text-sm text-blue-700">Share policy positions and votes on social media</p>
                             </div>
-                            <Button variant="outline" size="sm">Connect Twitter</Button>
+                            <Button variant="outline" size="sm" className="government-button-outline">Connect Twitter</Button>
                           </div>
-                          <div className="flex items-center justify-between">
+                          <div className="flex items-center justify-between p-4 bg-blue-50 rounded-lg border border-blue-200">
                             <div>
-                              <Label>Engage with Comments</Label>
-                              <p className="text-sm text-slate-600">Respond to mentions and policy discussions</p>
+                              <Label className="text-blue-900">Engage with Comments</Label>
+                              <p className="text-sm text-blue-700">Respond to mentions and policy discussions</p>
                             </div>
-                            <Button variant="outline" size="sm">Enable</Button>
+                            <Button variant="outline" size="sm" className="government-button-outline">Enable</Button>
                           </div>
                         </TabsContent>
                         <TabsContent value="advanced" className="space-y-4">
                           <div>
                             <Label>Response Speed</Label>
                             <Select defaultValue="balanced">
-                              <SelectTrigger>
+                              <SelectTrigger className="border-blue-300">
                                 <SelectValue />
                               </SelectTrigger>
                               <SelectContent>
@@ -465,7 +503,7 @@ const AgentCreationDashboard = () => {
                           <div>
                             <Label>Privacy Level</Label>
                             <Select defaultValue="public">
-                              <SelectTrigger>
+                              <SelectTrigger className="border-blue-300">
                                 <SelectValue />
                               </SelectTrigger>
                               <SelectContent>
@@ -485,7 +523,7 @@ const AgentCreationDashboard = () => {
                     <div className="space-y-4">
                       <div className="bg-blue-50 rounded-lg p-6 border border-blue-200">
                         <h3 className="text-lg font-semibold mb-4 text-blue-900">Agent Preview</h3>
-                        <div className="space-y-3">
+                        <div className="space-y-3 text-blue-800">
                           <div><strong>Name:</strong> {agentData.name || "Not set"}</div>
                           <div><strong>Expertise:</strong> {agentData.expertise || "Not set"}</div>
                           <div><strong>Communication Style:</strong> {agentData.characteristics.communicationStyle}</div>
@@ -513,11 +551,42 @@ const AgentCreationDashboard = () => {
                   )}
                 </CardContent>
               </Card>
+
+              {/* Navigation Footer - Now sticky at bottom */}
+              <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-blue-200 p-4 shadow-lg z-40">
+                <div className="max-w-7xl mx-auto flex justify-between">
+                  <Button 
+                    variant="outline" 
+                    onClick={handlePrev}
+                    disabled={currentStep === 0}
+                    className="government-button-outline"
+                  >
+                    <ArrowLeft className="h-4 w-4 mr-2" />
+                    Previous
+                  </Button>
+                  
+                  {currentStep === steps.length - 1 ? (
+                    <Button className="government-button">
+                      Deploy Agent
+                      <ArrowRight className="h-4 w-4 ml-2" />
+                    </Button>
+                  ) : (
+                    <Button 
+                      onClick={handleNext}
+                      disabled={currentStep === steps.length - 1}
+                      className="government-button"
+                    >
+                      Next
+                      <ArrowRight className="h-4 w-4 ml-2" />
+                    </Button>
+                  )}
+                </div>
+              </div>
             </div>
 
             {/* Preview Sidebar */}
             <div className="space-y-4">
-              <Card className="border-blue-200">
+              <Card className="government-card">
                 <CardHeader>
                   <CardTitle className="text-lg text-blue-900">Chat Preview</CardTitle>
                   <CardDescription>Test your agent's responses</CardDescription>
@@ -530,9 +599,9 @@ const AgentCreationDashboard = () => {
                 </CardContent>
               </Card>
 
-              <Card className="border-blue-200">
+              <Card className="government-card">
                 <CardHeader>
-                  <CardTitle className="text-lg text-blue-900">Templates</CardTitle>
+                  <CardTitle className="text-lg text-blue-900">Quick Templates</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-2">
                   {templates.map((template, index) => (
@@ -540,7 +609,7 @@ const AgentCreationDashboard = () => {
                       key={index}
                       variant="outline" 
                       size="sm" 
-                      className="w-full justify-start border-blue-300 text-blue-700 hover:bg-blue-50"
+                      className="w-full justify-start government-button-outline"
                       onClick={() => applyTemplate(template)}
                     >
                       <span className="mr-2">{template.icon}</span>
@@ -552,34 +621,8 @@ const AgentCreationDashboard = () => {
             </div>
           </div>
 
-          {/* Navigation Footer */}
-          <div className="mt-8 flex justify-between">
-            <Button 
-              variant="outline" 
-              onClick={handlePrev}
-              disabled={currentStep === 0}
-              className="border-blue-300 text-blue-700 hover:bg-blue-50"
-            >
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              Previous
-            </Button>
-            
-            {currentStep === steps.length - 1 ? (
-              <Button className="bg-blue-700 hover:bg-blue-800 text-white">
-                Deploy Agent
-                <ArrowRight className="h-4 w-4 ml-2" />
-              </Button>
-            ) : (
-              <Button 
-                onClick={handleNext}
-                disabled={currentStep === steps.length - 1}
-                className="bg-blue-700 hover:bg-blue-800 text-white"
-              >
-                Next
-                <ArrowRight className="h-4 w-4 ml-2" />
-              </Button>
-            )}
-          </div>
+          {/* Add bottom padding to account for fixed navigation */}
+          <div className="h-20"></div>
         </div>
       </div>
     </>
