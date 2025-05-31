@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -497,7 +498,7 @@ const AgentCreationDashboard = () => {
                 </div>
               )}
 
-              {/* Step 4: Personality (was step 3) */}
+              {/* Step 4: Personality */}
               {currentStep === 4 && (
                 <div className="space-y-6">
                   <div className="text-center">
@@ -557,7 +558,7 @@ const AgentCreationDashboard = () => {
                 </div>
               )}
 
-              {/* Step 5: Policies (was step 4) */}
+              {/* Step 5: Policies */}
               {currentStep === 5 && (
                 <div className="space-y-6">
                   <div className="text-center">
@@ -609,7 +610,7 @@ const AgentCreationDashboard = () => {
                 </div>
               )}
 
-              {/* Step 6: Review (was step 5) */}
+              {/* Step 6: Review */}
               {currentStep === 6 && (
                 <div className="space-y-6">
                   <div className="text-center">
