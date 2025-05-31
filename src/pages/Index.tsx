@@ -1,6 +1,7 @@
+
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { 
   Carousel,
@@ -9,7 +10,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { Shield, Users, MessageSquare, Gavel, Star, MessageCircle } from "lucide-react";
+import { Shield, Users, MessageSquare, Gavel, Star, MessageCircle, Clock, Brain, BarChart3 } from "lucide-react";
 import { Helmet } from "react-helmet-async";
 
 const Index = () => {
@@ -143,7 +144,7 @@ const Index = () => {
                       </Card>
                     </CarouselItem>
                   ))}
-                </Carousel>
+                </CarouselContent>
                 <CarouselPrevious className="left-0 md:-left-12" />
                 <CarouselNext className="right-0 md:-right-12" />
               </Carousel>
