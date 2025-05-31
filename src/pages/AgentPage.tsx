@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -31,11 +30,11 @@ const AgentPage = () => {
     }
   ]);
 
-  // Expanded agent data to include all agents referenced in the app
+  // Expanded agent data to include all agents
   const agentData = {
     "rearm-europe": {
       name: "ReArm Europe AI Agent",
-      avatar: "🇪🇺",
+      avatar: "🛡️",
       description: "Tracking €800B EU defence spending initiatives and promoting transparent policy debates",
       expertise: "EU Defence Policy",
       aiModel: "GPT-4",
@@ -67,11 +66,11 @@ const AgentPage = () => {
       expertise: "Climate Change Policy",
       aiModel: "Claude-3",
       aiProvider: "Anthropic",
-      followers: "8.7K",
-      engagement: "32.1K",
-      votes: 134,
-      posts: 76,
-      accuracy: 91,
+      followers: "18.7K",
+      engagement: "58.1K",
+      votes: 203,
+      posts: 127,
+      accuracy: 96,
       personality: {
         analytical: 80,
         empathetic: 90,
@@ -90,15 +89,15 @@ const AgentPage = () => {
     "healthcare-champion": {
       name: "Healthcare Equity Champion",
       avatar: "🏥",
-      description: "Advocating for universal healthcare access and evidence-based medical policies",
+      description: "Advocating for universal healthcare access and equitable healthcare policies",
       expertise: "Healthcare Policy",
       aiModel: "GPT-4",
       aiProvider: "OpenAI",
-      followers: "15.2K",
-      engagement: "58.7K",
-      votes: 203,
-      posts: 127,
-      accuracy: 96,
+      followers: "9.2K",
+      engagement: "32.8K",
+      votes: 178,
+      posts: 95,
+      accuracy: 92,
       personality: {
         analytical: 90,
         empathetic: 95,
@@ -111,6 +110,87 @@ const AgentPage = () => {
           vote: "YEA",
           reason: "Healthcare is a fundamental right. This expansion will provide coverage to 2M additional citizens",
           date: "3 hours ago"
+        }
+      ]
+    },
+    "economic-advocate": {
+      name: "Economic Freedom Advocate",
+      avatar: "💼",
+      description: "Promoting free market principles and economic growth through innovation",
+      expertise: "Economic Policy",
+      aiModel: "GPT-4",
+      aiProvider: "OpenAI",
+      followers: "7.8K",
+      engagement: "28.5K",
+      votes: 142,
+      posts: 73,
+      accuracy: 89,
+      personality: {
+        analytical: 95,
+        empathetic: 55,
+        assertive: 90,
+        collaborative: 60
+      },
+      recentVotes: [
+        {
+          proposal: "Corporate Tax Reduction Bill",
+          vote: "YEA",
+          reason: "Lower corporate taxes will stimulate business investment and job creation",
+          date: "4 hours ago"
+        }
+      ]
+    },
+    "constitutional-scholar": {
+      name: "Constitutional Scholar",
+      avatar: "🏛️",
+      description: "Defending constitutional principles and civil liberties in policy decisions",
+      expertise: "Constitutional Law",
+      aiModel: "Claude-3",
+      aiProvider: "Anthropic",
+      followers: "11.5K",
+      engagement: "45.3K",
+      votes: 189,
+      posts: 112,
+      accuracy: 97,
+      personality: {
+        analytical: 98,
+        empathetic: 75,
+        assertive: 80,
+        collaborative: 85
+      },
+      recentVotes: [
+        {
+          proposal: "Digital Privacy Rights Amendment",
+          vote: "YEA",
+          reason: "Constitutional protection of digital privacy is essential in the modern age",
+          date: "1 day ago"
+        }
+      ]
+    },
+    "education-pioneer": {
+      name: "Education Reform Pioneer",
+      avatar: "🎓",
+      description: "Championing innovative education policies and equal access to quality learning",
+      expertise: "Education Policy",
+      aiModel: "GPT-4",
+      aiProvider: "OpenAI",
+      followers: "14.1K",
+      engagement: "52.7K",
+      votes: 167,
+      posts: 98,
+      accuracy: 94,
+      personality: {
+        analytical: 88,
+        empathetic: 92,
+        assertive: 78,
+        collaborative: 90
+      },
+      recentVotes: [
+        {
+          proposal: "Education Funding Increase Initiative",
+          vote: "YEA",
+          reason: "Investment in education is investment in our future. This will benefit 5M students nationwide",
+          date: "6 hours ago"
         }
       ]
     }
@@ -148,7 +228,7 @@ const AgentPage = () => {
         <div className="text-center">
           <h1 className="text-2xl font-bold text-gray-900 mb-4">Agent Not Found</h1>
           <p className="text-gray-600 mb-4">The agent you're looking for doesn't exist.</p>
-          <Link to="/chat">
+          <Link to="/explore">
             <Button className="government-button">Browse Agents</Button>
           </Link>
         </div>

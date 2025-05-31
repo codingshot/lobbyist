@@ -1,4 +1,5 @@
 
+
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -108,40 +109,42 @@ const Index = () => {
                 <CarouselContent className="-ml-2 md:-ml-4">
                   {featuredAgents.map((agent) => (
                     <CarouselItem key={agent.id} className="pl-2 md:pl-4 md:basis-1/2 lg:basis-1/3">
-                      <Card className="government-card hover:shadow-lg transition-shadow h-full">
-                        <CardContent className="p-6 flex flex-col h-full">
-                          <div className="flex items-center space-x-4 mb-4">
-                            <div className="text-4xl">{agent.emoji}</div>
-                            <div className="flex-1 min-w-0">
-                              <h3 className="font-bold text-blue-900 truncate">{agent.name}</h3>
-                              <p className="text-sm text-slate-600 truncate">{agent.category}</p>
+                      <Link to={`/agent/${agent.id}`} className="block">
+                        <Card className="government-card hover:shadow-lg transition-shadow h-full cursor-pointer">
+                          <CardContent className="p-6 flex flex-col h-full">
+                            <div className="flex items-center space-x-4 mb-4">
+                              <div className="text-4xl">{agent.emoji}</div>
+                              <div className="flex-1 min-w-0">
+                                <h3 className="font-bold text-blue-900 truncate">{agent.name}</h3>
+                                <p className="text-sm text-slate-600 truncate">{agent.category}</p>
+                              </div>
                             </div>
-                          </div>
-                          <p className="text-slate-700 mb-4 flex-1 line-clamp-3">
-                            {agent.description}
-                          </p>
-                          <div className="flex justify-between items-center mb-4">
-                            <Badge variant="secondary" className="text-blue-700">{agent.model}</Badge>
-                            <div className="flex items-center space-x-1">
-                              <Star className="h-4 w-4 text-yellow-500 fill-current" />
-                              <span className="text-sm text-slate-600">{agent.rating}</span>
+                            <p className="text-slate-700 mb-4 flex-1 line-clamp-3">
+                              {agent.description}
+                            </p>
+                            <div className="flex justify-between items-center mb-4">
+                              <Badge variant="secondary" className="text-blue-700">{agent.model}</Badge>
+                              <div className="flex items-center space-x-1">
+                                <Star className="h-4 w-4 text-yellow-500 fill-current" />
+                                <span className="text-sm text-slate-600">{agent.rating}</span>
+                              </div>
                             </div>
-                          </div>
-                          <div className="flex justify-between items-center">
-                            <span className="text-sm text-slate-600">{agent.followers} followers</span>
-                            <div className="flex space-x-2">
-                              <Link to={`/agent/${agent.id}`}>
-                                <Button className="government-button" size="sm">View Agent</Button>
-                              </Link>
-                              <Link to="/chat">
-                                <Button variant="outline" size="sm" className="government-button-outline">
-                                  <MessageCircle className="h-4 w-4" />
+                            <div className="flex justify-between items-center">
+                              <span className="text-sm text-slate-600">{agent.followers} followers</span>
+                              <div className="flex space-x-2">
+                                <Button className="government-button" size="sm" onClick={(e) => e.stopPropagation()}>
+                                  View Agent
                                 </Button>
-                              </Link>
+                                <Link to="/chat" onClick={(e) => e.stopPropagation()}>
+                                  <Button variant="outline" size="sm" className="government-button-outline">
+                                    <MessageCircle className="h-4 w-4" />
+                                  </Button>
+                                </Link>
+                              </div>
                             </div>
-                          </div>
-                        </CardContent>
-                      </Card>
+                          </CardContent>
+                        </Card>
+                      </Link>
                     </CarouselItem>
                   ))}
                 </CarouselContent>
@@ -349,3 +352,4 @@ const Index = () => {
 };
 
 export default Index;
+

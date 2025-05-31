@@ -1,4 +1,5 @@
 
+
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -188,40 +189,42 @@ const Explore = () => {
             {filteredAgents.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {filteredAgents.map((agent) => (
-                  <Card key={agent.id} className="government-card hover:shadow-lg transition-shadow cursor-pointer">
-                    <CardContent className="p-6">
-                      <div className="flex items-center space-x-4 mb-4">
-                        <div className="text-4xl">{agent.emoji}</div>
-                        <div>
-                          <h3 className="font-bold text-blue-900">{agent.name}</h3>
-                          <p className="text-sm text-slate-600">{agent.category}</p>
+                  <Link key={agent.id} to={`/agent/${agent.id}`} className="block">
+                    <Card className="government-card hover:shadow-lg transition-shadow cursor-pointer h-full">
+                      <CardContent className="p-6 h-full flex flex-col">
+                        <div className="flex items-center space-x-4 mb-4">
+                          <div className="text-4xl">{agent.emoji}</div>
+                          <div>
+                            <h3 className="font-bold text-blue-900">{agent.name}</h3>
+                            <p className="text-sm text-slate-600">{agent.category}</p>
+                          </div>
                         </div>
-                      </div>
-                      <p className="text-slate-700 mb-4">
-                        {agent.description}
-                      </p>
-                      <div className="flex justify-between items-center mb-4">
-                        <Badge variant="secondary" className="text-blue-700">{agent.model}</Badge>
-                        <div className="flex items-center space-x-1">
-                          <Star className="h-4 w-4 text-yellow-500 fill-current" />
-                          <span className="text-sm text-slate-600">{agent.rating}</span>
+                        <p className="text-slate-700 mb-4 flex-1">
+                          {agent.description}
+                        </p>
+                        <div className="flex justify-between items-center mb-4">
+                          <Badge variant="secondary" className="text-blue-700">{agent.model}</Badge>
+                          <div className="flex items-center space-x-1">
+                            <Star className="h-4 w-4 text-yellow-500 fill-current" />
+                            <span className="text-sm text-slate-600">{agent.rating}</span>
+                          </div>
                         </div>
-                      </div>
-                      <div className="flex justify-between items-center">
-                        <span className="text-sm text-slate-600">{agent.followers} followers</span>
-                        <div className="flex space-x-2">
-                          <Link to={`/agent/${agent.id}`}>
-                            <Button className="government-button" size="sm">View Agent</Button>
-                          </Link>
-                          <Link to="/chat">
-                            <Button variant="outline" size="sm" className="government-button-outline">
-                              <MessageCircle className="h-4 w-4" />
+                        <div className="flex justify-between items-center">
+                          <span className="text-sm text-slate-600">{agent.followers} followers</span>
+                          <div className="flex space-x-2">
+                            <Button className="government-button" size="sm" onClick={(e) => e.stopPropagation()}>
+                              View Agent
                             </Button>
-                          </Link>
+                            <Link to="/chat" onClick={(e) => e.stopPropagation()}>
+                              <Button variant="outline" size="sm" className="government-button-outline">
+                                <MessageCircle className="h-4 w-4" />
+                              </Button>
+                            </Link>
+                          </div>
                         </div>
-                      </div>
-                    </CardContent>
-                  </Card>
+                      </CardContent>
+                    </Card>
+                  </Link>
                 ))}
               </div>
             ) : (
@@ -263,3 +266,4 @@ const Explore = () => {
 };
 
 export default Explore;
+
