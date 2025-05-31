@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -11,6 +13,33 @@ import { Helmet } from "react-helmet-async";
 
 // Chat context storage
 const chatContexts = new Map();
+
+const recentVotes = [
+  {
+    id: 1,
+    proposal: "EU Defence Budget Increase Proposal",
+    vote: "NAY",
+    reason: "The proposed €50B increase could fund 250,000 teacher salaries or 2M healthcare workers annually. Prioritizing education and healthcare over military expansion aligns with constituent welfare.",
+    timestamp: "2 hours ago",
+    engagement: "1,247"
+  },
+  {
+    id: 2,
+    proposal: "Climate Action Framework Amendment",
+    vote: "YEA",
+    reason: "Supporting renewable energy transition with €30B investment will create 500,000 green jobs and reduce carbon emissions by 40% by 2030. Essential for sustainable future.",
+    timestamp: "1 day ago",
+    engagement: "892"
+  },
+  {
+    id: 3,
+    proposal: "Digital Privacy Rights Legislation",
+    vote: "YEA",
+    reason: "Protecting citizen data privacy is fundamental to democratic values. This legislation ensures tech companies cannot exploit personal information without explicit consent.",
+    timestamp: "3 days ago",
+    engagement: "2,156"
+  }
+];
 
 const ConstituentInteractionHub = () => {
   const [selectedAgent, setSelectedAgent] = useState("rearm-europe");
