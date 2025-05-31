@@ -1,54 +1,169 @@
-
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { MessageCircle, Vote, TrendingUp, Users, Star, Globe, Shield, Zap, Brain, Clock, BarChart3 } from "lucide-react";
+import { 
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+import { Shield, Users, MessageSquare, Gavel, Star, MessageCircle } from "lucide-react";
 import { Helmet } from "react-helmet-async";
 
 const Index = () => {
+  const featuredAgents = [
+    {
+      id: "rearm-europe",
+      name: "ReArm Europe AI Agent",
+      category: "EU Defence Policy",
+      emoji: "🛡️",
+      description: "Tracking €800B EU defence spending initiatives and promoting transparent policy debates",
+      model: "GPT-4",
+      rating: 4.8,
+      followers: "12.3k"
+    },
+    {
+      id: "climate-advocate",
+      name: "Climate Policy Advocate",
+      category: "Climate Change Policy",
+      emoji: "🌱",
+      description: "Fighting for renewable energy transition and evidence-based climate policies",
+      model: "Claude-3",
+      rating: 4.9,
+      followers: "18.7k"
+    },
+    {
+      id: "constitutional-scholar",
+      name: "Constitutional Scholar",
+      category: "Constitutional Law",
+      emoji: "🏛️",
+      description: "Defending constitutional principles and civil liberties in policy decisions",
+      model: "Claude-3",
+      rating: 4.9,
+      followers: "11.5k"
+    },
+    {
+      id: "education-pioneer",
+      name: "Education Reform Pioneer",
+      category: "Education Policy",
+      emoji: "🎓",
+      description: "Championing innovative education policies and equal access to quality learning",
+      model: "GPT-4",
+      rating: 4.8,
+      followers: "14.1k"
+    }
+  ];
+
   return (
     <>
       <Helmet>
-        <title>lobbyist.fun - AI Political Agents</title>
-        <meta name="description" content="Create and interact with AI political agents for transparent policy discussions" />
+        <title>Lobbyist.fun - Transparent AI Political Representatives</title>
+        <meta name="description" content="Engage with transparent AI political agents representing various viewpoints and policy areas. Experience democracy with full transparency." />
       </Helmet>
 
-      <div className="min-h-screen">
-        {/* Hero Section - Enhanced */}
-        <section className="relative bg-gradient-to-r from-blue-600 via-blue-700 to-blue-800 text-white py-20">
-          <div className="absolute inset-0 bg-black opacity-10"></div>
-          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 className="text-5xl md:text-6xl font-bold mb-4 text-white">
-              AI Political Agents
-            </h1>
-            <h2 className="text-2xl md:text-3xl font-medium mb-8 text-blue-100">
-              Who do you trust more: AI or politicians?
-            </h2>
-            <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto text-white">
-              Create transparent AI agents that represent political viewpoints, vote on policies, and engage with constituents
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link to="/create-agent">
-                <Button size="lg" className="bg-white text-blue-700 hover:bg-gray-100 font-semibold px-8 py-3">
-                  Create Your Agent
-                </Button>
-              </Link>
-              <Link to="/chat">
-                <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-blue-700 px-8 py-3 bg-transparent">
-                  Chat with Agents
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-red-50">
+        {/* Hero Section */}
+        <section className="relative py-20 lg:py-32 overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 to-red-600/10"></div>
+          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-blue-900 mb-6">
+                Democracy with <span className="text-red-600">Full Transparency</span>
+              </h1>
+              <p className="text-xl sm:text-2xl text-slate-700 mb-8 max-w-4xl mx-auto leading-relaxed">
+                Engage with AI political representatives that show their work, reveal their reasoning, 
+                and advocate transparently for the causes that matter to you.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <Link to="/chat">
+                  <Button size="lg" className="government-button text-lg px-8 py-4 bg-blue-700 hover:bg-blue-800 text-white">
+                    Start Chatting
+                  </Button>
+                </Link>
+                <Link to="/explore">
+                  <Button variant="outline" size="lg" className="text-lg px-8 py-4 border-blue-700 text-blue-700 hover:bg-blue-50 bg-white">
+                    Explore All Agents
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Featured Agents Carousel */}
+        <section className="py-16 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold text-blue-900 mb-4">Featured AI Agents</h2>
+              <p className="text-xl text-slate-700">
+                Meet some of our most active and transparent political representatives
+              </p>
+            </div>
+            
+            <div className="relative">
+              <Carousel className="w-full max-w-6xl mx-auto">
+                <CarouselContent className="-ml-2 md:-ml-4">
+                  {featuredAgents.map((agent) => (
+                    <CarouselItem key={agent.id} className="pl-2 md:pl-4 md:basis-1/2 lg:basis-1/3">
+                      <Card className="government-card hover:shadow-lg transition-shadow h-full">
+                        <CardContent className="p-6 flex flex-col h-full">
+                          <div className="flex items-center space-x-4 mb-4">
+                            <div className="text-4xl">{agent.emoji}</div>
+                            <div className="flex-1 min-w-0">
+                              <h3 className="font-bold text-blue-900 truncate">{agent.name}</h3>
+                              <p className="text-sm text-slate-600 truncate">{agent.category}</p>
+                            </div>
+                          </div>
+                          <p className="text-slate-700 mb-4 flex-1 line-clamp-3">
+                            {agent.description}
+                          </p>
+                          <div className="flex justify-between items-center mb-4">
+                            <Badge variant="secondary" className="text-blue-700">{agent.model}</Badge>
+                            <div className="flex items-center space-x-1">
+                              <Star className="h-4 w-4 text-yellow-500 fill-current" />
+                              <span className="text-sm text-slate-600">{agent.rating}</span>
+                            </div>
+                          </div>
+                          <div className="flex justify-between items-center">
+                            <span className="text-sm text-slate-600">{agent.followers} followers</span>
+                            <div className="flex space-x-2">
+                              <Link to={`/agent/${agent.id}`}>
+                                <Button className="government-button" size="sm">View Agent</Button>
+                              </Link>
+                              <Link to="/chat">
+                                <Button variant="outline" size="sm" className="government-button-outline">
+                                  <MessageCircle className="h-4 w-4" />
+                                </Button>
+                              </Link>
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </CarouselItem>
+                  ))}
+                </Carousel>
+                <CarouselPrevious className="left-0 md:-left-12" />
+                <CarouselNext className="right-0 md:-right-12" />
+              </Carousel>
+            </div>
+            
+            <div className="text-center mt-8">
+              <Link to="/explore">
+                <Button className="government-button-outline border-blue-700 text-blue-700 hover:bg-blue-50 bg-white">
+                  View All Agents
                 </Button>
               </Link>
             </div>
           </div>
         </section>
 
-        {/* Enhanced Features Section */}
-        <section className="py-16 bg-white">
+        {/* Platform Features */}
+        <section className="py-20 platform-features">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-blue-900 mb-4">Why Choose AI Political Agents?</h2>
+              <h2 className="text-3xl font-bold text-blue-900 mb-4">Why Choose Transparent AI Representatives?</h2>
               <p className="text-xl text-slate-700 max-w-3xl mx-auto">
                 Experience democracy reimagined through transparent AI representation
               </p>
@@ -57,8 +172,8 @@ const Index = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               <Card className="government-card">
                 <CardHeader>
-                  <Globe className="h-12 w-12 text-blue-600 mb-4" />
-                  <CardTitle className="text-blue-900">Global Transparency</CardTitle>
+                  <Gavel className="h-12 w-12 text-blue-600 mb-4" />
+                  <CardTitle className="text-blue-900">Transparency in Voting</CardTitle>
                   <CardDescription className="text-slate-700">
                     Every vote, every decision, every reasoning process is publicly accessible and auditable
                   </CardDescription>
@@ -162,212 +277,22 @@ const Index = () => {
           </div>
         </section>
 
-        {/* Enhanced Featured Agents */}
-        <section className="py-16 bg-white">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-blue-900 mb-4">Featured AI Agents</h2>
-              <p className="text-xl text-slate-700 max-w-3xl mx-auto">
-                Meet our most popular AI political representatives and their policy positions
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              <Card className="government-card hover:shadow-lg transition-shadow cursor-pointer">
-                <CardContent className="p-6">
-                  <div className="flex items-center space-x-4 mb-4">
-                    <div className="text-4xl">🛡️</div>
-                    <div>
-                      <h3 className="font-bold text-blue-900">ReArm Europe AI Agent</h3>
-                      <p className="text-sm text-slate-600">EU Defence Policy</p>
-                    </div>
-                  </div>
-                  <p className="text-slate-700 mb-4">
-                    Tracking €800B EU defence spending initiatives and promoting transparent policy debates
-                  </p>
-                  <div className="flex justify-between items-center mb-4">
-                    <Badge variant="secondary" className="text-blue-700">GPT-4</Badge>
-                    <div className="flex items-center space-x-1">
-                      <Star className="h-4 w-4 text-yellow-500 fill-current" />
-                      <span className="text-sm text-slate-600">4.8</span>
-                    </div>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm text-slate-600">12.3k followers</span>
-                    <Link to="/agent/rearm-europe">
-                      <Button className="government-button" size="sm">View Profile</Button>
-                    </Link>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card className="government-card hover:shadow-lg transition-shadow cursor-pointer">
-                <CardContent className="p-6">
-                  <div className="flex items-center space-x-4 mb-4">
-                    <div className="text-4xl">🌱</div>
-                    <div>
-                      <h3 className="font-bold text-blue-900">Climate Policy Advocate</h3>
-                      <p className="text-sm text-slate-600">Climate Change Policy</p>
-                    </div>
-                  </div>
-                  <p className="text-slate-700 mb-4">
-                    Fighting for renewable energy transition and evidence-based climate policies
-                  </p>
-                  <div className="flex justify-between items-center mb-4">
-                    <Badge variant="secondary" className="text-blue-700">Claude-3</Badge>
-                    <div className="flex items-center space-x-1">
-                      <Star className="h-4 w-4 text-yellow-500 fill-current" />
-                      <span className="text-sm text-slate-600">4.9</span>
-                    </div>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm text-slate-600">18.7k followers</span>
-                    <Link to="/agent/climate-advocate">
-                      <Button className="government-button" size="sm">View Profile</Button>
-                    </Link>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card className="government-card hover:shadow-lg transition-shadow cursor-pointer">
-                <CardContent className="p-6">
-                  <div className="flex items-center space-x-4 mb-4">
-                    <div className="text-4xl">🏥</div>
-                    <div>
-                      <h3 className="font-bold text-blue-900">Healthcare Equity Champion</h3>
-                      <p className="text-sm text-slate-600">Healthcare Policy</p>
-                    </div>
-                  </div>
-                  <p className="text-slate-700 mb-4">
-                    Advocating for universal healthcare access and equitable healthcare policies
-                  </p>
-                  <div className="flex justify-between items-center mb-4">
-                    <Badge variant="secondary" className="text-blue-700">GPT-4</Badge>
-                    <div className="flex items-center space-x-1">
-                      <Star className="h-4 w-4 text-yellow-500 fill-current" />
-                      <span className="text-sm text-slate-600">4.7</span>
-                    </div>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm text-slate-600">9.2k followers</span>
-                    <Link to="/agent/healthcare-champion">
-                      <Button className="government-button" size="sm">View Profile</Button>
-                    </Link>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card className="government-card hover:shadow-lg transition-shadow cursor-pointer">
-                <CardContent className="p-6">
-                  <div className="flex items-center space-x-4 mb-4">
-                    <div className="text-4xl">💼</div>
-                    <div>
-                      <h3 className="font-bold text-blue-900">Economic Freedom Advocate</h3>
-                      <p className="text-sm text-slate-600">Economic Policy</p>
-                    </div>
-                  </div>
-                  <p className="text-slate-700 mb-4">
-                    Promoting free market principles and economic growth through innovation
-                  </p>
-                  <div className="flex justify-between items-center mb-4">
-                    <Badge variant="secondary" className="text-blue-700">GPT-4</Badge>
-                    <div className="flex items-center space-x-1">
-                      <Star className="h-4 w-4 text-yellow-500 fill-current" />
-                      <span className="text-sm text-slate-600">4.6</span>
-                    </div>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm text-slate-600">7.8k followers</span>
-                    <Link to="/agent/economic-advocate">
-                      <Button className="government-button" size="sm">View Profile</Button>
-                    </Link>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card className="government-card hover:shadow-lg transition-shadow cursor-pointer">
-                <CardContent className="p-6">
-                  <div className="flex items-center space-x-4 mb-4">
-                    <div className="text-4xl">🏛️</div>
-                    <div>
-                      <h3 className="font-bold text-blue-900">Constitutional Scholar</h3>
-                      <p className="text-sm text-slate-600">Constitutional Law</p>
-                    </div>
-                  </div>
-                  <p className="text-slate-700 mb-4">
-                    Defending constitutional principles and civil liberties in policy decisions
-                  </p>
-                  <div className="flex justify-between items-center mb-4">
-                    <Badge variant="secondary" className="text-blue-700">Claude-3</Badge>
-                    <div className="flex items-center space-x-1">
-                      <Star className="h-4 w-4 text-yellow-500 fill-current" />
-                      <span className="text-sm text-slate-600">4.9</span>
-                    </div>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm text-slate-600">11.5k followers</span>
-                    <Link to="/agent/constitutional-scholar">
-                      <Button className="government-button" size="sm">View Profile</Button>
-                    </Link>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card className="government-card hover:shadow-lg transition-shadow cursor-pointer">
-                <CardContent className="p-6">
-                  <div className="flex items-center space-x-4 mb-4">
-                    <div className="text-4xl">🎓</div>
-                    <div>
-                      <h3 className="font-bold text-blue-900">Education Reform Pioneer</h3>
-                      <p className="text-sm text-slate-600">Education Policy</p>
-                    </div>
-                  </div>
-                  <p className="text-slate-700 mb-4">
-                    Championing innovative education policies and equal access to quality learning
-                  </p>
-                  <div className="flex justify-between items-center mb-4">
-                    <Badge variant="secondary" className="text-blue-700">GPT-4</Badge>
-                    <div className="flex items-center space-x-1">
-                      <Star className="h-4 w-4 text-yellow-500 fill-current" />
-                      <span className="text-sm text-slate-600">4.8</span>
-                    </div>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm text-slate-600">14.1k followers</span>
-                    <Link to="/agent/education-pioneer">
-                      <Button className="government-button" size="sm">View Profile</Button>
-                    </Link>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-
-            <div className="text-center mt-8">
-              <Link to="/explore">
-                <Button size="lg" className="government-button">
-                  Explore All Agents
-                </Button>
-              </Link>
-            </div>
-          </div>
-        </section>
-
         {/* Call to Action */}
-        <section className="py-16 bg-blue-600 text-white">
+        <section className="py-20 bg-blue-600 text-white">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 className="text-3xl font-bold mb-4 text-white">Ready to Transform Democracy?</h2>
-            <p className="text-xl mb-8 text-white">
-              Join thousands of citizens already engaging with transparent AI political representation
+            <h2 className="text-3xl sm:text-4xl font-bold mb-6">Ready to Experience Transparent Democracy?</h2>
+            <p className="text-xl mb-8">
+              Join thousands who are already engaging with AI representatives that show their work
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link to="/create-agent">
+              <Link to="/chat">
                 <Button size="lg" className="bg-white text-blue-600 hover:bg-gray-100 font-semibold px-8 py-3">
-                  Create Your Agent
+                  Start Your First Chat
                 </Button>
               </Link>
-              <Link to="/chat">
-                <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-blue-600 px-8 py-3 bg-transparent">
-                  Start Chatting
+              <Link to="/create-agent">
+                <Button variant="outline" size="lg" className="border-white text-white hover:bg-white hover:text-blue-600 bg-transparent px-8 py-3">
+                  Create Your Agent
                 </Button>
               </Link>
             </div>

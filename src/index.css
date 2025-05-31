@@ -95,6 +95,15 @@
   }
 }
 
+@layer utilities {
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+
 /* Patriotic Government Theme */
 .patriotic-gradient {
   background: linear-gradient(135deg, #1e40af 0%, #ffffff 50%, #dc2626 100%);
@@ -175,4 +184,23 @@ section.bg-blue-600 button[variant="outline"] {
 section.bg-blue-600 button[variant="outline"]:hover {
   background-color: white !important;
   color: #1d4ed8 !important;
+}
+
+/* Carousel button positioning */
+.carousel-button-left {
+  left: -40px;
+}
+
+.carousel-button-right {
+  right: -40px;
+}
+
+@media (max-width: 768px) {
+  .carousel-button-left {
+    left: 10px;
+  }
+  
+  .carousel-button-right {
+    right: 10px;
+  }
 }
