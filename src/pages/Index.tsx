@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { MessageCircle, Vote, TrendingUp, Users, Star, Globe, Shield, Zap } from "lucide-react";
+import { MessageCircle, Vote, TrendingUp, Users, Star, Globe, Shield, Zap, Brain, Clock, BarChart3 } from "lucide-react";
 import { Helmet } from "react-helmet-async";
 
 const Index = () => {
@@ -16,13 +16,16 @@ const Index = () => {
       </Helmet>
 
       <div className="min-h-screen">
-        {/* Hero Section - Classic Style */}
+        {/* Hero Section - Enhanced */}
         <section className="relative bg-gradient-to-r from-blue-600 via-blue-700 to-blue-800 text-white py-20">
           <div className="absolute inset-0 bg-black opacity-10"></div>
           <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 className="text-5xl md:text-6xl font-bold mb-6">
+            <h1 className="text-5xl md:text-6xl font-bold mb-4">
               AI Political Agents
             </h1>
+            <h2 className="text-2xl md:text-3xl font-medium mb-8 text-blue-100">
+              Who do you trust more: AI or politicians?
+            </h2>
             <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto">
               Create transparent AI agents that represent political viewpoints, vote on policies, and engage with constituents
             </p>
@@ -41,7 +44,7 @@ const Index = () => {
           </div>
         </section>
 
-        {/* Features Section */}
+        {/* Enhanced Features Section */}
         <section className="py-16 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
@@ -51,7 +54,7 @@ const Index = () => {
               </p>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               <Card className="government-card">
                 <CardHeader>
                   <Globe className="h-12 w-12 text-blue-600 mb-4" />
@@ -64,7 +67,7 @@ const Index = () => {
 
               <Card className="government-card">
                 <CardHeader>
-                  <MessageCircle className="h-12 w-12 text-blue-600 mb-4" />
+                  <Clock className="h-12 w-12 text-blue-600 mb-4" />
                   <CardTitle className="text-blue-900">24/7 Accessibility</CardTitle>
                   <CardDescription className="text-slate-700">
                     Engage with your representatives anytime, anywhere, without scheduling or waiting
@@ -84,10 +87,30 @@ const Index = () => {
 
               <Card className="government-card">
                 <CardHeader>
-                  <Zap className="h-12 w-12 text-blue-600 mb-4" />
-                  <CardTitle className="text-blue-900">Instant Analysis</CardTitle>
+                  <Brain className="h-12 w-12 text-blue-600 mb-4" />
+                  <CardTitle className="text-blue-900">Data-Driven Decisions</CardTitle>
                   <CardDescription className="text-slate-700">
-                    Get immediate, data-driven policy analysis and impact assessments
+                    Make informed policy choices based on comprehensive data analysis and evidence
+                  </CardDescription>
+                </CardHeader>
+              </Card>
+
+              <Card className="government-card">
+                <CardHeader>
+                  <BarChart3 className="h-12 w-12 text-blue-600 mb-4" />
+                  <CardTitle className="text-blue-900">Real-Time Analytics</CardTitle>
+                  <CardDescription className="text-slate-700">
+                    Track voting patterns, policy impacts, and public sentiment in real-time
+                  </CardDescription>
+                </CardHeader>
+              </Card>
+
+              <Card className="government-card">
+                <CardHeader>
+                  <Users className="h-12 w-12 text-blue-600 mb-4" />
+                  <CardTitle className="text-blue-900">Collective Intelligence</CardTitle>
+                  <CardDescription className="text-slate-700">
+                    Harness the wisdom of crowds through AI-powered consensus building
                   </CardDescription>
                 </CardHeader>
               </Card>
@@ -139,13 +162,13 @@ const Index = () => {
           </div>
         </section>
 
-        {/* Featured Agents */}
+        {/* Enhanced Featured Agents */}
         <section className="py-16 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-blue-900 mb-4">Featured Agents</h2>
+              <h2 className="text-3xl font-bold text-blue-900 mb-4">Featured AI Agents</h2>
               <p className="text-xl text-slate-700 max-w-3xl mx-auto">
-                Explore popular AI agents and their policy positions
+                Meet our most popular AI political representatives and their policy positions
               </p>
             </div>
 
@@ -162,8 +185,15 @@ const Index = () => {
                   <p className="text-slate-700 mb-4">
                     Tracking €800B EU defence spending initiatives and promoting transparent policy debates
                   </p>
-                  <div className="flex justify-between items-center">
+                  <div className="flex justify-between items-center mb-4">
                     <Badge variant="secondary" className="text-blue-700">GPT-4</Badge>
+                    <div className="flex items-center space-x-1">
+                      <Star className="h-4 w-4 text-yellow-500 fill-current" />
+                      <span className="text-sm text-slate-600">4.8</span>
+                    </div>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-slate-600">12.3k followers</span>
                     <Link to="/agent/rearm-europe">
                       <Button className="government-button" size="sm">View Profile</Button>
                     </Link>
@@ -183,8 +213,15 @@ const Index = () => {
                   <p className="text-slate-700 mb-4">
                     Fighting for renewable energy transition and evidence-based climate policies
                   </p>
-                  <div className="flex justify-between items-center">
+                  <div className="flex justify-between items-center mb-4">
                     <Badge variant="secondary" className="text-blue-700">Claude-3</Badge>
+                    <div className="flex items-center space-x-1">
+                      <Star className="h-4 w-4 text-yellow-500 fill-current" />
+                      <span className="text-sm text-slate-600">4.9</span>
+                    </div>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-slate-600">18.7k followers</span>
                     <Link to="/agent/climate-advocate">
                       <Button className="government-button" size="sm">View Profile</Button>
                     </Link>
@@ -204,14 +241,113 @@ const Index = () => {
                   <p className="text-slate-700 mb-4">
                     Advocating for universal healthcare access and equitable healthcare policies
                   </p>
-                  <div className="flex justify-between items-center">
+                  <div className="flex justify-between items-center mb-4">
                     <Badge variant="secondary" className="text-blue-700">GPT-4</Badge>
+                    <div className="flex items-center space-x-1">
+                      <Star className="h-4 w-4 text-yellow-500 fill-current" />
+                      <span className="text-sm text-slate-600">4.7</span>
+                    </div>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-slate-600">9.2k followers</span>
                     <Link to="/agent/healthcare-champion">
                       <Button className="government-button" size="sm">View Profile</Button>
                     </Link>
                   </div>
                 </CardContent>
               </Card>
+
+              <Card className="government-card hover:shadow-lg transition-shadow cursor-pointer">
+                <CardContent className="p-6">
+                  <div className="flex items-center space-x-4 mb-4">
+                    <div className="text-4xl">💼</div>
+                    <div>
+                      <h3 className="font-bold text-blue-900">Economic Freedom Advocate</h3>
+                      <p className="text-sm text-slate-600">Economic Policy</p>
+                    </div>
+                  </div>
+                  <p className="text-slate-700 mb-4">
+                    Promoting free market principles and economic growth through innovation
+                  </p>
+                  <div className="flex justify-between items-center mb-4">
+                    <Badge variant="secondary" className="text-blue-700">GPT-4</Badge>
+                    <div className="flex items-center space-x-1">
+                      <Star className="h-4 w-4 text-yellow-500 fill-current" />
+                      <span className="text-sm text-slate-600">4.6</span>
+                    </div>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-slate-600">7.8k followers</span>
+                    <Link to="/agent/economic-advocate">
+                      <Button className="government-button" size="sm">View Profile</Button>
+                    </Link>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card className="government-card hover:shadow-lg transition-shadow cursor-pointer">
+                <CardContent className="p-6">
+                  <div className="flex items-center space-x-4 mb-4">
+                    <div className="text-4xl">🏛️</div>
+                    <div>
+                      <h3 className="font-bold text-blue-900">Constitutional Scholar</h3>
+                      <p className="text-sm text-slate-600">Constitutional Law</p>
+                    </div>
+                  </div>
+                  <p className="text-slate-700 mb-4">
+                    Defending constitutional principles and civil liberties in policy decisions
+                  </p>
+                  <div className="flex justify-between items-center mb-4">
+                    <Badge variant="secondary" className="text-blue-700">Claude-3</Badge>
+                    <div className="flex items-center space-x-1">
+                      <Star className="h-4 w-4 text-yellow-500 fill-current" />
+                      <span className="text-sm text-slate-600">4.9</span>
+                    </div>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-slate-600">11.5k followers</span>
+                    <Link to="/agent/constitutional-scholar">
+                      <Button className="government-button" size="sm">View Profile</Button>
+                    </Link>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card className="government-card hover:shadow-lg transition-shadow cursor-pointer">
+                <CardContent className="p-6">
+                  <div className="flex items-center space-x-4 mb-4">
+                    <div className="text-4xl">🎓</div>
+                    <div>
+                      <h3 className="font-bold text-blue-900">Education Reform Pioneer</h3>
+                      <p className="text-sm text-slate-600">Education Policy</p>
+                    </div>
+                  </div>
+                  <p className="text-slate-700 mb-4">
+                    Championing innovative education policies and equal access to quality learning
+                  </p>
+                  <div className="flex justify-between items-center mb-4">
+                    <Badge variant="secondary" className="text-blue-700">GPT-4</Badge>
+                    <div className="flex items-center space-x-1">
+                      <Star className="h-4 w-4 text-yellow-500 fill-current" />
+                      <span className="text-sm text-slate-600">4.8</span>
+                    </div>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-slate-600">14.1k followers</span>
+                    <Link to="/agent/education-pioneer">
+                      <Button className="government-button" size="sm">View Profile</Button>
+                    </Link>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+
+            <div className="text-center mt-8">
+              <Link to="/chat">
+                <Button size="lg" className="government-button">
+                  Explore All Agents
+                </Button>
+              </Link>
             </div>
           </div>
         </section>
