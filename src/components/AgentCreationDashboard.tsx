@@ -1,628 +1,551 @@
-
-import React, { useState } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
-import { Badge } from "@/components/ui/badge";
+import { Switch } from "@/components/ui/switch";
+import { Separator } from "@/components/ui/separator";
 import { Progress } from "@/components/ui/progress";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ArrowLeft, ArrowRight, User, Brain, FileText, Database, Settings, Eye, Upload, Globe, AlertCircle } from "lucide-react";
-import { Link } from "react-router-dom";
+import { 
+  Lightbulb, 
+  Users, 
+  MessageSquare, 
+  Vote, 
+  Settings, 
+  Plus,
+  Bot,
+  Brain,
+  Zap,
+  Shield,
+  Globe,
+  ChevronLeft,
+  ChevronRight,
+  Check
+} from "lucide-react";
 import { Helmet } from "react-helmet-async";
 
 const AgentCreationDashboard = () => {
   const [currentStep, setCurrentStep] = useState(0);
-  const [agentData, setAgentData] = useState({
-    name: "",
-    expertise: "",
-    personality: {
-      analytical: 50,
-      empathetic: 50,
-      assertive: 50,
-      collaborative: 50
-    },
-    backstory: "",
-    dataSources: [],
-    stance: "",
-    characteristics: {
-      communicationStyle: "professional",
-      decisionMaking: "data-driven",
-      transparency: "high",
-      engagement: "active"
-    }
+  const [selectedTemplate, setSelectedTemplate] = useState("");
+  const [agentName, setAgentName] = useState("");
+  const [agentDescription, setAgentDescription] = useState("");
+  const [selectedAI, setSelectedAI] = useState("");
+  const [personality, setPersonality] = useState({
+    analytical: 50,
+    empathetic: 50,
+    assertive: 50,
+    collaborative: 50
   });
 
   const steps = [
-    { id: "basic", title: "Basic Info", icon: User },
-    { id: "personality", title: "Personality", icon: Brain },
-    { id: "backstory", title: "Backstory", icon: FileText },
-    { id: "data", title: "Data Sources", icon: Database },
-    { id: "settings", title: "Settings", icon: Settings },
-    { id: "preview", title: "Deploy", icon: Eye }
-  ];
-
-  const expertiseOptions = [
-    "Defence Policy",
-    "Climate Change Policy", 
-    "Healthcare Policy",
-    "Education Policy",
-    "Economic Policy",
-    "International Relations",
-    "Custom"
-  ];
-
-  const supportedDataSources = [
-    { name: "PDF Documents", icon: "📄", supported: true },
-    { name: "Websites", icon: "🌐", supported: true },
-    { name: "Knowledge Bases", icon: "📚", supported: true },
-    { name: "EUR-Lex API", icon: "⚖️", supported: true },
-    { name: "OpenSecrets API", icon: "💰", supported: true },
-    { name: "Congressional API", icon: "🏛️", supported: true },
-    { name: "Twitter/X API", icon: "📱", supported: true },
-    { name: "Reddit API", icon: "🔴", supported: false },
-    { name: "LinkedIn API", icon: "💼", supported: false },
-    { name: "YouTube API", icon: "📺", supported: false }
+    { id: 0, title: "Choose Template", icon: Lightbulb },
+    { id: 1, title: "Basic Info", icon: Users },
+    { id: 2, title: "AI Configuration", icon: Brain },
+    { id: 3, title: "Personality", icon: MessageSquare },
+    { id: 4, title: "Policies", icon: Vote },
+    { id: 5, title: "Review", icon: Settings }
   ];
 
   const templates = [
     {
-      name: "ReArm Europe Template",
-      icon: "🛡️",
-      expertise: "Defence Policy",
-      backstory: "A dedicated advocate for European defense independence, monitoring the €800B EU defense initiative and its implications for social spending.",
-      stance: "Supports strategic defense investments while ensuring transparency in budget allocation and protecting social programs.",
-      personality: { analytical: 80, empathetic: 60, assertive: 70, collaborative: 50 }
+      id: "progressive",
+      name: "Progressive Advocate",
+      description: "Focus on social justice, climate action, and economic equality",
+      avatar: "🌱",
+      color: "green",
+      policies: ["Climate Action", "Healthcare Access", "Education Funding"]
     },
     {
-      name: "Climate Advocate Template", 
-      icon: "🌱",
-      expertise: "Climate Change Policy",
-      backstory: "A passionate environmentalist focused on accelerating the transition to renewable energy and implementing comprehensive climate legislation.",
-      stance: "Champions aggressive climate action, carbon pricing, and green new deal policies while supporting affected workers.",
-      personality: { analytical: 70, empathetic: 80, assertive: 90, collaborative: 70 }
+      id: "conservative",
+      name: "Constitutional Conservative", 
+      description: "Emphasis on limited government, fiscal responsibility, and traditional values",
+      avatar: "🇺🇸",
+      color: "red",
+      policies: ["Fiscal Responsibility", "Constitutional Rights", "Strong Defense"]
     },
     {
-      name: "Healthcare Champion Template",
-      icon: "🏥", 
-      expertise: "Healthcare Policy",
-      backstory: "A healthcare policy expert advocating for universal coverage, drug pricing reform, and increased medical research funding.",
-      stance: "Supports Medicare for All, prescription drug price controls, and substantial increases in NIH funding.",
-      personality: { analytical: 75, empathetic: 90, assertive: 60, collaborative: 80 }
+      id: "libertarian",
+      name: "Liberty Champion",
+      description: "Maximum individual freedom with minimal government intervention",
+      avatar: "🗽",
+      color: "yellow",
+      policies: ["Individual Rights", "Free Markets", "Limited Government"]
+    },
+    {
+      id: "centrist",
+      name: "Pragmatic Centrist",
+      description: "Balanced approach seeking practical solutions across party lines",
+      avatar: "⚖️",
+      color: "blue", 
+      policies: ["Bipartisan Solutions", "Evidence-Based Policy", "Moderate Approach"]
     }
   ];
 
-  const personalityTraits = {
-    analytical: {
-      description: "How data-driven and logical the agent is in decision making",
-      low: "Intuitive and emotion-based",
-      high: "Data-driven and logical"
+  const aiModels = [
+    {
+      id: "gpt-4",
+      name: "GPT-4",
+      provider: "OpenAI",
+      description: "Most advanced reasoning and analysis",
+      cost: "High",
+      speed: "Medium"
     },
-    empathetic: {
-      description: "How much the agent considers emotional and human impact",
-      low: "Focuses on facts over feelings",
-      high: "Highly considers human impact"
+    {
+      id: "claude-3",
+      name: "Claude-3 Sonnet",
+      provider: "Anthropic", 
+      description: "Excellent at nuanced political discussion",
+      cost: "Medium",
+      speed: "Fast"
     },
-    assertive: {
-      description: "How strongly the agent advocates for its positions",
-      low: "Diplomatic and compromising",
-      high: "Strong and unwavering"
-    },
-    collaborative: {
-      description: "How willing the agent is to work with opposing views",
-      low: "Independent and firm",
-      high: "Seeks consensus and partnership"
+    {
+      id: "gpt-3.5-turbo",
+      name: "GPT-3.5 Turbo",
+      provider: "OpenAI",
+      description: "Fast and cost-effective for most tasks",
+      cost: "Low",
+      speed: "Very Fast"
     }
-  };
+  ];
 
-  const applyTemplate = (template: typeof templates[0]) => {
-    setAgentData({
-      ...agentData,
-      name: template.name.replace(" Template", " AI Agent"),
-      expertise: template.expertise,
-      backstory: template.backstory,
-      stance: template.stance,
-      personality: template.personality
-    });
-  };
-
-  const handleNext = () => {
+  const nextStep = () => {
     if (currentStep < steps.length - 1) {
       setCurrentStep(currentStep + 1);
     }
   };
 
-  const handlePrev = () => {
+  const prevStep = () => {
     if (currentStep > 0) {
       setCurrentStep(currentStep - 1);
     }
   };
 
-  const progress = ((currentStep + 1) / steps.length) * 100;
+  const handleTemplateSelect = (templateId: string) => {
+    setSelectedTemplate(templateId);
+    const template = templates.find(t => t.id === templateId);
+    if (template) {
+      setAgentName(template.name);
+      setAgentDescription(template.description);
+    }
+  };
 
   return (
     <>
       <Helmet>
-        <title>Deploy Agent - lobbyist.fun</title>
-        <meta name="description" content="Deploy your own AI political agent with custom expertise, personality, and policy positions." />
+        <title>Create Agent - lobbyist.fun</title>
+        <meta name="description" content="Create your own AI political agent" />
       </Helmet>
 
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-red-50">
-        {/* Header */}
-        <div className="bg-white border-b border-blue-200 shadow-sm">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+      <div className="min-h-screen">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          {/* Progress Steps */}
+          <div className="mb-8">
             <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-4">
-                <Link to="/" className="flex items-center space-x-2">
-                  <span className="text-2xl">🏛️</span>
-                  <span className="text-xl font-bold text-blue-900">lobbyist.fun</span>
-                </Link>
-                <div className="hidden sm:block text-blue-300">|</div>
-                <h1 className="hidden sm:block text-lg font-semibold text-blue-900">Deploy Agent</h1>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Button variant="outline" size="sm" className="government-button-outline">Save Draft</Button>
-                <Link to="/">
-                  <Button variant="outline" size="sm" className="government-button-outline">
-                    <ArrowLeft className="h-4 w-4 mr-2" />
-                    <span className="hidden sm:inline">Back</span>
-                  </Button>
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Progress Bar */}
-        <div className="bg-white border-b border-blue-200">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-            <div className="flex items-center justify-between mb-4">
-              <span className="text-sm text-gray-600">Step {currentStep + 1} of {steps.length}</span>
-              <span className="text-sm text-gray-600">{Math.round(progress)}% Complete</span>
-            </div>
-            <Progress value={progress} className="mb-4" />
-            
-            {/* Desktop Step Navigation */}
-            <div className="hidden lg:flex justify-between">
               {steps.map((step, index) => (
-                <div key={step.id} className={`flex items-center space-x-2 ${index <= currentStep ? 'text-blue-600' : 'text-slate-400'}`}>
-                  <step.icon className="h-5 w-5" />
-                  <span className="text-sm font-medium">{step.title}</span>
+                <div key={step.id} className="flex items-center">
+                  <div className={`flex items-center justify-center w-12 h-12 rounded-full border-2 ${
+                    index <= currentStep 
+                      ? 'bg-blue-600 border-blue-600 text-white' 
+                      : 'border-slate-300 text-slate-400'
+                  }`}>
+                    {index < currentStep ? (
+                      <Check className="h-6 w-6" />
+                    ) : (
+                      <step.icon className="h-6 w-6" />
+                    )}
+                  </div>
+                  <div className="ml-3">
+                    <div className={`text-sm font-medium ${
+                      index <= currentStep ? 'text-blue-900' : 'text-slate-500'
+                    }`}>
+                      {step.title}
+                    </div>
+                  </div>
+                  {index < steps.length - 1 && (
+                    <div className={`w-16 h-1 mx-4 ${
+                      index < currentStep ? 'bg-blue-600' : 'bg-slate-300'
+                    }`} />
+                  )}
                 </div>
               ))}
             </div>
-
-            {/* Mobile Step Navigation */}
-            <div className="lg:hidden">
-              <div className="flex items-center space-x-2 text-blue-600">
-                {React.createElement(steps[currentStep].icon, { className: "h-5 w-5" })}
-                <span className="text-sm font-medium">{steps[currentStep].title}</span>
-              </div>
-            </div>
           </div>
-        </div>
 
-        {/* Main Content */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Form Section */}
-            <div className="lg:col-span-2">
-              <Card className="government-card">
-                <CardHeader>
-                  <CardTitle className="flex items-center space-x-2 text-blue-900">
-                    {React.createElement(steps[currentStep].icon, { className: "h-6 w-6" })}
-                    <span>{steps[currentStep].title}</span>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-6">
-                  {/* Basic Info Step */}
-                  {currentStep === 0 && (
+          {/* Step Content */}
+          <Card className="government-card mb-8">
+            <CardContent className="p-8">
+              {/* Step 0: Choose Template */}
+              {currentStep === 0 && (
+                <div className="space-y-6">
+                  <div className="text-center">
+                    <h2 className="text-2xl font-bold text-blue-900 mb-2">Choose Your Agent Template</h2>
+                    <p className="text-slate-600">Start with a pre-configured template or build from scratch</p>
+                  </div>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {templates.map((template) => (
+                      <Card 
+                        key={template.id}
+                        className={`cursor-pointer transition-all hover:shadow-lg ${
+                          selectedTemplate === template.id 
+                            ? 'ring-2 ring-blue-500 bg-blue-50' 
+                            : 'hover:bg-slate-50'
+                        }`}
+                        onClick={() => handleTemplateSelect(template.id)}
+                      >
+                        <CardContent className="p-6">
+                          <div className="flex items-center space-x-4 mb-4">
+                            <div className="text-4xl">{template.avatar}</div>
+                            <div>
+                              <h3 className="font-bold text-blue-900">{template.name}</h3>
+                              <p className="text-sm text-slate-600">{template.description}</p>
+                            </div>
+                          </div>
+                          <div className="flex flex-wrap gap-2">
+                            {template.policies.map((policy) => (
+                              <Badge key={policy} variant="outline" className="border-blue-300 text-blue-700">
+                                {policy}
+                              </Badge>
+                            ))}
+                          </div>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Step 1: Basic Info */}
+              {currentStep === 1 && (
+                <div className="space-y-6">
+                  <div className="text-center">
+                    <h2 className="text-2xl font-bold text-blue-900 mb-2">Agent Basic Information</h2>
+                    <p className="text-slate-600">Define your agent's identity and purpose</p>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-4">
                       <div>
-                        <Label htmlFor="agent-name">Agent Name</Label>
-                        <Input 
+                        <Label htmlFor="agent-name" className="text-slate-800">Agent Name</Label>
+                        <Input
                           id="agent-name"
-                          placeholder="e.g., ReArm Europe AI Agent"
-                          value={agentData.name}
-                          onChange={(e) => setAgentData({...agentData, name: e.target.value})}
+                          value={agentName}
+                          onChange={(e) => setAgentName(e.target.value)}
+                          placeholder="e.g., Progressive Climate Advocate"
                           className="border-blue-300 focus:border-blue-500"
                         />
                       </div>
+                      
                       <div>
-                        <Label htmlFor="expertise">Expertise Area</Label>
-                        <Select value={agentData.expertise} onValueChange={(value) => setAgentData({...agentData, expertise: value})}>
-                          <SelectTrigger className="border-blue-300">
-                            <SelectValue placeholder="Select expertise area" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {expertiseOptions.map((option) => (
-                              <SelectItem key={option} value={option}>{option}</SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
+                        <Label htmlFor="agent-description" className="text-slate-800">Description</Label>
+                        <Textarea
+                          id="agent-description"
+                          value={agentDescription}
+                          onChange={(e) => setAgentDescription(e.target.value)}
+                          placeholder="Describe your agent's mission and focus areas..."
+                          rows={4}
+                          className="border-blue-300 focus:border-blue-500"
+                        />
                       </div>
-                      {agentData.expertise === "Custom" && (
-                        <div>
-                          <Label htmlFor="custom-expertise">Custom Expertise</Label>
-                          <Input 
-                            id="custom-expertise"
-                            placeholder="Describe your custom expertise area"
-                            className="border-blue-300 focus:border-blue-500"
-                          />
-                        </div>
-                      )}
                     </div>
-                  )}
 
-                  {/* Personality Step */}
-                  {currentStep === 1 && (
-                    <div className="space-y-6">
-                      <div>
-                        <h3 className="text-lg font-semibold mb-4 text-blue-900">Personality Traits</h3>
-                        <p className="text-sm text-blue-700 mb-6">Define how your agent thinks, communicates, and makes decisions. These traits will influence every interaction.</p>
-                        {Object.entries(agentData.personality).map(([trait, value]) => (
-                          <div key={trait} className="space-y-3 mb-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
-                            <div className="flex justify-between items-start">
+                    <div className="bg-blue-50 p-6 rounded-lg">
+                      <h3 className="font-semibold text-blue-900 mb-4">Preview</h3>
+                      <div className="flex items-center space-x-3 mb-3">
+                        <div className="text-3xl">
+                          {selectedTemplate ? templates.find(t => t.id === selectedTemplate)?.avatar : '🤖'}
+                        </div>
+                        <div>
+                          <div className="font-medium text-blue-900">{agentName || 'Agent Name'}</div>
+                          <div className="text-sm text-slate-600">Active</div>
+                        </div>
+                      </div>
+                      <p className="text-sm text-slate-700">{agentDescription || 'Agent description will appear here...'}</p>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Step 2: AI Configuration */}
+              {currentStep === 2 && (
+                <div className="space-y-6">
+                  <div className="text-center">
+                    <h2 className="text-2xl font-bold text-blue-900 mb-2">AI Model Configuration</h2>
+                    <p className="text-slate-600">Choose the AI model that will power your agent</p>
+                  </div>
+
+                  <div className="grid grid-cols-1 gap-4">
+                    {aiModels.map((model) => (
+                      <Card 
+                        key={model.id}
+                        className={`cursor-pointer transition-all hover:shadow-lg ${
+                          selectedAI === model.id 
+                            ? 'ring-2 ring-blue-500 bg-blue-50' 
+                            : 'hover:bg-slate-50'
+                        }`}
+                        onClick={() => setSelectedAI(model.id)}
+                      >
+                        <CardContent className="p-6">
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center space-x-4">
+                              <Brain className="h-8 w-8 text-blue-600" />
                               <div>
-                                <Label className="capitalize font-semibold text-blue-900">{trait}</Label>
-                                <p className="text-sm text-blue-700 mt-1">{personalityTraits[trait as keyof typeof personalityTraits].description}</p>
+                                <h3 className="font-bold text-blue-900">{model.name}</h3>
+                                <p className="text-sm text-slate-600">by {model.provider}</p>
+                                <p className="text-sm text-slate-700 mt-1">{model.description}</p>
                               </div>
-                              <span className="text-sm font-medium text-blue-900 bg-white px-2 py-1 rounded">{value}%</span>
                             </div>
-                            <div className="space-y-2">
-                              <div className="flex justify-between text-xs text-blue-600">
-                                <span>{personalityTraits[trait as keyof typeof personalityTraits].low}</span>
-                                <span>{personalityTraits[trait as keyof typeof personalityTraits].high}</span>
-                              </div>
-                              <Slider
-                                value={[value]}
-                                onValueChange={([newValue]) => 
-                                  setAgentData({
-                                    ...agentData, 
-                                    personality: {...agentData.personality, [trait]: newValue}
-                                  })
-                                }
-                                max={100}
-                                step={1}
-                                className="w-full"
-                              />
+                            <div className="text-right space-y-1">
+                              <Badge variant="outline" className="border-blue-300 text-blue-700">
+                                Cost: {model.cost}
+                              </Badge>
+                              <br />
+                              <Badge variant="outline" className="border-green-300 text-green-700">
+                                Speed: {model.speed}
+                              </Badge>
                             </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Step 3: Personality */}
+              {currentStep === 3 && (
+                <div className="space-y-6">
+                  <div className="text-center">
+                    <h2 className="text-2xl font-bold text-blue-900 mb-2">Personality Configuration</h2>
+                    <p className="text-slate-600">Fine-tune how your agent communicates and makes decisions</p>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div className="space-y-6">
+                      {Object.entries(personality).map(([trait, value]) => (
+                        <div key={trait} className="space-y-3">
+                          <div className="flex justify-between items-center">
+                            <Label className="capitalize font-medium text-slate-800">{trait}</Label>
+                            <span className="text-sm text-slate-600">{value}%</span>
+                          </div>
+                          <Slider
+                            value={[value]}
+                            onValueChange={(newValue) => 
+                              setPersonality(prev => ({ ...prev, [trait]: newValue[0] }))
+                            }
+                            max={100}
+                            step={1}
+                            className="w-full"
+                          />
+                          <div className="text-xs text-slate-500">
+                            {trait === 'analytical' && 'How data-driven and logical the agent is'}
+                            {trait === 'empathetic' && 'How much the agent considers human emotions and feelings'}
+                            {trait === 'assertive' && 'How strongly the agent expresses its views'}
+                            {trait === 'collaborative' && 'How willing the agent is to compromise and work with others'}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="bg-blue-50 p-6 rounded-lg">
+                      <h3 className="font-semibold text-blue-900 mb-4">Personality Preview</h3>
+                      <div className="space-y-3">
+                        {Object.entries(personality).map(([trait, value]) => (
+                          <div key={trait} className="space-y-1">
+                            <div className="flex justify-between text-sm">
+                              <span className="capitalize text-slate-800">{trait}</span>
+                              <span className="text-slate-600">{value}%</span>
+                            </div>
+                            <Progress value={value} className="h-2" />
                           </div>
                         ))}
                       </div>
                       
-                      <div>
-                        <h3 className="text-lg font-semibold mb-4 text-blue-900">Communication Characteristics</h3>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                          <div>
-                            <Label>Communication Style</Label>
-                            <Select 
-                              value={agentData.characteristics.communicationStyle} 
-                              onValueChange={(value) => setAgentData({
-                                ...agentData, 
-                                characteristics: {...agentData.characteristics, communicationStyle: value}
-                              })}
-                            >
-                              <SelectTrigger>
-                                <SelectValue />
-                              </SelectTrigger>
-                              <SelectContent>
-                                <SelectItem value="professional">Professional</SelectItem>
-                                <SelectItem value="casual">Casual</SelectItem>
-                                <SelectItem value="formal">Formal</SelectItem>
-                                <SelectItem value="conversational">Conversational</SelectItem>
-                              </SelectContent>
-                            </Select>
-                          </div>
-                          
-                          <div>
-                            <Label>Decision Making</Label>
-                            <Select 
-                              value={agentData.characteristics.decisionMaking} 
-                              onValueChange={(value) => setAgentData({
-                                ...agentData, 
-                                characteristics: {...agentData.characteristics, decisionMaking: value}
-                              })}
-                            >
-                              <SelectTrigger>
-                                <SelectValue />
-                              </SelectTrigger>
-                              <SelectContent>
-                                <SelectItem value="data-driven">Data-Driven</SelectItem>
-                                <SelectItem value="consensus-based">Consensus-Based</SelectItem>
-                                <SelectItem value="intuitive">Intuitive</SelectItem>
-                                <SelectItem value="cautious">Cautious</SelectItem>
-                              </SelectContent>
-                            </Select>
-                          </div>
+                      <div className="mt-6 p-4 bg-white rounded border">
+                        <div className="text-sm text-slate-600 mb-2">Sample Response:</div>
+                        <div className="text-sm text-slate-800 italic">
+                          "Based on the data I've analyzed, I believe this policy could have significant implications for healthcare spending. While I understand the concerns about defense priorities, we must consider the human impact..."
                         </div>
                       </div>
                     </div>
-                  )}
+                  </div>
+                </div>
+              )}
 
-                  {/* Backstory Step */}
-                  {currentStep === 2 && (
+              {/* Step 4: Policies */}
+              {currentStep === 4 && (
+                <div className="space-y-6">
+                  <div className="text-center">
+                    <h2 className="text-2xl font-bold text-blue-900 mb-2">Policy Configuration</h2>
+                    <p className="text-slate-600">Define key policy positions and voting preferences</p>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-4">
                       <div>
-                        <Label htmlFor="backstory">Agent Backstory</Label>
-                        <p className="text-sm text-blue-700 mb-2">Describe your agent's background, motivations, and core beliefs. This shapes how they approach political issues.</p>
-                        <Textarea 
-                          id="backstory"
-                          placeholder="e.g., A dedicated advocate for European defense independence, monitoring the €800B EU defense initiative and its implications for social spending..."
-                          rows={6}
-                          value={agentData.backstory}
-                          onChange={(e) => setAgentData({...agentData, backstory: e.target.value})}
+                        <Label htmlFor="policy-area" className="text-slate-800">Policy Area</Label>
+                        <Input
+                          id="policy-area"
+                          placeholder="e.g., Climate Change"
                           className="border-blue-300 focus:border-blue-500"
                         />
                       </div>
+
                       <div>
-                        <Label htmlFor="stance">Core Policy Stance</Label>
-                        <p className="text-sm text-blue-700 mb-2">What are your agent's fundamental political positions and policy preferences?</p>
-                        <Textarea 
-                          id="stance"
-                          placeholder="e.g., Supports strategic defense investments while ensuring transparency in budget allocation and protecting social programs..."
+                        <Label htmlFor="policy-position" className="text-slate-800">Policy Position</Label>
+                        <Textarea
+                          id="policy-position"
+                          placeholder="e.g., Support carbon tax and renewable energy subsidies"
                           rows={4}
-                          value={agentData.stance}
-                          onChange={(e) => setAgentData({...agentData, stance: e.target.value})}
                           className="border-blue-300 focus:border-blue-500"
                         />
+                      </div>
+
+                      <Button className="government-button">
+                        <Plus className="h-4 w-4 mr-2" />
+                        Add Policy
+                      </Button>
+                    </div>
+
+                    <div className="bg-blue-50 p-6 rounded-lg">
+                      <h3 className="font-semibold text-blue-900 mb-4">Policy Preview</h3>
+                      <div className="space-y-3">
+                        <div className="p-4 bg-white rounded border">
+                          <div className="font-medium text-blue-900">Climate Change</div>
+                          <div className="text-sm text-slate-700">Support carbon tax and renewable energy subsidies</div>
+                        </div>
+                        <div className="p-4 bg-white rounded border">
+                          <div className="font-medium text-blue-900">Healthcare</div>
+                          <div className="text-sm text-slate-700">Advocate for universal healthcare access</div>
+                        </div>
                       </div>
                     </div>
-                  )}
+                  </div>
+                </div>
+              )}
 
-                  {/* Data Sources Step */}
-                  {currentStep === 3 && (
-                    <div className="space-y-6">
-                      <div>
-                        <h3 className="text-lg font-semibold mb-4 text-blue-900">Upload Training Data</h3>
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                          <div className="border-2 border-dashed border-blue-300 rounded-lg p-6 text-center hover:border-blue-400 transition-colors">
-                            <Upload className="h-8 w-8 text-blue-400 mx-auto mb-2" />
-                            <h4 className="font-semibold text-blue-900 mb-1">Documents</h4>
-                            <p className="text-sm text-blue-600 mb-3">Upload PDFs, docs, research papers</p>
-                            <Button size="sm" variant="outline" className="government-button-outline">Choose Files</Button>
-                          </div>
-                          
-                          <div className="border-2 border-dashed border-blue-300 rounded-lg p-6 text-center hover:border-blue-400 transition-colors">
-                            <Globe className="h-8 w-8 text-blue-400 mx-auto mb-2" />
-                            <h4 className="font-semibold text-blue-900 mb-1">Websites</h4>
-                            <p className="text-sm text-blue-600 mb-3">Scrape content from URLs</p>
-                            <Input placeholder="Enter website URL" className="mb-2 border-blue-300" />
-                            <Button size="sm" variant="outline" className="government-button-outline">Add URL</Button>
-                          </div>
-                          
-                          <div className="border-2 border-dashed border-blue-300 rounded-lg p-6 text-center hover:border-blue-400 transition-colors">
-                            <Database className="h-8 w-8 text-blue-400 mx-auto mb-2" />
-                            <h4 className="font-semibold text-blue-900 mb-1">Knowledge Base</h4>
-                            <p className="text-sm text-blue-600 mb-3">Connect to existing databases</p>
-                            <Button size="sm" variant="outline" className="government-button-outline">Connect</Button>
-                          </div>
-                        </div>
-                      </div>
+              {/* Step 5: Review */}
+              {currentStep === 5 && (
+                <div className="space-y-6">
+                  <div className="text-center">
+                    <h2 className="text-2xl font-bold text-blue-900 mb-2">Review and Deploy</h2>
+                    <p className="text-slate-600">Finalize your agent configuration and deploy</p>
+                  </div>
 
-                      <div>
-                        <h3 className="text-lg font-semibold mb-4 text-blue-900">Government Data Sources</h3>
-                        <div className="space-y-2 mb-4">
-                          <Input placeholder="EUR-Lex Legislative Database" value="https://eur-lex.europa.eu" readOnly className="bg-green-50 border-green-300" />
-                          <Input placeholder="OpenSecrets Campaign Finance" value="https://opensecrets.org" readOnly className="bg-green-50 border-green-300" />
-                          <Input placeholder="Congressional Bills Database" value="https://congress.gov" readOnly className="bg-green-50 border-green-300" />
-                        </div>
-                      </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-4">
+                      <Card className="government-card">
+                        <CardHeader>
+                          <CardTitle className="text-blue-900">Basic Information</CardTitle>
+                        </CardHeader>
+                        <CardContent className="space-y-2">
+                          <div className="flex justify-between">
+                            <span className="font-medium text-slate-800">Agent Name</span>
+                            <span className="text-slate-600">{agentName}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="font-medium text-slate-800">Description</span>
+                            <span className="text-slate-600">{agentDescription}</span>
+                          </div>
+                        </CardContent>
+                      </Card>
 
-                      <div>
-                        <h3 className="text-lg font-semibold mb-4 text-blue-900">Supported Data Sources</h3>
-                        <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                          {supportedDataSources.map((source, index) => (
-                            <div key={index} className={`flex items-center space-x-2 p-3 rounded-lg border ${source.supported ? 'bg-green-50 border-green-200' : 'bg-gray-50 border-gray-200'}`}>
-                              <span className="text-lg">{source.icon}</span>
-                              <span className="text-sm font-medium text-blue-900">{source.name}</span>
-                              {!source.supported && (
-                                <Badge variant="secondary" className="text-xs">Coming Soon</Badge>
-                              )}
+                      <Card className="government-card">
+                        <CardHeader>
+                          <CardTitle className="text-blue-900">AI Configuration</CardTitle>
+                        </CardHeader>
+                        <CardContent className="space-y-2">
+                          <div className="flex justify-between">
+                            <span className="font-medium text-slate-800">AI Model</span>
+                            <span className="text-slate-600">{selectedAI}</span>
+                          </div>
+                        </CardContent>
+                      </Card>
+
+                      <Card className="government-card">
+                        <CardHeader>
+                          <CardTitle className="text-blue-900">Personality</CardTitle>
+                        </CardHeader>
+                        <CardContent className="space-y-2">
+                          {Object.entries(personality).map(([trait, value]) => (
+                            <div key={trait} className="flex justify-between">
+                              <span className="font-medium text-slate-800 capitalize">{trait}</span>
+                              <span className="text-slate-600">{value}%</span>
                             </div>
                           ))}
+                        </CardContent>
+                      </Card>
+                    </div>
+
+                    <div className="bg-blue-50 p-6 rounded-lg">
+                      <h3 className="font-semibold text-blue-900 mb-4">Agent Preview</h3>
+                      <div className="flex items-center space-x-3 mb-3">
+                        <div className="text-3xl">
+                          {selectedTemplate ? templates.find(t => t.id === selectedTemplate)?.avatar : '🤖'}
+                        </div>
+                        <div>
+                          <div className="font-medium text-blue-900">{agentName || 'Agent Name'}</div>
+                          <div className="text-sm text-slate-600">Active</div>
                         </div>
                       </div>
+                      <p className="text-sm text-slate-700">{agentDescription || 'Agent description will appear here...'}</p>
 
-                      <div>
-                        <Label htmlFor="custom-url">Request Data Source Support</Label>
-                        <div className="flex space-x-2">
-                          <Input 
-                            id="custom-url"
-                            placeholder="Enter URL for data source you'd like us to support"
-                            className="border-blue-300 focus:border-blue-500"
-                          />
-                          <Button variant="outline" className="government-button-outline">
-                            <AlertCircle className="h-4 w-4 mr-2" />
-                            Request
-                          </Button>
-                        </div>
-                        <p className="text-xs text-blue-600 mt-1">We'll notify you when this data source is supported</p>
+                      <div className="mt-4">
+                        <Button className="w-full government-button">
+                          <Zap className="h-4 w-4 mr-2" />
+                          Deploy Agent
+                        </Button>
                       </div>
                     </div>
-                  )}
-
-                  {/* Settings Step */}
-                  {currentStep === 4 && (
-                    <div className="space-y-4">
-                      <Tabs defaultValue="governance" className="w-full">
-                        <TabsList className="grid w-full grid-cols-3">
-                          <TabsTrigger value="governance">Governance</TabsTrigger>
-                          <TabsTrigger value="social">Social Media</TabsTrigger>
-                          <TabsTrigger value="advanced">Advanced</TabsTrigger>
-                        </TabsList>
-                        <TabsContent value="governance" className="space-y-4">
-                          <div className="flex items-center justify-between p-4 bg-blue-50 rounded-lg border border-blue-200">
-                            <div>
-                              <Label className="text-blue-900">Enable On-Chain Voting</Label>
-                              <p className="text-sm text-blue-700">Allow agent to vote on governance proposals</p>
-                            </div>
-                            <Button variant="outline" size="sm" className="government-button-outline">Connect NEAR Wallet</Button>
-                          </div>
-                          <div className="flex items-center justify-between p-4 bg-blue-50 rounded-lg border border-blue-200">
-                            <div>
-                              <Label className="text-blue-900">Auto-vote on Proposals</Label>
-                              <p className="text-sm text-blue-700">Automatically vote based on agent's stance</p>
-                            </div>
-                            <Button variant="outline" size="sm" className="government-button-outline">Configure</Button>
-                          </div>
-                        </TabsContent>
-                        <TabsContent value="social" className="space-y-4">
-                          <div className="flex items-center justify-between p-4 bg-blue-50 rounded-lg border border-blue-200">
-                            <div>
-                              <Label className="text-blue-900">Auto-post Updates</Label>
-                              <p className="text-sm text-blue-700">Share policy positions and votes on social media</p>
-                            </div>
-                            <Button variant="outline" size="sm" className="government-button-outline">Connect Twitter</Button>
-                          </div>
-                          <div className="flex items-center justify-between p-4 bg-blue-50 rounded-lg border border-blue-200">
-                            <div>
-                              <Label className="text-blue-900">Engage with Comments</Label>
-                              <p className="text-sm text-blue-700">Respond to mentions and policy discussions</p>
-                            </div>
-                            <Button variant="outline" size="sm" className="government-button-outline">Enable</Button>
-                          </div>
-                        </TabsContent>
-                        <TabsContent value="advanced" className="space-y-4">
-                          <div>
-                            <Label>Response Speed</Label>
-                            <Select defaultValue="balanced">
-                              <SelectTrigger className="border-blue-300">
-                                <SelectValue />
-                              </SelectTrigger>
-                              <SelectContent>
-                                <SelectItem value="fast">Fast (Lower accuracy)</SelectItem>
-                                <SelectItem value="balanced">Balanced</SelectItem>
-                                <SelectItem value="thorough">Thorough (Higher accuracy)</SelectItem>
-                              </SelectContent>
-                            </Select>
-                          </div>
-                          <div>
-                            <Label>Privacy Level</Label>
-                            <Select defaultValue="public">
-                              <SelectTrigger className="border-blue-300">
-                                <SelectValue />
-                              </SelectTrigger>
-                              <SelectContent>
-                                <SelectItem value="public">Public</SelectItem>
-                                <SelectItem value="limited">Limited</SelectItem>
-                                <SelectItem value="private">Private</SelectItem>
-                              </SelectContent>
-                            </Select>
-                          </div>
-                        </TabsContent>
-                      </Tabs>
-                    </div>
-                  )}
-
-                  {/* Deploy Step */}
-                  {currentStep === 5 && (
-                    <div className="space-y-4">
-                      <div className="bg-blue-50 rounded-lg p-6 border border-blue-200">
-                        <h3 className="text-lg font-semibold mb-4 text-blue-900">Agent Preview</h3>
-                        <div className="space-y-3 text-blue-800">
-                          <div><strong>Name:</strong> {agentData.name || "Not set"}</div>
-                          <div><strong>Expertise:</strong> {agentData.expertise || "Not set"}</div>
-                          <div><strong>Communication Style:</strong> {agentData.characteristics.communicationStyle}</div>
-                          <div><strong>Decision Making:</strong> {agentData.characteristics.decisionMaking}</div>
-                          <div><strong>Backstory:</strong> {agentData.backstory || "Not set"}</div>
-                          <div>
-                            <strong>Personality:</strong>
-                            <div className="mt-2 grid grid-cols-2 gap-2">
-                              {Object.entries(agentData.personality).map(([trait, value]) => (
-                                <div key={trait} className="flex justify-between text-sm">
-                                  <span className="capitalize">{trait}:</span>
-                                  <span>{value}%</span>
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      
-                      <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-                        <h4 className="font-semibold text-green-900 mb-2">Ready to Deploy!</h4>
-                        <p className="text-sm text-green-700">Your agent will be accessible at: <code className="bg-green-100 px-1 rounded">/agent/{agentData.name.toLowerCase().replace(/\s+/g, '-')}</code></p>
-                      </div>
-                    </div>
-                  )}
-                </CardContent>
-              </Card>
-
-              {/* Navigation Footer - Now sticky at bottom */}
-              <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-blue-200 p-4 shadow-lg z-40">
-                <div className="max-w-7xl mx-auto flex justify-between">
-                  <Button 
-                    variant="outline" 
-                    onClick={handlePrev}
-                    disabled={currentStep === 0}
-                    className="government-button-outline"
-                  >
-                    <ArrowLeft className="h-4 w-4 mr-2" />
-                    Previous
-                  </Button>
-                  
-                  {currentStep === steps.length - 1 ? (
-                    <Button className="government-button">
-                      Deploy Agent
-                      <ArrowRight className="h-4 w-4 ml-2" />
-                    </Button>
-                  ) : (
-                    <Button 
-                      onClick={handleNext}
-                      disabled={currentStep === steps.length - 1}
-                      className="government-button"
-                    >
-                      Next
-                      <ArrowRight className="h-4 w-4 ml-2" />
-                    </Button>
-                  )}
-                </div>
-              </div>
-            </div>
-
-            {/* Preview Sidebar */}
-            <div className="space-y-4">
-              <Card className="government-card">
-                <CardHeader>
-                  <CardTitle className="text-lg text-blue-900">Chat Preview</CardTitle>
-                  <CardDescription>Test your agent's responses</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="bg-blue-50 rounded-lg p-4 min-h-[200px] flex items-center justify-center text-blue-600 border border-blue-200">
-                    {agentData.name ? `${agentData.name} will appear here` : "Configure your agent to see preview"}
                   </div>
-                  <Input placeholder="Ask your agent a question..." className="mt-4 border-blue-300" />
-                </CardContent>
-              </Card>
+                </div>
+              )}
+            </CardContent>
+          </Card>
 
-              <Card className="government-card">
-                <CardHeader>
-                  <CardTitle className="text-lg text-blue-900">Quick Templates</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-2">
-                  {templates.map((template, index) => (
-                    <Button 
-                      key={index}
-                      variant="outline" 
-                      size="sm" 
-                      className="w-full justify-start government-button-outline"
-                      onClick={() => applyTemplate(template)}
-                    >
-                      <span className="mr-2">{template.icon}</span>
-                      {template.name}
-                    </Button>
-                  ))}
-                </CardContent>
-              </Card>
+          {/* Sticky Navigation */}
+          <div className="sticky bottom-6 bg-white border border-blue-200 rounded-lg shadow-lg p-4">
+            <div className="flex justify-between items-center">
+              <Button 
+                onClick={prevStep} 
+                disabled={currentStep === 0}
+                variant="outline"
+                className="government-button-outline"
+              >
+                <ChevronLeft className="h-4 w-4 mr-2" />
+                Previous
+              </Button>
+              
+              <div className="text-sm text-slate-600">
+                Step {currentStep + 1} of {steps.length}
+              </div>
+              
+              {currentStep === steps.length - 1 ? (
+                <Button className="government-button">
+                  <Check className="h-4 w-4 mr-2" />
+                  Deploy Agent
+                </Button>
+              ) : (
+                <Button 
+                  onClick={nextStep}
+                  className="government-button"
+                  disabled={
+                    (currentStep === 0 && !selectedTemplate) ||
+                    (currentStep === 1 && (!agentName || !agentDescription)) ||
+                    (currentStep === 2 && !selectedAI)
+                  }
+                >
+                  Next
+                  <ChevronRight className="h-4 w-4 ml-2" />
+                </Button>
+              )}
             </div>
           </div>
-
-          {/* Add bottom padding to account for fixed navigation */}
-          <div className="h-20"></div>
         </div>
       </div>
     </>

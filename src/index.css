@@ -111,3 +111,21 @@
 .government-button-outline {
   @apply border-blue-300 text-blue-700 hover:bg-blue-50;
 }
+
+/* Fix white text on white backgrounds */
+.text-white-on-white-fix {
+  @apply text-slate-800;
+}
+
+/* Platform features section fix */
+.platform-features {
+  @apply bg-slate-50 text-slate-800;
+}
+
+.platform-features h3 {
+  @apply text-blue-900;
+}
+
+.platform-features p {
+  @apply text-slate-700;
+}
