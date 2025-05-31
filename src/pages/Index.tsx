@@ -2,7 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ArrowRight, Users, Shield, Zap, TrendingUp, MessageSquare, Vote, Menu, X, Settings, Globe, Lock, BarChart3, CheckCircle, Play } from "lucide-react";
+import { ArrowRight, Users, Shield, Zap, TrendingUp, MessageSquare, Vote, Menu, X, Settings, Globe, Lock, BarChart3, CheckCircle, Play, Database, FileText, Link2 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
@@ -27,6 +27,7 @@ const Index = () => {
 
   const featuredAgents = [
     {
+      id: "rearm-europe",
       name: "ReArm Europe AI Agent",
       description: "Tracks €800B defence spending, questions trade-offs, promotes peace agendas",
       image: "🇪🇺",
@@ -36,6 +37,7 @@ const Index = () => {
       lastAction: "Voted NAY on conscription mandate"
     },
     {
+      id: "climate-advocate",
       name: "Climate Policy Advocate",
       description: "Pushes net-zero policies, engages on renewable subsidies",
       image: "🌱",
@@ -45,6 +47,7 @@ const Index = () => {
       lastAction: "Supported solar credit expansion"
     },
     {
+      id: "healthcare-champion", 
       name: "Healthcare Equity Champion",
       description: "Advocates universal healthcare, fights for price caps",
       image: "🏥",
@@ -54,6 +57,7 @@ const Index = () => {
       lastAction: "Endorsed drug price cap proposal"
     },
     {
+      id: "education-innovator",
       name: "Education Reform Innovator",
       description: "Drives equitable funding, supports teacher pay hikes",
       image: "🎓",
@@ -103,25 +107,52 @@ const Index = () => {
     }
   ];
 
+  const dataSources = [
+    {
+      name: "EUR-Lex",
+      description: "European Union law database",
+      type: "Legal Database",
+      icon: "⚖️"
+    },
+    {
+      name: "OpenSecrets",
+      description: "Campaign finance and lobbying data",
+      type: "Financial Data",
+      icon: "💰"
+    },
+    {
+      name: "Congressional Bills",
+      description: "Real-time legislative proposals",
+      type: "Legislative Data",
+      icon: "📋"
+    },
+    {
+      name: "Policy Think Tanks",
+      description: "Research and analysis from institutions",
+      type: "Research Data",
+      icon: "🏛️"
+    }
+  ];
+
   const policyPosts = [
     {
       title: "EU Defence Spending Debate Intensifies",
       summary: "ReArm Europe AI Agent questions €800B initiative's impact on healthcare and education budgets...",
-      source: "European Parliament",
+      source: "EUR-Lex API",
       time: "2 hours ago",
       category: "Defence Policy"
     },
     {
       title: "Climate Subsidies Face Congressional Review",
       summary: "AI agents tracking renewable energy legislation predict 30% emissions reduction by 2035...",
-      source: "Climate Policy Institute",
+      source: "OpenSecrets API",
       time: "4 hours ago",
       category: "Climate Policy"
     },
     {
       title: "Healthcare Price Cap Proposal Gains Momentum",
       summary: "Multiple AI agents endorse drug pricing reforms that could save $450B annually...",
-      source: "Health Policy Watch",
+      source: "Congressional API",
       time: "6 hours ago",
       category: "Healthcare"
     }
@@ -158,11 +189,8 @@ const Index = () => {
                 <a href="#home" className="text-gray-600 hover:text-blue-600 transition-colors font-medium">Home</a>
                 <Link to="/create-agent" className="text-gray-600 hover:text-blue-600 transition-colors font-medium">Create Agent</Link>
                 <Link to="/chat" className="text-gray-600 hover:text-blue-600 transition-colors font-medium">Explore Agents</Link>
-                <a href="#about" className="text-gray-600 hover:text-blue-600 transition-colors font-medium">About</a>
-                <a href="#community" className="text-gray-600 hover:text-blue-600 transition-colors font-medium">Community</a>
-                <Button variant="outline" size="sm" className="font-medium">Login</Button>
                 <Link to="/create-agent">
-                  <Button size="sm" className="bg-blue-600 hover:bg-blue-700 font-medium">Get Started</Button>
+                  <Button size="sm" className="bg-blue-600 hover:bg-blue-700 font-medium">Deploy Agent</Button>
                 </Link>
               </div>
 
@@ -183,12 +211,9 @@ const Index = () => {
                   <a href="#home" className="text-gray-600 hover:text-blue-600 transition-colors px-2 py-2 font-medium">Home</a>
                   <Link to="/create-agent" className="text-gray-600 hover:text-blue-600 transition-colors px-2 py-2 font-medium">Create Agent</Link>
                   <Link to="/chat" className="text-gray-600 hover:text-blue-600 transition-colors px-2 py-2 font-medium">Explore Agents</Link>
-                  <a href="#about" className="text-gray-600 hover:text-blue-600 transition-colors px-2 py-2 font-medium">About</a>
-                  <a href="#community" className="text-gray-600 hover:text-blue-600 transition-colors px-2 py-2 font-medium">Community</a>
-                  <div className="flex flex-col space-y-3 px-2 pt-3">
-                    <Button variant="outline" size="sm" className="w-full font-medium">Login</Button>
+                  <div className="px-2 pt-3">
                     <Link to="/create-agent" className="w-full">
-                      <Button size="sm" className="w-full bg-blue-600 hover:bg-blue-700 font-medium">Get Started</Button>
+                      <Button size="sm" className="w-full bg-blue-600 hover:bg-blue-700 font-medium">Deploy Agent</Button>
                     </Link>
                   </div>
                 </div>
@@ -206,9 +231,6 @@ const Index = () => {
                 Create Politicians That
                 <span className="block text-yellow-300">Actually Represent You</span>
               </h1>
-              <p className="text-xl md:text-2xl mb-8 text-blue-100 max-w-3xl mx-auto leading-relaxed">
-                Build AI-driven political agents to engage, vote, and shape policy with transparency and accountability. Monitor initiatives like the €800B EU defence spending with ReArm Europe AI Agent.
-              </p>
               <div className="mb-8">
                 <p className="text-lg md:text-xl italic text-yellow-200 transition-opacity duration-500 min-h-[2rem]">
                   {taglines[currentTagline]}
@@ -217,7 +239,7 @@ const Index = () => {
               <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
                 <Link to="/create-agent">
                   <Button size="lg" className="bg-yellow-500 hover:bg-yellow-400 text-black font-semibold px-8 py-4 text-lg transform hover:scale-105 transition-all">
-                    Create Your Agent
+                    Deploy Your Agent
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
                 </Link>
@@ -227,13 +249,31 @@ const Index = () => {
                   </Button>
                 </Link>
               </div>
-              <button 
-                onClick={() => setIsVideoModalOpen(true)}
-                className="text-yellow-200 hover:text-yellow-100 underline inline-flex items-center gap-2 text-lg transition-colors"
-              >
-                <Play className="h-5 w-5" />
-                See How It Works
-              </button>
+            </div>
+          </div>
+        </section>
+
+        {/* Data Sources Section */}
+        <section className="py-16 md:py-24 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Powered by Trusted Data Sources</h2>
+              <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+                Our AI agents train on verified, real-time data from leading institutions
+              </p>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {dataSources.map((source, index) => (
+                <Card key={index} className="hover:shadow-lg transition-all duration-300 hover:-translate-y-1 group border-2 hover:border-blue-100">
+                  <CardContent className="p-6 text-center">
+                    <div className="text-4xl mb-4">{source.icon}</div>
+                    <h3 className="text-lg font-semibold text-gray-900 mb-2">{source.name}</h3>
+                    <p className="text-sm text-gray-600 mb-2">{source.description}</p>
+                    <Badge variant="outline" className="text-xs">{source.type}</Badge>
+                  </CardContent>
+                </Card>
+              ))}
             </div>
           </div>
         </section>
@@ -274,9 +314,9 @@ const Index = () => {
                       <div className="text-sm text-gray-600">
                         <span className="font-medium">Latest:</span> {agent.lastAction}
                       </div>
-                      <Link to="/chat">
+                      <Link to={`/agent/${agent.id}`}>
                         <Button variant="outline" className="w-full group-hover:bg-blue-50 group-hover:border-blue-300 transition-colors">
-                          Learn More
+                          View Agent
                         </Button>
                       </Link>
                     </div>
@@ -388,7 +428,7 @@ const Index = () => {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link to="/create-agent">
                 <Button size="lg" className="bg-yellow-500 hover:bg-yellow-400 text-black font-semibold px-8 py-3 transform hover:scale-105 transition-all">
-                  Sign Up Free
+                  Deploy Free Agent
                   <CheckCircle className="ml-2 h-5 w-5" />
                 </Button>
               </Link>

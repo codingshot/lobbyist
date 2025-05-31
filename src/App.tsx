@@ -8,6 +8,8 @@ import { HelmetProvider } from "react-helmet-async";
 import Index from "./pages/Index";
 import CreateAgent from "./pages/CreateAgent";
 import ChatWithAgents from "./pages/ChatWithAgents";
+import AgentProfile from "./pages/AgentProfile";
+import AgentChat from "./pages/AgentChat";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -23,6 +25,8 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/create-agent" element={<CreateAgent />} />
             <Route path="/chat" element={<ChatWithAgents />} />
+            <Route path="/agent/:agentId" element={<AgentProfile />} />
+            <Route path="/agent/:agentId/chat" element={<AgentChat />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

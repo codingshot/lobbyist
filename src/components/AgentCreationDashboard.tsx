@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -9,7 +10,7 @@ import { Slider } from "@/components/ui/slider";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ArrowLeft, ArrowRight, User, Brain, FileText, Database, Settings, Eye, Upload, Link as LinkIcon } from "lucide-react";
+import { ArrowLeft, ArrowRight, User, Brain, FileText, Database, Settings, Eye, Upload, Link as LinkIcon, Globe, AlertCircle } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 
@@ -26,7 +27,13 @@ const AgentCreationDashboard = () => {
     },
     backstory: "",
     dataSources: [],
-    stance: ""
+    stance: "",
+    characteristics: {
+      communicationStyle: "professional",
+      decisionMaking: "data-driven",
+      transparency: "high",
+      engagement: "active"
+    }
   });
 
   const steps = [
@@ -35,7 +42,7 @@ const AgentCreationDashboard = () => {
     { id: "backstory", title: "Backstory", icon: FileText },
     { id: "data", title: "Data Sources", icon: Database },
     { id: "settings", title: "Settings", icon: Settings },
-    { id: "preview", title: "Preview", icon: Eye }
+    { id: "preview", title: "Deploy", icon: Eye }
   ];
 
   const expertiseOptions = [
@@ -46,6 +53,19 @@ const AgentCreationDashboard = () => {
     "Economic Policy",
     "International Relations",
     "Custom"
+  ];
+
+  const supportedDataSources = [
+    { name: "PDF Documents", icon: "📄", supported: true },
+    { name: "Websites", icon: "🌐", supported: true },
+    { name: "Knowledge Bases", icon: "📚", supported: true },
+    { name: "EUR-Lex API", icon: "⚖️", supported: true },
+    { name: "OpenSecrets API", icon: "💰", supported: true },
+    { name: "Congressional API", icon: "🏛️", supported: true },
+    { name: "Twitter/X API", icon: "📱", supported: true },
+    { name: "Reddit API", icon: "🔴", supported: false },
+    { name: "LinkedIn API", icon: "💼", supported: false },
+    { name: "YouTube API", icon: "📺", supported: false }
   ];
 
   const handleNext = () => {
@@ -65,8 +85,8 @@ const AgentCreationDashboard = () => {
   return (
     <>
       <Helmet>
-        <title>Create Agent - lobbyist.fun</title>
-        <meta name="description" content="Create your own AI political agent with custom expertise, personality, and policy positions." />
+        <title>Deploy Agent - lobbyist.fun</title>
+        <meta name="description" content="Deploy your own AI political agent with custom expertise, personality, and policy positions." />
       </Helmet>
 
       <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
@@ -80,14 +100,16 @@ const AgentCreationDashboard = () => {
                   <span className="text-xl font-bold text-slate-900">lobbyist.fun</span>
                 </Link>
                 <div className="hidden sm:block text-slate-400">|</div>
-                <h1 className="hidden sm:block text-lg font-semibold text-slate-900">Create Agent</h1>
+                <h1 className="hidden sm:block text-lg font-semibold text-slate-900">Deploy Agent</h1>
               </div>
               <div className="flex items-center space-x-2">
                 <Button variant="outline" size="sm">Save Draft</Button>
-                <Button variant="outline" size="sm">
-                  <ArrowLeft className="h-4 w-4 mr-2" />
-                  <span className="hidden sm:inline">Back</span>
-                </Button>
+                <Link to="/">
+                  <Button variant="outline" size="sm">
+                    <ArrowLeft className="h-4 w-4 mr-2" />
+                    <span className="hidden sm:inline">Back</span>
+                  </Button>
+                </Link>
               </div>
             </div>
           </div>
@@ -175,26 +197,76 @@ const AgentCreationDashboard = () => {
                   {/* Personality Step */}
                   {currentStep === 1 && (
                     <div className="space-y-6">
-                      {Object.entries(agentData.personality).map(([trait, value]) => (
-                        <div key={trait} className="space-y-2">
-                          <div className="flex justify-between">
-                            <Label className="capitalize">{trait}</Label>
-                            <span className="text-sm text-slate-600">{value}%</span>
+                      <div>
+                        <h3 className="text-lg font-semibold mb-4">Personality Traits</h3>
+                        {Object.entries(agentData.personality).map(([trait, value]) => (
+                          <div key={trait} className="space-y-2 mb-4">
+                            <div className="flex justify-between">
+                              <Label className="capitalize">{trait}</Label>
+                              <span className="text-sm text-slate-600">{value}%</span>
+                            </div>
+                            <Slider
+                              value={[value]}
+                              onValueChange={([newValue]) => 
+                                setAgentData({
+                                  ...agentData, 
+                                  personality: {...agentData.personality, [trait]: newValue}
+                                })
+                              }
+                              max={100}
+                              step={1}
+                              className="w-full"
+                            />
                           </div>
-                          <Slider
-                            value={[value]}
-                            onValueChange={([newValue]) => 
-                              setAgentData({
+                        ))}
+                      </div>
+                      
+                      <div>
+                        <h3 className="text-lg font-semibold mb-4">Agent Characteristics</h3>
+                        <div className="grid grid-cols-2 gap-4">
+                          <div>
+                            <Label>Communication Style</Label>
+                            <Select 
+                              value={agentData.characteristics.communicationStyle} 
+                              onValueChange={(value) => setAgentData({
                                 ...agentData, 
-                                personality: {...agentData.personality, [trait]: newValue}
-                              })
-                            }
-                            max={100}
-                            step={1}
-                            className="w-full"
-                          />
+                                characteristics: {...agentData.characteristics, communicationStyle: value}
+                              })}
+                            >
+                              <SelectTrigger>
+                                <SelectValue />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="professional">Professional</SelectItem>
+                                <SelectItem value="casual">Casual</SelectItem>
+                                <SelectItem value="formal">Formal</SelectItem>
+                                <SelectItem value="conversational">Conversational</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </div>
+                          
+                          <div>
+                            <Label>Decision Making</Label>
+                            <Select 
+                              value={agentData.characteristics.decisionMaking} 
+                              onValueChange={(value) => setAgentData({
+                                ...agentData, 
+                                characteristics: {...agentData.characteristics, decisionMaking: value}
+                              })}
+                            >
+                              <SelectTrigger>
+                                <SelectValue />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="data-driven">Data-Driven</SelectItem>
+                                <SelectItem value="consensus-based">Consensus-Based</SelectItem>
+                                <SelectItem value="intuitive">Intuitive</SelectItem>
+                                <SelectItem value="cautious">Cautious</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </div>
                         </div>
-                      ))}
+                      </div>
                     </div>
                   )}
 
@@ -226,26 +298,71 @@ const AgentCreationDashboard = () => {
 
                   {/* Data Sources Step */}
                   {currentStep === 3 && (
-                    <div className="space-y-4">
-                      <div className="border-2 border-dashed border-slate-300 rounded-lg p-8 text-center">
-                        <Upload className="h-12 w-12 text-slate-400 mx-auto mb-4" />
-                        <h3 className="text-lg font-semibold text-slate-900 mb-2">Upload Data Sources</h3>
-                        <p className="text-slate-600 mb-4">Upload PDFs, CSVs, or connect to APIs for your agent's knowledge base</p>
-                        <Button>
-                          <Upload className="h-4 w-4 mr-2" />
-                          Choose Files
-                        </Button>
-                      </div>
+                    <div className="space-y-6">
                       <div>
-                        <Label htmlFor="api-sources">API Sources</Label>
-                        <div className="space-y-2">
-                          <Input placeholder="EUR-Lex API Key" />
-                          <Input placeholder="OpenSecrets API Key" />
-                          <Button variant="outline" size="sm">
-                            <LinkIcon className="h-4 w-4 mr-2" />
-                            Add More APIs
+                        <h3 className="text-lg font-semibold mb-4">Upload Training Data</h3>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                          <div className="border-2 border-dashed border-slate-300 rounded-lg p-6 text-center hover:border-blue-400 transition-colors">
+                            <Upload className="h-8 w-8 text-slate-400 mx-auto mb-2" />
+                            <h4 className="font-semibold text-slate-900 mb-1">Documents</h4>
+                            <p className="text-sm text-slate-600 mb-3">Upload PDFs, docs, research papers</p>
+                            <Button size="sm" variant="outline">Choose Files</Button>
+                          </div>
+                          
+                          <div className="border-2 border-dashed border-slate-300 rounded-lg p-6 text-center hover:border-blue-400 transition-colors">
+                            <Globe className="h-8 w-8 text-slate-400 mx-auto mb-2" />
+                            <h4 className="font-semibold text-slate-900 mb-1">Websites</h4>
+                            <p className="text-sm text-slate-600 mb-3">Scrape content from URLs</p>
+                            <Input placeholder="Enter website URL" className="mb-2" />
+                            <Button size="sm" variant="outline">Add URL</Button>
+                          </div>
+                          
+                          <div className="border-2 border-dashed border-slate-300 rounded-lg p-6 text-center hover:border-blue-400 transition-colors">
+                            <Database className="h-8 w-8 text-slate-400 mx-auto mb-2" />
+                            <h4 className="font-semibold text-slate-900 mb-1">Knowledge Base</h4>
+                            <p className="text-sm text-slate-600 mb-3">Connect to existing databases</p>
+                            <Button size="sm" variant="outline">Connect</Button>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div>
+                        <h3 className="text-lg font-semibold mb-4">Public Training Links</h3>
+                        <div className="space-y-2 mb-4">
+                          <Input placeholder="EUR-Lex Legislative Database" value="https://eur-lex.europa.eu" readOnly />
+                          <Input placeholder="OpenSecrets Campaign Finance" value="https://opensecrets.org" readOnly />
+                          <Input placeholder="Congressional Bills Database" value="https://congress.gov" readOnly />
+                        </div>
+                      </div>
+
+                      <div>
+                        <h3 className="text-lg font-semibold mb-4">Supported Data Sources</h3>
+                        <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                          {supportedDataSources.map((source, index) => (
+                            <div key={index} className={`flex items-center space-x-2 p-3 rounded-lg border ${source.supported ? 'bg-green-50 border-green-200' : 'bg-gray-50 border-gray-200'}`}>
+                              <span className="text-lg">{source.icon}</span>
+                              <span className="text-sm font-medium">{source.name}</span>
+                              {!source.supported && (
+                                <Badge variant="secondary" className="text-xs">Coming Soon</Badge>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div>
+                        <Label htmlFor="custom-url">Custom Data Source</Label>
+                        <div className="flex space-x-2">
+                          <Input 
+                            id="custom-url"
+                            placeholder="Enter unsupported URL (we'll add support soon)"
+                          />
+                          <Button variant="outline">
+                            <AlertCircle className="h-4 w-4 mr-2" />
+                            Request
                           </Button>
                         </div>
+                        <p className="text-xs text-slate-500 mt-1">We'll notify you when this data source is supported</p>
                       </div>
                     </div>
                   )}
@@ -254,9 +371,10 @@ const AgentCreationDashboard = () => {
                   {currentStep === 4 && (
                     <div className="space-y-4">
                       <Tabs defaultValue="governance" className="w-full">
-                        <TabsList className="grid w-full grid-cols-2">
+                        <TabsList className="grid w-full grid-cols-3">
                           <TabsTrigger value="governance">Governance</TabsTrigger>
                           <TabsTrigger value="social">Social Media</TabsTrigger>
+                          <TabsTrigger value="advanced">Advanced</TabsTrigger>
                         </TabsList>
                         <TabsContent value="governance" className="space-y-4">
                           <div className="flex items-center justify-between">
@@ -265,6 +383,13 @@ const AgentCreationDashboard = () => {
                               <p className="text-sm text-slate-600">Allow agent to vote on governance proposals</p>
                             </div>
                             <Button variant="outline" size="sm">Connect NEAR Wallet</Button>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <div>
+                              <Label>Auto-vote on Proposals</Label>
+                              <p className="text-sm text-slate-600">Automatically vote based on agent's stance</p>
+                            </div>
+                            <Button variant="outline" size="sm">Configure</Button>
                           </div>
                         </TabsContent>
                         <TabsContent value="social" className="space-y-4">
@@ -275,12 +400,47 @@ const AgentCreationDashboard = () => {
                             </div>
                             <Button variant="outline" size="sm">Connect Twitter</Button>
                           </div>
+                          <div className="flex items-center justify-between">
+                            <div>
+                              <Label>Engage with Comments</Label>
+                              <p className="text-sm text-slate-600">Respond to mentions and policy discussions</p>
+                            </div>
+                            <Button variant="outline" size="sm">Enable</Button>
+                          </div>
+                        </TabsContent>
+                        <TabsContent value="advanced" className="space-y-4">
+                          <div>
+                            <Label>Response Speed</Label>
+                            <Select defaultValue="balanced">
+                              <SelectTrigger>
+                                <SelectValue />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="fast">Fast (Lower accuracy)</SelectItem>
+                                <SelectItem value="balanced">Balanced</SelectItem>
+                                <SelectItem value="thorough">Thorough (Higher accuracy)</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </div>
+                          <div>
+                            <Label>Privacy Level</Label>
+                            <Select defaultValue="public">
+                              <SelectTrigger>
+                                <SelectValue />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="public">Public</SelectItem>
+                                <SelectItem value="limited">Limited</SelectItem>
+                                <SelectItem value="private">Private</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </div>
                         </TabsContent>
                       </Tabs>
                     </div>
                   )}
 
-                  {/* Preview Step */}
+                  {/* Deploy Step */}
                   {currentStep === 5 && (
                     <div className="space-y-4">
                       <div className="bg-slate-50 rounded-lg p-6">
@@ -288,10 +448,12 @@ const AgentCreationDashboard = () => {
                         <div className="space-y-3">
                           <div><strong>Name:</strong> {agentData.name || "Not set"}</div>
                           <div><strong>Expertise:</strong> {agentData.expertise || "Not set"}</div>
+                          <div><strong>Communication Style:</strong> {agentData.characteristics.communicationStyle}</div>
+                          <div><strong>Decision Making:</strong> {agentData.characteristics.decisionMaking}</div>
                           <div><strong>Backstory:</strong> {agentData.backstory || "Not set"}</div>
                           <div>
                             <strong>Personality:</strong>
-                            <div className="mt-2 space-y-1">
+                            <div className="mt-2 grid grid-cols-2 gap-2">
                               {Object.entries(agentData.personality).map(([trait, value]) => (
                                 <div key={trait} className="flex justify-between text-sm">
                                   <span className="capitalize">{trait}:</span>
@@ -301,6 +463,11 @@ const AgentCreationDashboard = () => {
                             </div>
                           </div>
                         </div>
+                      </div>
+                      
+                      <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                        <h4 className="font-semibold text-blue-900 mb-2">Ready to Deploy!</h4>
+                        <p className="text-sm text-blue-700">Your agent will be accessible at: <code className="bg-blue-100 px-1 rounded">/agent/{agentData.name.toLowerCase().replace(/\s+/g, '-')}</code></p>
                       </div>
                     </div>
                   )}
