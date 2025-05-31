@@ -25,7 +25,11 @@ import {
   Globe,
   ChevronLeft,
   ChevronRight,
-  Check
+  Check,
+  Upload,
+  FileText,
+  Link as LinkIcon,
+  BookOpen
 } from "lucide-react";
 import { Helmet } from "react-helmet-async";
 
@@ -41,14 +45,18 @@ const AgentCreationDashboard = () => {
     assertive: 50,
     collaborative: 50
   });
+  const [knowledgeFiles, setKnowledgeFiles] = useState<File[]>([]);
+  const [knowledgeUrls, setKnowledgeUrls] = useState<string[]>([]);
+  const [newUrl, setNewUrl] = useState("");
 
   const steps = [
     { id: 0, title: "Choose Template", icon: Lightbulb },
     { id: 1, title: "Basic Info", icon: Users },
     { id: 2, title: "AI Configuration", icon: Brain },
-    { id: 3, title: "Personality", icon: MessageSquare },
-    { id: 4, title: "Policies", icon: Vote },
-    { id: 5, title: "Review", icon: Settings }
+    { id: 3, title: "Knowledge Base", icon: BookOpen },
+    { id: 4, title: "Personality", icon: MessageSquare },
+    { id: 5, title: "Policies", icon: Vote },
+    { id: 6, title: "Review", icon: Settings }
   ];
 
   const templates = [
@@ -134,6 +142,26 @@ const AgentCreationDashboard = () => {
     }
   };
 
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(event.target.files || []);
+    setKnowledgeFiles([...knowledgeFiles, ...files]);
+  };
+
+  const removeFile = (index: number) => {
+    setKnowledgeFiles(knowledgeFiles.filter((_, i) => i !== index));
+  };
+
+  const addUrl = () => {
+    if (newUrl.trim()) {
+      setKnowledgeUrls([...knowledgeUrls, newUrl.trim()]);
+      setNewUrl("");
+    }
+  };
+
+  const removeUrl = (index: number) => {
+    setKnowledgeUrls(knowledgeUrls.filter((_, i) => i !== index));
+  };
+
   return (
     <>
       <Helmet>
@@ -143,9 +171,10 @@ const AgentCreationDashboard = () => {
 
       <div className="min-h-screen">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          {/* Progress Steps */}
+          {/* Mobile Responsive Progress Steps */}
           <div className="mb-8">
-            <div className="flex items-center justify-between">
+            {/* Desktop view */}
+            <div className="hidden lg:flex items-center justify-between">
               {steps.map((step, index) => (
                 <div key={step.id} className="flex items-center">
                   <div className={`flex items-center justify-center w-12 h-12 rounded-full border-2 ${
@@ -173,6 +202,26 @@ const AgentCreationDashboard = () => {
                   )}
                 </div>
               ))}
+            </div>
+
+            {/* Mobile/Tablet view */}
+            <div className="lg:hidden">
+              <div className="flex items-center justify-between mb-4">
+                <div className={`flex items-center justify-center w-12 h-12 rounded-full border-2 ${
+                  'bg-blue-600 border-blue-600 text-white'
+                }`}>
+                  <steps[currentStep].icon className="h-6 w-6" />
+                </div>
+                <div className="flex-1 mx-4">
+                  <div className="text-lg font-medium text-blue-900">
+                    {steps[currentStep].title}
+                  </div>
+                  <div className="text-sm text-slate-500">
+                    Step {currentStep + 1} of {steps.length}
+                  </div>
+                </div>
+              </div>
+              <Progress value={((currentStep + 1) / steps.length) * 100} className="h-2" />
             </div>
           </div>
 
@@ -317,8 +366,139 @@ const AgentCreationDashboard = () => {
                 </div>
               )}
 
-              {/* Step 3: Personality */}
+              {/* Step 3: Knowledge Base */}
               {currentStep === 3 && (
+                <div className="space-y-6">
+                  <div className="text-center">
+                    <h2 className="text-2xl font-bold text-blue-900 mb-2">Knowledge Base Training</h2>
+                    <p className="text-slate-600">Upload documents or provide links to train your agent on specific knowledge</p>
+                  </div>
+
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div className="space-y-6">
+                      {/* File Upload Section */}
+                      <Card className="government-card">
+                        <CardHeader>
+                          <CardTitle className="text-blue-900 flex items-center">
+                            <Upload className="h-5 w-5 mr-2" />
+                            Upload Documents
+                          </CardTitle>
+                          <CardDescription>
+                            Upload PDFs, text files, or documents to train your agent
+                          </CardDescription>
+                        </CardHeader>
+                        <CardContent className="space-y-4">
+                          <div>
+                            <Input
+                              type="file"
+                              multiple
+                              accept=".pdf,.txt,.doc,.docx,.md"
+                              onChange={handleFileUpload}
+                              className="border-blue-300 focus:border-blue-500"
+                            />
+                          </div>
+                          
+                          {knowledgeFiles.length > 0 && (
+                            <div className="space-y-2">
+                              <Label className="text-slate-800">Uploaded Files:</Label>
+                              {knowledgeFiles.map((file, index) => (
+                                <div key={index} className="flex items-center justify-between p-2 bg-blue-50 rounded">
+                                  <div className="flex items-center space-x-2">
+                                    <FileText className="h-4 w-4 text-blue-600" />
+                                    <span className="text-sm text-slate-800">{file.name}</span>
+                                  </div>
+                                  <Button
+                                    size="sm"
+                                    variant="outline"
+                                    onClick={() => removeFile(index)}
+                                    className="h-6 w-6 p-0"
+                                  >
+                                    ×
+                                  </Button>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </CardContent>
+                      </Card>
+
+                      {/* URL Links Section */}
+                      <Card className="government-card">
+                        <CardHeader>
+                          <CardTitle className="text-blue-900 flex items-center">
+                            <LinkIcon className="h-5 w-5 mr-2" />
+                            Web Resources
+                          </CardTitle>
+                          <CardDescription>
+                            Add URLs to websites, articles, or online resources
+                          </CardDescription>
+                        </CardHeader>
+                        <CardContent className="space-y-4">
+                          <div className="flex space-x-2">
+                            <Input
+                              value={newUrl}
+                              onChange={(e) => setNewUrl(e.target.value)}
+                              placeholder="https://example.com/policy-document"
+                              className="border-blue-300 focus:border-blue-500"
+                            />
+                            <Button onClick={addUrl} className="government-button">
+                              <Plus className="h-4 w-4" />
+                            </Button>
+                          </div>
+                          
+                          {knowledgeUrls.length > 0 && (
+                            <div className="space-y-2">
+                              <Label className="text-slate-800">Added URLs:</Label>
+                              {knowledgeUrls.map((url, index) => (
+                                <div key={index} className="flex items-center justify-between p-2 bg-blue-50 rounded">
+                                  <div className="flex items-center space-x-2">
+                                    <LinkIcon className="h-4 w-4 text-blue-600" />
+                                    <span className="text-sm text-slate-800 truncate">{url}</span>
+                                  </div>
+                                  <Button
+                                    size="sm"
+                                    variant="outline"
+                                    onClick={() => removeUrl(index)}
+                                    className="h-6 w-6 p-0"
+                                  >
+                                    ×
+                                  </Button>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </CardContent>
+                      </Card>
+                    </div>
+
+                    <div className="bg-blue-50 p-6 rounded-lg">
+                      <h3 className="font-semibold text-blue-900 mb-4">Knowledge Base Preview</h3>
+                      <div className="space-y-4">
+                        <div className="bg-white p-4 rounded border">
+                          <div className="text-sm text-slate-600 mb-2">Training Data Summary:</div>
+                          <div className="space-y-2">
+                            <div className="flex justify-between text-sm">
+                              <span className="text-slate-800">Documents:</span>
+                              <span className="text-blue-600">{knowledgeFiles.length} files</span>
+                            </div>
+                            <div className="flex justify-between text-sm">
+                              <span className="text-slate-800">Web Resources:</span>
+                              <span className="text-blue-600">{knowledgeUrls.length} URLs</span>
+                            </div>
+                          </div>
+                        </div>
+                        
+                        <div className="text-sm text-slate-600">
+                          <strong>Tip:</strong> Adding relevant documents and resources will help your agent provide more accurate and informed responses about specific topics.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Step 4: Personality (was step 3) */}
+              {currentStep === 4 && (
                 <div className="space-y-6">
                   <div className="text-center">
                     <h2 className="text-2xl font-bold text-blue-900 mb-2">Personality Configuration</h2>
@@ -377,8 +557,8 @@ const AgentCreationDashboard = () => {
                 </div>
               )}
 
-              {/* Step 4: Policies */}
-              {currentStep === 4 && (
+              {/* Step 5: Policies (was step 4) */}
+              {currentStep === 5 && (
                 <div className="space-y-6">
                   <div className="text-center">
                     <h2 className="text-2xl font-bold text-blue-900 mb-2">Policy Configuration</h2>
@@ -429,8 +609,8 @@ const AgentCreationDashboard = () => {
                 </div>
               )}
 
-              {/* Step 5: Review */}
-              {currentStep === 5 && (
+              {/* Step 6: Review (was step 5) */}
+              {currentStep === 6 && (
                 <div className="space-y-6">
                   <div className="text-center">
                     <h2 className="text-2xl font-bold text-blue-900 mb-2">Review and Deploy</h2>
@@ -463,6 +643,22 @@ const AgentCreationDashboard = () => {
                           <div className="flex justify-between">
                             <span className="font-medium text-slate-800">AI Model</span>
                             <span className="text-slate-600">{selectedAI}</span>
+                          </div>
+                        </CardContent>
+                      </Card>
+
+                      <Card className="government-card">
+                        <CardHeader>
+                          <CardTitle className="text-blue-900">Knowledge Base</CardTitle>
+                        </CardHeader>
+                        <CardContent className="space-y-2">
+                          <div className="flex justify-between">
+                            <span className="font-medium text-slate-800">Documents</span>
+                            <span className="text-slate-600">{knowledgeFiles.length} files</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="font-medium text-slate-800">Web Resources</span>
+                            <span className="text-slate-600">{knowledgeUrls.length} URLs</span>
                           </div>
                         </CardContent>
                       </Card>
