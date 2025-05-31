@@ -143,6 +143,15 @@ button.government-button-outline {
   @apply text-blue-700;
 }
 
+/* Hero section button fixes */
+.bg-blue-600 button, .bg-blue-700 button, .bg-blue-800 button {
+  color: white !important;
+}
+
+.bg-blue-600 button.bg-white, .bg-blue-700 button.bg-white, .bg-blue-800 button.bg-white {
+  color: #1d4ed8 !important;
+}
+
 /* Fix any remaining white text issues */
 .bg-white * {
   @apply text-slate-800;
@@ -150,4 +159,20 @@ button.government-button-outline {
 
 .bg-white button.government-button {
   @apply text-white;
+}
+
+/* Outline button transparency fix */
+button[variant="outline"] {
+  background-color: transparent;
+}
+
+section.bg-blue-600 button[variant="outline"] {
+  background-color: transparent !important;
+  color: white !important;
+  border-color: white !important;
+}
+
+section.bg-blue-600 button[variant="outline"]:hover {
+  background-color: white !important;
+  color: #1d4ed8 !important;
 }

@@ -20,13 +20,13 @@ const Index = () => {
         <section className="relative bg-gradient-to-r from-blue-600 via-blue-700 to-blue-800 text-white py-20">
           <div className="absolute inset-0 bg-black opacity-10"></div>
           <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 className="text-5xl md:text-6xl font-bold mb-4">
+            <h1 className="text-5xl md:text-6xl font-bold mb-4 text-white">
               AI Political Agents
             </h1>
             <h2 className="text-2xl md:text-3xl font-medium mb-8 text-blue-100">
               Who do you trust more: AI or politicians?
             </h2>
-            <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto">
+            <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto text-white">
               Create transparent AI agents that represent political viewpoints, vote on policies, and engage with constituents
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -36,7 +36,7 @@ const Index = () => {
                 </Button>
               </Link>
               <Link to="/chat">
-                <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-blue-700 px-8 py-3">
+                <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-blue-700 px-8 py-3 bg-transparent">
                   Chat with Agents
                 </Button>
               </Link>
@@ -343,7 +343,7 @@ const Index = () => {
             </div>
 
             <div className="text-center mt-8">
-              <Link to="/chat">
+              <Link to="/explore">
                 <Button size="lg" className="government-button">
                   Explore All Agents
                 </Button>
@@ -355,8 +355,8 @@ const Index = () => {
         {/* Call to Action */}
         <section className="py-16 bg-blue-600 text-white">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 className="text-3xl font-bold mb-4">Ready to Transform Democracy?</h2>
-            <p className="text-xl mb-8">
+            <h2 className="text-3xl font-bold mb-4 text-white">Ready to Transform Democracy?</h2>
+            <p className="text-xl mb-8 text-white">
               Join thousands of citizens already engaging with transparent AI political representation
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -366,7 +366,7 @@ const Index = () => {
                 </Button>
               </Link>
               <Link to="/chat">
-                <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-blue-600 px-8 py-3">
+                <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-blue-600 px-8 py-3 bg-transparent">
                   Start Chatting
                 </Button>
               </Link>

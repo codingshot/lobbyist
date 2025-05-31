@@ -26,11 +26,11 @@ const GlobalNavbar = () => {
                 Chat
               </Button>
             </Link>
-            <Link to="/">
+            <Link to="/explore">
               <Button 
-                variant={location.pathname === "/" ? "default" : "outline"}
+                variant={location.pathname === "/explore" ? "default" : "outline"}
                 size="sm"
-                className={location.pathname === "/" ? "government-button" : "government-button-outline"}
+                className={location.pathname === "/explore" ? "government-button" : "government-button-outline"}
               >
                 <Compass className="h-4 w-4 mr-2" />
                 Explore Agents

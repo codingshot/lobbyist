@@ -9,6 +9,7 @@ import GlobalNavbar from "@/components/GlobalNavbar";
 import Index from "./pages/Index";
 import CreateAgent from "./pages/CreateAgent";
 import ChatWithAgents from "./pages/ChatWithAgents";
+import Explore from "./pages/Explore";
 import AgentPage from "./pages/AgentPage";
 import Terms from "./pages/Terms";
 import Privacy from "./pages/Privacy";
@@ -29,6 +30,7 @@ const App = () => (
               <Route path="/" element={<Index />} />
               <Route path="/create-agent" element={<CreateAgent />} />
               <Route path="/chat" element={<ChatWithAgents />} />
+              <Route path="/explore" element={<Explore />} />
               <Route path="/agent/:agentId" element={<AgentPage />} />
               <Route path="/terms" element={<Terms />} />
               <Route path="/privacy" element={<Privacy />} />
