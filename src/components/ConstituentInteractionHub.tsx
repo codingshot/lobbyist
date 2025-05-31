@@ -8,7 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { MessageCircle, Send, FileText, Vote, TrendingUp, ExternalLink, ThumbsUp, ThumbsDown } from "lucide-react";
+import { MessageCircle, Send, FileText, Vote, TrendingUp, ExternalLink, ThumbsUp, ThumbsDown, Users } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 
