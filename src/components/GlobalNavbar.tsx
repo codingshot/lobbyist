@@ -14,39 +14,41 @@ const GlobalNavbar = () => {
         <div className="flex items-center justify-between">
           <Link to="/" className="flex items-center space-x-2">
             <span className="text-xl md:text-2xl">🏛️</span>
-            <span className={`${isMobile ? 'text-lg' : 'text-xl'} font-bold text-blue-900`}>lobbyist.fun</span>
+            <span className={`${isMobile ? 'text-lg' : 'text-xl'} font-bold text-blue-900`}>
+              lobbyist.fun
+            </span>
           </Link>
           
-          <nav className="flex items-center space-x-4 md:space-x-8">
+          <nav className="flex items-center space-x-2 md:space-x-6">
             <Link 
               to="/explore"
-              className={`text-sm font-medium transition-colors hover:text-blue-600 ${
-                location.pathname === "/explore" ? "text-blue-600" : "text-slate-700"
+              className={`text-sm font-medium transition-colors hover:text-blue-600 px-3 py-2 rounded-md ${
+                location.pathname === "/explore" ? "text-blue-600 bg-blue-50" : "text-slate-700 hover:bg-slate-50"
               }`}
             >
               <div className="flex items-center space-x-1">
                 <Compass className="h-4 w-4" />
-                {!isMobile && <span>Explore Agents</span>}
-                {isMobile && <span>Explore</span>}
+                <span className="hidden sm:inline">Explore Agents</span>
+                <span className="sm:hidden">Explore</span>
               </div>
             </Link>
             
             <Link 
               to="/create-agent"
-              className={`text-sm font-medium transition-colors hover:text-blue-600 ${
-                location.pathname === "/create-agent" ? "text-blue-600" : "text-slate-700"
+              className={`text-sm font-medium transition-colors hover:text-blue-600 px-3 py-2 rounded-md ${
+                location.pathname === "/create-agent" ? "text-blue-600 bg-blue-50" : "text-slate-700 hover:bg-slate-50"
               }`}
             >
               <div className="flex items-center space-x-1">
                 <User className="h-4 w-4" />
-                {!isMobile && <span>Create Agent</span>}
-                {isMobile && <span>Create</span>}
+                <span className="hidden sm:inline">Create Agent</span>
+                <span className="sm:hidden">Create</span>
               </div>
             </Link>
 
             <Link to="/chat">
               <Button 
-                className="government-button"
+                className="bg-blue-600 hover:bg-blue-700 text-white font-medium"
                 size={isMobile ? "sm" : "default"}
               >
                 <MessageCircle className="h-4 w-4 mr-1 md:mr-2" />

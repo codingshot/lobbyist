@@ -1,5 +1,4 @@
 
-
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -9,11 +8,13 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Star, MessageCircle, Search, Filter, X } from "lucide-react";
 import { Helmet } from "react-helmet-async";
 import { useState, useMemo } from "react";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const Explore = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("");
   const [modelFilter, setModelFilter] = useState("");
+  const isMobile = useIsMobile();
 
   const agents = [
     {
@@ -110,12 +111,14 @@ const Explore = () => {
 
       <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-red-50">
         {/* Header */}
-        <section className="bg-white border-b border-blue-200 py-12">
+        <section className="bg-white border-b border-blue-200 py-8 md:py-12">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-8">
-              <h1 className="text-4xl font-bold text-blue-900 mb-4">Explore AI Political Agents</h1>
-              <p className="text-xl text-slate-700 max-w-3xl mx-auto">
-                Discover transparent AI representatives across various policy areas and engage in meaningful political discourse
+            <div className="text-center mb-6 md:mb-8">
+              <h1 className="text-2xl md:text-4xl font-bold text-blue-900 mb-2 md:mb-4">
+                Explore AI Political Agents
+              </h1>
+              <p className="text-lg md:text-xl text-slate-700 max-w-3xl mx-auto">
+                Discover transparent AI representatives across various policy areas
               </p>
             </div>
 
@@ -125,10 +128,10 @@ const Explore = () => {
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 h-4 w-4" />
                 <Input
-                  placeholder="Search agents by name, category, or description..."
+                  placeholder="Search agents..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10 h-12 text-base"
+                  className="pl-10 h-10 md:h-12 text-sm md:text-base"
                 />
               </div>
 
@@ -136,7 +139,7 @@ const Explore = () => {
               <div className="flex flex-col sm:flex-row gap-4">
                 <div className="flex-1">
                   <Select value={categoryFilter} onValueChange={setCategoryFilter}>
-                    <SelectTrigger className="h-12">
+                    <SelectTrigger className="h-10 md:h-12">
                       <Filter className="h-4 w-4 mr-2" />
                       <SelectValue placeholder="Filter by category" />
                     </SelectTrigger>
@@ -151,7 +154,7 @@ const Explore = () => {
 
                 <div className="flex-1">
                   <Select value={modelFilter} onValueChange={setModelFilter}>
-                    <SelectTrigger className="h-12">
+                    <SelectTrigger className="h-10 md:h-12">
                       <SelectValue placeholder="Filter by AI model" />
                     </SelectTrigger>
                     <SelectContent>
@@ -167,16 +170,17 @@ const Explore = () => {
                   <Button
                     variant="outline"
                     onClick={clearFilters}
-                    className="h-12 px-6 government-button-outline"
+                    className="h-10 md:h-12 px-4 md:px-6"
+                    size={isMobile ? "sm" : "default"}
                   >
                     <X className="h-4 w-4 mr-2" />
-                    Clear Filters
+                    Clear
                   </Button>
                 )}
               </div>
 
               {/* Results Count */}
-              <div className="text-center text-slate-600">
+              <div className="text-center text-slate-600 text-sm md:text-base">
                 {filteredAgents.length} agent{filteredAgents.length !== 1 ? 's' : ''} found
               </div>
             </div>
@@ -184,40 +188,59 @@ const Explore = () => {
         </section>
 
         {/* Agents Grid */}
-        <section className="py-16">
+        <section className="py-8 md:py-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             {filteredAgents.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
                 {filteredAgents.map((agent) => (
                   <Link key={agent.id} to={`/agent/${agent.id}`} className="block">
-                    <Card className="government-card hover:shadow-lg transition-shadow cursor-pointer h-full">
-                      <CardContent className="p-6 h-full flex flex-col">
-                        <div className="flex items-center space-x-4 mb-4">
-                          <div className="text-4xl">{agent.emoji}</div>
-                          <div>
-                            <h3 className="font-bold text-blue-900">{agent.name}</h3>
-                            <p className="text-sm text-slate-600">{agent.category}</p>
+                    <Card className="hover:shadow-lg transition-all duration-200 cursor-pointer h-full border border-blue-200 hover:border-blue-300">
+                      <CardContent className="p-4 md:p-6 h-full flex flex-col">
+                        <div className="flex items-center space-x-3 md:space-x-4 mb-3 md:mb-4">
+                          <div className="text-2xl md:text-4xl">{agent.emoji}</div>
+                          <div className="flex-1 min-w-0">
+                            <h3 className="font-bold text-blue-900 text-sm md:text-base truncate">
+                              {agent.name}
+                            </h3>
+                            <p className="text-xs md:text-sm text-slate-600 truncate">
+                              {agent.category}
+                            </p>
                           </div>
                         </div>
-                        <p className="text-slate-700 mb-4 flex-1">
+                        
+                        <p className="text-slate-700 mb-3 md:mb-4 flex-1 text-sm md:text-base line-clamp-3">
                           {agent.description}
                         </p>
-                        <div className="flex justify-between items-center mb-4">
-                          <Badge variant="secondary" className="text-blue-700">{agent.model}</Badge>
+                        
+                        <div className="flex justify-between items-center mb-3 md:mb-4">
+                          <Badge variant="secondary" className="text-blue-700 text-xs">
+                            {agent.model}
+                          </Badge>
                           <div className="flex items-center space-x-1">
-                            <Star className="h-4 w-4 text-yellow-500 fill-current" />
-                            <span className="text-sm text-slate-600">{agent.rating}</span>
+                            <Star className="h-3 w-3 md:h-4 md:w-4 text-yellow-500 fill-current" />
+                            <span className="text-xs md:text-sm text-slate-600">{agent.rating}</span>
                           </div>
                         </div>
+                        
                         <div className="flex justify-between items-center">
-                          <span className="text-sm text-slate-600">{agent.followers} followers</span>
+                          <span className="text-xs md:text-sm text-slate-600">
+                            {agent.followers} followers
+                          </span>
                           <div className="flex space-x-2">
-                            <Button className="government-button" size="sm" onClick={(e) => e.stopPropagation()}>
-                              View Agent
+                            <Button 
+                              className="bg-blue-600 hover:bg-blue-700 text-white" 
+                              size={isMobile ? "sm" : "default"}
+                              onClick={(e) => e.stopPropagation()}
+                            >
+                              {isMobile ? "View" : "View Agent"}
                             </Button>
                             <Link to="/chat" onClick={(e) => e.stopPropagation()}>
-                              <Button variant="outline" size="sm" className="government-button-outline">
-                                <MessageCircle className="h-4 w-4" />
+                              <Button 
+                                variant="outline" 
+                                size={isMobile ? "sm" : "default"}
+                                className="border-blue-600 text-blue-600 hover:bg-blue-50"
+                              >
+                                <MessageCircle className="h-3 w-3 md:h-4 md:w-4" />
                               </Button>
                             </Link>
                           </div>
@@ -229,14 +252,19 @@ const Explore = () => {
               </div>
             ) : (
               /* Empty State */
-              <div className="text-center py-16">
-                <div className="text-6xl mb-4">🔍</div>
-                <h3 className="text-2xl font-bold text-slate-900 mb-2">No agents found</h3>
-                <p className="text-slate-600 mb-6 max-w-md mx-auto">
-                  No agents match your current search criteria. Try adjusting your filters or search terms.
+              <div className="text-center py-12 md:py-16">
+                <div className="text-4xl md:text-6xl mb-4">🔍</div>
+                <h3 className="text-xl md:text-2xl font-bold text-slate-900 mb-2">
+                  No agents found
+                </h3>
+                <p className="text-slate-600 mb-4 md:mb-6 max-w-md mx-auto text-sm md:text-base">
+                  No agents match your current search criteria. Try adjusting your filters.
                 </p>
                 {hasActiveFilters && (
-                  <Button onClick={clearFilters} className="government-button">
+                  <Button 
+                    onClick={clearFilters} 
+                    className="bg-blue-600 hover:bg-blue-700 text-white"
+                  >
                     <X className="h-4 w-4 mr-2" />
                     Clear All Filters
                   </Button>
@@ -247,14 +275,19 @@ const Explore = () => {
         </section>
 
         {/* Call to Action */}
-        <section className="py-16 bg-blue-600 text-white">
+        <section className="py-12 md:py-16 bg-blue-600 text-white">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 className="text-3xl font-bold mb-4">Can't Find What You're Looking For?</h2>
-            <p className="text-xl mb-8">
+            <h2 className="text-2xl md:text-3xl font-bold mb-3 md:mb-4">
+              Can't Find What You're Looking For?
+            </h2>
+            <p className="text-lg md:text-xl mb-6 md:mb-8">
               Create your own AI political agent with custom values and policy positions
             </p>
             <Link to="/create-agent">
-              <Button size="lg" className="bg-white text-blue-600 hover:bg-gray-100 font-semibold px-8 py-3">
+              <Button 
+                size={isMobile ? "default" : "lg"} 
+                className="bg-white text-blue-600 hover:bg-gray-100 font-semibold px-6 md:px-8 py-2 md:py-3"
+              >
                 Create Your Agent
               </Button>
             </Link>
@@ -266,4 +299,3 @@ const Explore = () => {
 };
 
 export default Explore;
-
