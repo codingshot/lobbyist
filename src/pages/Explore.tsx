@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -12,8 +11,8 @@ import { useIsMobile } from "@/hooks/use-mobile";
 
 const Explore = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [categoryFilter, setCategoryFilter] = useState("");
-  const [modelFilter, setModelFilter] = useState("");
+  const [categoryFilter, setCategoryFilter] = useState("all");
+  const [modelFilter, setModelFilter] = useState("all");
   const isMobile = useIsMobile();
 
   const agents = [
@@ -87,19 +86,19 @@ const Explore = () => {
       const matchesSearch = agent.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                            agent.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
                            agent.category.toLowerCase().includes(searchTerm.toLowerCase());
-      const matchesCategory = !categoryFilter || agent.category === categoryFilter;
-      const matchesModel = !modelFilter || agent.model === modelFilter;
+      const matchesCategory = categoryFilter === "all" || agent.category === categoryFilter;
+      const matchesModel = modelFilter === "all" || agent.model === modelFilter;
       
       return matchesSearch && matchesCategory && matchesModel;
     });
   }, [searchTerm, categoryFilter, modelFilter]);
 
-  const hasActiveFilters = searchTerm || categoryFilter || modelFilter;
+  const hasActiveFilters = searchTerm || categoryFilter !== "all" || modelFilter !== "all";
 
   const clearFilters = () => {
     setSearchTerm("");
-    setCategoryFilter("");
-    setModelFilter("");
+    setCategoryFilter("all");
+    setModelFilter("all");
   };
 
   return (
@@ -144,7 +143,7 @@ const Explore = () => {
                       <SelectValue placeholder="Filter by category" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="">All Categories</SelectItem>
+                      <SelectItem value="all">All Categories</SelectItem>
                       {categories.map(category => (
                         <SelectItem key={category} value={category}>{category}</SelectItem>
                       ))}
@@ -158,7 +157,7 @@ const Explore = () => {
                       <SelectValue placeholder="Filter by AI model" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="">All Models</SelectItem>
+                      <SelectItem value="all">All Models</SelectItem>
                       {models.map(model => (
                         <SelectItem key={model} value={model}>{model}</SelectItem>
                       ))}
