@@ -16,6 +16,8 @@ const Explore = () => {
   const isMobile = useIsMobile();
   const navigate = useNavigate();
 
+  console.log("Explore component rendered, navigate function:", navigate);
+
   const agents = [
     {
       id: "rearm-europe",
@@ -102,6 +104,12 @@ const Explore = () => {
     setModelFilter("all");
   };
 
+  const handleChatClick = (agentId) => {
+    console.log("Chat button clicked for agent:", agentId);
+    console.log("Navigating to:", `/chat/${agentId}`);
+    navigate(`/chat/${agentId}`);
+  };
+
   return (
     <>
       <Helmet>
@@ -132,14 +140,14 @@ const Explore = () => {
                     placeholder="Search agents..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="pl-10 h-10 md:h-12 text-sm md:text-base border-2 border-blue-300 focus:border-blue-400"
+                    className="pl-10 h-10 md:h-12 text-sm md:text-base border-2 border-slate-300 focus:border-blue-400"
                   />
                 </div>
 
                 {/* Category Filter - Compact */}
                 <div className="flex-1 lg:min-w-[200px] lg:max-w-[250px]">
                   <Select value={categoryFilter} onValueChange={setCategoryFilter}>
-                    <SelectTrigger className="h-10 md:h-12 border-2 border-blue-200">
+                    <SelectTrigger className="h-10 md:h-12 border-2 border-slate-300">
                       <Filter className="h-4 w-4 mr-2 flex-shrink-0" />
                       <SelectValue placeholder="Category" />
                     </SelectTrigger>
@@ -157,7 +165,7 @@ const Explore = () => {
                 {/* Model Filter - Compact */}
                 <div className="flex-1 lg:min-w-[150px] lg:max-w-[180px]">
                   <Select value={modelFilter} onValueChange={setModelFilter}>
-                    <SelectTrigger className="h-10 md:h-12 border-2 border-blue-200">
+                    <SelectTrigger className="h-10 md:h-12 border-2 border-slate-300">
                       <SelectValue placeholder="Model" />
                     </SelectTrigger>
                     <SelectContent className="bg-white border-2 border-blue-200 shadow-lg">
@@ -243,7 +251,7 @@ const Explore = () => {
                               className="border-blue-600 text-blue-600 hover:bg-blue-50"
                               onClick={(e) => {
                                 e.stopPropagation();
-                                navigate(`/chat/${agent.id}`);
+                                handleChatClick(agent.id);
                               }}
                             >
                               <MessageCircle className="h-3 w-3 md:h-4 md:w-4 text-blue-600" />
