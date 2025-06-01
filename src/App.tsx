@@ -11,6 +11,7 @@ import CreateAgent from "./pages/CreateAgent";
 import ChatWithAgents from "./pages/ChatWithAgents";
 import Explore from "./pages/Explore";
 import AgentPage from "./pages/AgentPage";
+import AgentChat from "./pages/AgentChat";
 import Terms from "./pages/Terms";
 import Privacy from "./pages/Privacy";
 import NotFound from "./pages/NotFound";
@@ -30,6 +31,7 @@ const App = () => (
               <Route path="/" element={<Index />} />
               <Route path="/create-agent" element={<CreateAgent />} />
               <Route path="/chat" element={<ChatWithAgents />} />
+              <Route path="/chat/:agentId" element={<AgentChat />} />
               <Route path="/explore" element={<Explore />} />
               <Route path="/agent/:agentId" element={<AgentPage />} />
               <Route path="/terms" element={<Terms />} />

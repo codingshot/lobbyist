@@ -237,7 +237,7 @@ const Explore = () => {
                             >
                               {isMobile ? "View" : "View Agent"}
                             </Button>
-                            <Link to="/chat" onClick={(e) => e.stopPropagation()}>
+                            <Link to={`/chat/${agent.id}`} onClick={(e) => e.stopPropagation()}>
                               <Button 
                                 variant="outline" 
                                 size={isMobile ? "sm" : "default"}

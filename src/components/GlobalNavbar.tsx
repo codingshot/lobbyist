@@ -52,7 +52,7 @@ const GlobalNavbar = () => {
                 size={isMobile ? "sm" : "default"}
               >
                 <MessageCircle className="h-4 w-4 mr-1 md:mr-2" />
-                Chat
+                <span className="text-white">Chat</span>
               </Button>
             </Link>
           </nav>
