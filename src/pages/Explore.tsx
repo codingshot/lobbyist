@@ -1,5 +1,4 @@
-
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -15,6 +14,7 @@ const Explore = () => {
   const [categoryFilter, setCategoryFilter] = useState("all");
   const [modelFilter, setModelFilter] = useState("all");
   const isMobile = useIsMobile();
+  const navigate = useNavigate();
 
   const agents = [
     {
@@ -243,10 +243,10 @@ const Explore = () => {
                               className="border-blue-600 text-blue-600 hover:bg-blue-50"
                               onClick={(e) => {
                                 e.stopPropagation();
-                                window.location.href = `/chat/${agent.id}`;
+                                navigate(`/chat/${agent.id}`);
                               }}
                             >
-                              <MessageCircle className="h-3 w-3 md:h-4 md:w-4" />
+                              <MessageCircle className="h-3 w-3 md:h-4 md:w-4 text-blue-600" />
                             </Button>
                           </div>
                         </div>
