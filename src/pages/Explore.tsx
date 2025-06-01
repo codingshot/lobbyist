@@ -132,7 +132,7 @@ const Explore = () => {
                     placeholder="Search agents..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="pl-10 h-10 md:h-12 text-sm md:text-base border-2 border-blue-200 focus:border-blue-400"
+                    className="pl-10 h-10 md:h-12 text-sm md:text-base border-2 border-blue-300 focus:border-blue-400"
                   />
                 </div>
 
@@ -237,15 +237,17 @@ const Explore = () => {
                             >
                               {isMobile ? "View" : "View Agent"}
                             </Button>
-                            <Link to={`/chat/${agent.id}`} onClick={(e) => e.stopPropagation()}>
-                              <Button 
-                                variant="outline" 
-                                size={isMobile ? "sm" : "default"}
-                                className="border-blue-600 text-blue-600 hover:bg-blue-50"
-                              >
-                                <MessageCircle className="h-3 w-3 md:h-4 md:w-4" />
-                              </Button>
-                            </Link>
+                            <Button 
+                              variant="outline" 
+                              size={isMobile ? "sm" : "default"}
+                              className="border-blue-600 text-blue-600 hover:bg-blue-50"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                window.location.href = `/chat/${agent.id}`;
+                              }}
+                            >
+                              <MessageCircle className="h-3 w-3 md:h-4 md:w-4" />
+                            </Button>
                           </div>
                         </div>
                       </CardContent>

@@ -51,7 +51,7 @@ const GlobalNavbar = () => {
                 className="bg-blue-600 hover:bg-blue-700 text-white font-medium"
                 size={isMobile ? "sm" : "default"}
               >
-                <MessageCircle className="h-4 w-4 mr-1 md:mr-2" />
+                <MessageCircle className="h-4 w-4 mr-1 md:mr-2 text-white" />
                 <span className="text-white">Chat</span>
               </Button>
             </Link>
