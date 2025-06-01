@@ -1,3 +1,4 @@
+
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -121,66 +122,69 @@ const Explore = () => {
               </p>
             </div>
 
-            {/* Search and Filters */}
-            <div className="max-w-4xl mx-auto space-y-4">
-              {/* Search Bar */}
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 h-4 w-4" />
-                <Input
-                  placeholder="Search agents..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10 h-10 md:h-12 text-sm md:text-base"
-                />
-              </div>
+            {/* Search and Filters in Single Row */}
+            <div className="max-w-6xl mx-auto">
+              <div className="flex flex-col lg:flex-row gap-3 lg:gap-4">
+                {/* Search Bar - Takes up more space on desktop */}
+                <div className="relative flex-1 lg:flex-[2]">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 h-4 w-4" />
+                  <Input
+                    placeholder="Search agents..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="pl-10 h-10 md:h-12 text-sm md:text-base border-2 border-blue-200 focus:border-blue-400"
+                  />
+                </div>
 
-              {/* Filters */}
-              <div className="flex flex-col sm:flex-row gap-4">
-                <div className="flex-1">
+                {/* Category Filter - Compact */}
+                <div className="flex-1 lg:min-w-[200px] lg:max-w-[250px]">
                   <Select value={categoryFilter} onValueChange={setCategoryFilter}>
-                    <SelectTrigger className="h-10 md:h-12">
-                      <Filter className="h-4 w-4 mr-2" />
-                      <SelectValue placeholder="Filter by category" />
+                    <SelectTrigger className="h-10 md:h-12 border-2 border-blue-200">
+                      <Filter className="h-4 w-4 mr-2 flex-shrink-0" />
+                      <SelectValue placeholder="Category" />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className="bg-white border-2 border-blue-200 shadow-lg">
                       <SelectItem value="all">All Categories</SelectItem>
                       {categories.map(category => (
-                        <SelectItem key={category} value={category}>{category}</SelectItem>
+                        <SelectItem key={category} value={category} className="text-sm">
+                          {category}
+                        </SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
                 </div>
 
-                <div className="flex-1">
+                {/* Model Filter - Compact */}
+                <div className="flex-1 lg:min-w-[150px] lg:max-w-[180px]">
                   <Select value={modelFilter} onValueChange={setModelFilter}>
-                    <SelectTrigger className="h-10 md:h-12">
-                      <SelectValue placeholder="Filter by AI model" />
+                    <SelectTrigger className="h-10 md:h-12 border-2 border-blue-200">
+                      <SelectValue placeholder="Model" />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className="bg-white border-2 border-blue-200 shadow-lg">
                       <SelectItem value="all">All Models</SelectItem>
                       {models.map(model => (
-                        <SelectItem key={model} value={model}>{model}</SelectItem>
+                        <SelectItem key={model} value={model} className="text-sm">
+                          {model}
+                        </SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
                 </div>
 
+                {/* Clear Button */}
                 {hasActiveFilters && (
-                  <Button
-                    variant="outline"
-                    onClick={clearFilters}
-                    className="h-10 md:h-12 px-4 md:px-6"
-                    size={isMobile ? "sm" : "default"}
-                  >
-                    <X className="h-4 w-4 mr-2" />
-                    Clear
-                  </Button>
+                  <div className="flex-shrink-0">
+                    <Button
+                      variant="outline"
+                      onClick={clearFilters}
+                      className="h-10 md:h-12 px-4 border-2 border-blue-200 hover:bg-blue-50"
+                      size={isMobile ? "sm" : "default"}
+                    >
+                      <X className="h-4 w-4 mr-2" />
+                      Clear
+                    </Button>
+                  </div>
                 )}
-              </div>
-
-              {/* Results Count */}
-              <div className="text-center text-slate-600 text-sm md:text-base">
-                {filteredAgents.length} agent{filteredAgents.length !== 1 ? 's' : ''} found
               </div>
             </div>
           </div>
